@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>mm popup test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css" rel="stylesheet" type="text/css" media="all">
+    <link href="demo.css" rel="stylesheet" type="text/css" media="all">
+    <link href="src/bootstrap.colorpickersliders.css" rel="stylesheet" type="text/css" media="all">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/tinycolor/0.11.1/tinycolor.min.js"></script>
+    <script src="src/bootstrap.colorpickersliders.js"></script>
+
+  </head>
+
+  <body>
+    <div id="mm-popup">
+        <p>in to je popup ...</p>
+        <p>in to je popup ...</p>
+    </div>
+
+    <div id="mm-content">
+        <h1>mm popup test</h1>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam lectus dui, pellentesque a erat a, pretium placerat ligula. Suspendisse ac felis sit amet nisi ornare ornare id sed tortor. Aenean ac tempor nisi. Donec eu est quis justo dapibus vehicula at dapibus mauris. Sed tempor porta urna nec porta. Aenean viverra felis sit amet ex laoreet porttitor. Sed in sem scelerisque, dignissim justo quis, porta tortor. Vivamus efficitur lacus sit amet lacus tincidunt, in congue purus efficitur. Morbi nisi ex, luctus ac nisi lobortis, feugiat finibus risus. Phasellus et vestibulum eros. Vestibulum viverra vitae felis nec interdum.        </p>
+        </p>
+        <p>
+            Duis accumsan eu libero at ornare. Etiam tristique consectetur orci, id porttitor ex facilisis a. Cras eleifend purus enim, id condimentum tellus vulputate eget. Quisque viverra dapibus nisi, sed posuere metus molestie at. Phasellus efficitur sagittis interdum. Fusce quis justo sit amet lorem placerat consequat et quis enim. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis fermentum placerat nisl, in dictum erat imperdiet quis. Maecenas orci diam, sollicitudin ut iaculis sed, interdum vel orci. Morbi sollicitudin semper ullamcorper. Donec posuere, arcu non condimentum accumsan, massa felis vestibulum arcu, sed varius diam odio sed purus. Cras ac tellus justo. Ut vel convallis nisi, nec faucibus justo.
+        </p>
+    </div>
+
+
+    <style>
+        #mm-popup {
+            position: fixed;
+            width: 60%;
+            top: 20%;
+            left: 20%;
+            padding: 20px;
+            background-color: hsl(45, 100%, 92%);
+            border: 15px solid hsl(45, 100%, 50%);
+            border-radius: 15px;
+            outline: 1000px solid hsla(45, 100%, 50%, 0.2);
+            outline-offset: -15px;
+        }
+
+        #mm-content h1,
+        #mm-content p {
+            margin: 20px 60px;
+            padding: 10px;
+        }
+
+
+        #id-hsvflat {
+            width: 300px;
+            margin: 20px 50px;
+            padding: 10px;
+        }
+        .hsvflat {
+            width: 400px;
+            margin: 40px;
+        }
+    </style>
+
+    <script>
+    $("h1").click(function(){
+      $("#mm-popup").show(500);
+      setTimeout(function(){
+        $("#mm-popup").hide(100);
+      }, 2000);
+    });
+
+    $("#id-hsvflat").ColorPickerSliders({
+      color: "rgb(36, 170, 242)",
+      previewformat: 'hsl-rgb',
+      rendervalues: true,
+      slidersplusminus: true,
+      size: 'lg',
+      flat: true,
+      sliders: true,
+      swatches: false,
+      hsvpanel: false,
+      order: {
+          preview: 1,
+          hsl: 2,
+          rgb: 3,
+          cie: 4,
+          opacity: 5
+        }
+    });
+    </script>
+
+</body>
+</html>
+

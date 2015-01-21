@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>mm topfixed test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+    <script>
+
+    </script>
+
+    <style>
+      #id-fixed-top,
+      #id-fixed-left,
+      #id-fixed-right {
+        position: fixed;
+        overflow: hidden;
+        color: #fff;
+        background-color: #334;
+        padding: 5px;
+        z-index: 100;
+        }
+
+      #id-fixed-top {
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 50px;
+      }
+
+      #id-fixed-left {
+        left: 0;
+        top: 50px;
+        bottom: 0;
+        width: 100px;
+        padding-top: 0;
+      }
+
+      #id-fixed-right {
+        right: 0;
+        top: 50px;
+        width: 100px;
+        bottom: 0;
+        padding-top: 0;
+      }
+
+      #id-fixed-top ul,
+      #id-fixed-left ul,
+      #id-fixed-right ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      #id-fixed-top li,
+      #id-fixed-left li,
+      #id-fixed-right li {
+        display: inline;
+        float: left;
+        margin-right: 5px;
+        margin-bottom: 5px;
+      }
+
+      #id-fixed-top a,
+      #id-fixed-left a,
+      #id-fixed-right a {
+        display: block;
+        width: 90px;
+        height: 40px;
+        padding: 10px;
+        color: #fff;
+        background-color: #556;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: bolder;
+        white-space: nowrap;
+      }
+
+      #id-fixed-top a:hover,
+      #id-fixed-left a:hover,
+      #id-fixed-right a:hover {
+        color: #eef;
+        background-color: #000;
+      }
+
+      #id-content {
+        position: fixed;
+        left: 100px;
+        right: 100px;
+        top: 50px;
+        bottom: 0;
+        overflow: auto;
+        padding: 0 20px;
+        color: #000;
+        background-color: #eec;
+      }
+
+      #id-content * {
+        margin: 0;
+        padding-top: 10px;
+      }
+
+
+    </style>
+
+  </head>
+
+  <body>
+    <div id="id-fixed-top">
+      <ul>
+        <li><a href="/topfixed.html">Home</a></li>
+        <li><a href="#id-head1">Header 1</a></li>
+        <li><a href="#id-head2">H 2 dooooolgo</a></li>
+        <li><a href="#id-head3">Header 3</a></li>
+      </ul>
+    </div>
+
+    <div id="id-fixed-left">
+      <ul>
+        <li><a href="#id-head1">Header 1</a></li>
+        <li><a href="#id-head2">H 2 dooooolgo</a></li>
+        <li><a href="#id-head3">Header 3</a></li>
+      </ul>
+    </div>
+
+    <div id="id-fixed-right">
+      <ul>
+        <li><a href="#id-head1">Header 1</a></li>
+        <li><a href="#id-head2">H 2 dooooolgo</a></li>
+        <li><a href="#id-head3">Header 3</a></li>
+      </ul>
+    </div>
+
+
+    <div id="id-content">
+      <h1 id="id-head1">Header 1</h1>
+      <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam lectus dui, pellentesque a erat a, pretium placerat ligula. Suspendisse ac felis sit amet nisi ornare ornare id sed tortor. Aenean ac tempor nisi. Donec eu est quis justo dapibus vehicula at dapibus mauris. Sed tempor porta urna nec porta. Aenean viverra felis sit amet ex laoreet porttitor. Sed in sem scelerisque, dignissim justo quis, porta tortor. Vivamus efficitur lacus sit amet lacus tincidunt, in congue purus efficitur. Morbi nisi ex, luctus ac nisi lobortis, feugiat finibus risus. Phasellus et vestibulum eros. Vestibulum viverra vitae felis nec interdum.
+      </p>
+      <p>
+          Duis accumsan eu libero at ornare. Etiam tristique consectetur orci, id porttitor ex facilisis a. Cras eleifend purus enim, id condimentum tellus vulputate eget. Quisque viverra dapibus nisi, sed posuere metus molestie at. Phasellus efficitur sagittis interdum. Fusce quis justo sit amet lorem placerat consequat et quis enim. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis fermentum placerat nisl, in dictum erat imperdiet quis. Maecenas orci diam, sollicitudin ut iaculis sed, interdum vel orci. Morbi sollicitudin semper ullamcorper. Donec posuere, arcu non condimentum accumsan, massa felis vestibulum arcu, sed varius diam odio sed purus. Cras ac tellus justo. Ut vel convallis nisi, nec faucibus justo.
+      </p>
+      <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam lectus dui, pellentesque a erat a, pretium placerat ligula. Suspendisse ac felis sit amet nisi ornare ornare id sed tortor. Aenean ac tempor nisi. Donec eu est quis justo dapibus vehicula at dapibus mauris. Sed tempor porta urna nec porta. Aenean viverra felis sit amet ex laoreet porttitor. Sed in sem scelerisque, dignissim justo quis, porta tortor. Vivamus efficitur lacus sit amet lacus tincidunt, in congue purus efficitur. Morbi nisi ex, luctus ac nisi lobortis, feugiat finibus risus. Phasellus et vestibulum eros. Vestibulum viverra vitae felis nec interdum.
+      </p>
+      <p>
+          Duis accumsan eu libero at ornare. Etiam tristique consectetur orci, id porttitor ex facilisis a. Cras eleifend purus enim, id condimentum tellus vulputate eget. Quisque viverra dapibus nisi, sed posuere metus molestie at. Phasellus efficitur sagittis interdum. Fusce quis justo sit amet lorem placerat consequat et quis enim. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis fermentum placerat nisl, in dictum erat imperdiet quis. Maecenas orci diam, sollicitudin ut iaculis sed, interdum vel orci. Morbi sollicitudin semper ullamcorper. Donec posuere, arcu non condimentum accumsan, massa felis vestibulum arcu, sed varius diam odio sed purus. Cras ac tellus justo. Ut vel convallis nisi, nec faucibus justo.
+      </p>
+      <h1 id="id-head2">Header 2</h1>
+      <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam lectus dui, pellentesque a erat a, pretium placerat ligula. Suspendisse ac felis sit amet nisi ornare ornare id sed tortor. Aenean ac tempor nisi. Donec eu est quis justo dapibus vehicula at dapibus mauris. Sed tempor porta urna nec porta. Aenean viverra felis sit amet ex laoreet porttitor. Sed in sem scelerisque, dignissim justo quis, porta tortor. Vivamus efficitur lacus sit amet lacus tincidunt, in congue purus efficitur. Morbi nisi ex, luctus ac nisi lobortis, feugiat finibus risus. Phasellus et vestibulum eros. Vestibulum viverra vitae felis nec interdum.
+      </p>
+      <p>
+          Duis accumsan eu libero at ornare. Etiam tristique consectetur orci, id porttitor ex facilisis a. Cras eleifend purus enim, id condimentum tellus vulputate eget. Quisque viverra dapibus nisi, sed posuere metus molestie at. Phasellus efficitur sagittis interdum. Fusce quis justo sit amet lorem placerat consequat et quis enim. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis fermentum placerat nisl, in dictum erat imperdiet quis. Maecenas orci diam, sollicitudin ut iaculis sed, interdum vel orci. Morbi sollicitudin semper ullamcorper. Donec posuere, arcu non condimentum accumsan, massa felis vestibulum arcu, sed varius diam odio sed purus. Cras ac tellus justo. Ut vel convallis nisi, nec faucibus justo.
+      </p>
+      <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam lectus dui, pellentesque a erat a, pretium placerat ligula. Suspendisse ac felis sit amet nisi ornare ornare id sed tortor. Aenean ac tempor nisi. Donec eu est quis justo dapibus vehicula at dapibus mauris. Sed tempor porta urna nec porta. Aenean viverra felis sit amet ex laoreet porttitor. Sed in sem scelerisque, dignissim justo quis, porta tortor. Vivamus efficitur lacus sit amet lacus tincidunt, in congue purus efficitur. Morbi nisi ex, luctus ac nisi lobortis, feugiat finibus risus. Phasellus et vestibulum eros. Vestibulum viverra vitae felis nec interdum.
+      </p>
+      <p>
+          Duis accumsan eu libero at ornare. Etiam tristique consectetur orci, id porttitor ex facilisis a. Cras eleifend purus enim, id condimentum tellus vulputate eget. Quisque viverra dapibus nisi, sed posuere metus molestie at. Phasellus efficitur sagittis interdum. Fusce quis justo sit amet lorem placerat consequat et quis enim. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis fermentum placerat nisl, in dictum erat imperdiet quis. Maecenas orci diam, sollicitudin ut iaculis sed, interdum vel orci. Morbi sollicitudin semper ullamcorper. Donec posuere, arcu non condimentum accumsan, massa felis vestibulum arcu, sed varius diam odio sed purus. Cras ac tellus justo. Ut vel convallis nisi, nec faucibus justo.
+      </p>
+      <h1 id="id-head3">Header 3</h1>
+      <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam lectus dui, pellentesque a erat a, pretium placerat ligula. Suspendisse ac felis sit amet nisi ornare ornare id sed tortor. Aenean ac tempor nisi. Donec eu est quis justo dapibus vehicula at dapibus mauris. Sed tempor porta urna nec porta. Aenean viverra felis sit amet ex laoreet porttitor. Sed in sem scelerisque, dignissim justo quis, porta tortor. Vivamus efficitur lacus sit amet lacus tincidunt, in congue purus efficitur. Morbi nisi ex, luctus ac nisi lobortis, feugiat finibus risus. Phasellus et vestibulum eros. Vestibulum viverra vitae felis nec interdum.
+      </p>
+      <p>
+          Duis accumsan eu libero at ornare. Etiam tristique consectetur orci, id porttitor ex facilisis a. Cras eleifend purus enim, id condimentum tellus vulputate eget. Quisque viverra dapibus nisi, sed posuere metus molestie at. Phasellus efficitur sagittis interdum. Fusce quis justo sit amet lorem placerat consequat et quis enim. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis fermentum placerat nisl, in dictum erat imperdiet quis. Maecenas orci diam, sollicitudin ut iaculis sed, interdum vel orci. Morbi sollicitudin semper ullamcorper. Donec posuere, arcu non condimentum accumsan, massa felis vestibulum arcu, sed varius diam odio sed purus. Cras ac tellus justo. Ut vel convallis nisi, nec faucibus justo.
+      </p>
+      <p>
+        Konec
+      </p>
+
+    </div> <!-- content -->
+
+</body>
+</html>
+

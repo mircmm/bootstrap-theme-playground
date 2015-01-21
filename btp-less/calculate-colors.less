@@ -1,0 +1,74 @@
+// mm calculate bootstrap grayshade colors from single base color 
+
+// defaults
+@base-max-lum:      #fff;
+@base-color:        #777;
+@base-min-lum:      #000;
+@brand-primary:     #336699; 
+
+// temp vars used below 
+@base-hue: hue(@base-color);
+@base-sat: saturation(@base-color);
+// luminance, morda bolje kot lightness ?
+@max-lum: lightness(@base-max-lum);
+@min-lum: lightness(@base-min-lum);
+
+// @custom-fff:        #fff;     // 100                  => 100
+@mm100:             100%; 
+// @custom-fff:        lighten( darken( hsl(@base-hue,@base-sat,@mm100), (@mm100/100%*(100%-@max-lum))), ((100%-@mm100)/100%)*@min-lum);
+// must calc first lum and then color to prevent lost color for white
+@custom-fff:        hsl(@base-hue, @base-sat, @max-lum);
+
+// @custom-f8f8f8:     #f8f8f8;  // 97.25                => 96
+// @custom-f5f5f5:     #f5f5f5;  // 96.08                => 96
+@mm96:              96%; 
+@custom-f8f8f8:     lighten( darken( hsl(@base-hue,@base-sat,@mm96), (@mm96/100%*(100%-@max-lum))), ((100%-@mm96)/100%)*@min-lum);
+@custom-f5f5f5:     @custom-f8f8f8;
+
+// @custom-eee:        #eee;     // 93.33 @gray-lighter  => 92
+@mm92:              92%; 
+@custom-eee:        lighten( darken( hsl(@base-hue,@base-sat,@mm92), (@mm92/100%*(100%-@max-lum))), ((100%-@mm92)/100%)*@min-lum);
+
+// @custom-e5e5e5:     #e5e5e5;  // 89.8                 => 88
+// @custom-ddd:        #ddd;     // 86.67                => 88
+@mm88:              88%; 
+@custom-ddd:        lighten( darken( hsl(@base-hue,@base-sat,@mm88), (@mm88/100%*(100%-@max-lum))), ((100%-@mm88)/100%)*@min-lum);
+@custom-e5e5e5:     @custom-ddd;
+
+// @custom-ccc:        #ccc;     // 80                   => 80
+@mm80:              80%; 
+@custom-ccc:        lighten( darken( hsl(@base-hue,@base-sat,@mm80), (@mm80/100%*(100%-@max-lum))), ((100%-@mm80)/100%)*@min-lum);
+
+// @custom-999:        #999;     // 60                   => 60
+@mm60:              60%; 
+@custom-999:        lighten( darken( hsl(@base-hue,@base-sat,@mm60), (@mm60/100%*(100%-@max-lum))), ((100%-@mm60)/100%)*@min-lum);
+
+// @custom-888:        #888;     // 53.33                => 50 
+// @custom-777:        #777;     // 47.67  @gray-light   => 50
+@mm50:              50%; 
+@custom-777:        lighten( darken( hsl(@base-hue,@base-sat,@mm50), (@mm50/100%*(100%-@max-lum))), ((100%-@mm50)/100%)*@min-lum);
+@custom-888:        @custom-777;        
+
+// @custom-555:        #555;     // 33.33  @gray         => 32
+@mm32:              32%; 
+@custom-555:        lighten( darken( hsl(@base-hue,@base-sat,@mm32), (@mm32/100%*(100%-@max-lum))), ((100%-@mm32)/100%)*@min-lum);
+
+// @custom-444:        #444;     // 26.67                => 26
+@mm26:              26%; 
+@custom-444:        lighten( darken( hsl(@base-hue,@base-sat,@mm26), (@mm26/100%*(100%-@max-lum))), ((100%-@mm26)/100%)*@min-lum);
+
+// @custom-333:        #333;     // 20     @gray-dark    => 20
+@mm20:              20%; 
+@custom-333:        lighten( darken( hsl(@base-hue,@base-sat,@mm20), (@mm20/100%*(100%-@max-lum))), ((100%-@mm20)/100%)*@min-lum);
+
+// @custom-222:        #222;     // 13.33  @gray-darker  => 12
+@mm12:              12%; 
+@custom-222:        lighten( darken( hsl(@base-hue,@base-sat,@mm12), (@mm12/100%*(100%-@max-lum))), ((100%-@mm12)/100%)*@min-lum);
+
+// @custom-000:        #000;     // 0                    => 0
+@mm0:               0%; 
+// @custom-000:        lighten( darken( hsl(@base-hue,@base-sat,@mm0), (@mm0/100%*(100%-@max-lum))), ((100%-@mm0)/100%)*@min-lum);
+// must calc first lum and then color to prevent lost color for black
+@custom-000:        hsl(@base-hue, @base-sat, @min-lum);
+
+

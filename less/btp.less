@@ -1,0 +1,176 @@
+// compile it with:
+// lessc less/mm-local.less >css/mm-local.css
+
+// basic colors
+@mm-color-background: #333344;
+@mm-color-border: #adad85;
+@mm-color-text: #ffffff;
+// other colors
+@mm-color-input-background: #777788;
+@mm-color-hover: #aaaabb;
+// menu size
+@mm-menu-top: 40px;
+@mm-menu-left: 120px;
+// menu links formatting
+@mm-link-margin: 1px;
+@mm-link-border: 2px;
+@mm-link-padding-vertical: 5px;
+@mm-link-padding-horizontal: 10px;
+// content margin top
+@mm-content-margin-top: 10px;
+
+
+// ---------------------------------------------------------------------------
+// positioning
+.mm-right {
+  float: right;
+}
+.mm-left {
+  float: left;
+}
+
+// ---------------------------------------------------------------------------
+// common for top & left menu
+.mm-menu-mixin() {
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  border: none;
+  overflow: hidden;
+  background-color: @mm-color-background;
+  font-family: ​Helvetica Neue, Helvetica, Arial;
+}
+
+// top menu
+#mm-top-menu {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: @mm-menu-top;
+  .mm-menu-mixin;
+
+  li {
+    display: inline-block;
+    width: @mm-menu-left;
+    height: 100%;
+  }
+}
+
+// left menu
+#mm-left-menu {
+  position: fixed;
+  left: 0px;
+  top: @mm-menu-top;
+  width: @mm-menu-left;
+  height: 100%;
+  .mm-menu-mixin;
+
+  li {
+    width: 100%;
+    height: @mm-menu-top;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// menu links
+.mm-menu-link {
+  display: block;
+  color: @mm-color-text;
+  background-color: @mm-color-background;
+  font-size: 18px;
+  font-weight: 700;
+  text-decoration: none;
+  margin: @mm-link-margin;
+  border: @mm-link-border solid @mm-color-border;
+  padding: @mm-link-padding-vertical @mm-link-padding-horizontal;
+  box-sizing: border-box;
+  height: @mm-menu-top - 2 * @mm-link-margin;
+
+  &:hover,
+  &:focus {
+    color: @mm-color-text;
+    background-color: @mm-color-hover;
+    text-decoration: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// menu input
+.mm-menu-input {
+  margin: @mm-link-margin;
+  border: @mm-link-border solid @mm-color-border;
+  border-radius: 0;
+  box-sizing: border-box;
+
+  span {
+    color: @mm-color-text;
+    font-size: 14px;
+    padding-left: @mm-link-margin + @mm-link-border + @mm-link-padding-horizontal;
+  }
+  input {
+    color: @mm-color-text;
+    background-color: @mm-color-input-background;
+    font-size: 16px;
+    margin: 0;
+    border: 0;
+    padding: @mm-link-padding-vertical @mm-link-padding-horizontal;
+    box-sizing: border-box;
+    height: @mm-menu-top - 2 * @mm-link-margin - 2 * @mm-link-border;
+    width: @mm-menu-left - 2 * @mm-link-margin - 2 * @mm-link-border;
+
+    &:hover,
+    &:focus {
+      background-color: @mm-color-hover;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// page content
+body {
+  margin: 0;
+  padding-left: @mm-menu-left;
+//  padding-top: @mm-menu-top;
+}
+
+#mm-content {
+  position: relative;
+  top: @mm-menu-top;
+  box-sizing: content-box;
+  padding: 10px 30px;
+}
+
+// ---------------------------------------------------------------------------
+// id colors
+#id-colors {
+  .row {
+    padding: @mm-link-padding-vertical 0;
+    border-radius: 0;
+    border: 1px dotted #000;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// my popups, waiting for load and compile
+.mm-wait-mixin() {
+  position: fixed;
+  width: 60%;
+  top: 20%;
+  left: 20%;
+  padding: 20px 40px;
+  background-color: hsl(45, 100%, 92%);
+  border: 20px solid hsl(45, 100%, 50%);
+  border-radius: 20px;
+  z-index: 100;
+}
+
+#id-load-wait {
+  .mm-wait-mixin;
+}
+
+#id-compile-wait {
+  display: none;
+  .mm-wait-mixin;
+}
+

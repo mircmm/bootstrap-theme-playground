@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mm bootstrap color playground</title>
+
+    <link rel="stylesheet" href="css/mm-local.css" type="text/css">
+    <link rel="stylesheet" href="css/bootstrap.colorpickersliders.css" type="text/css">
+
+<!--
+    <link rel="stylesheet" href="css/bootstrap.css" type="text/css">
+-->
+
+    <link rel="stylesheet/less" type="text/css" href="mm-less/main.less" />
+    <script src="js/less.js" type="text/javascript" data-env="development"></script>
+
+    <script src="js/jquery.js" type="text/javascript"></script>
+    <script src="js/bootstrap.js" type="text/javascript"></script>
+
+    <script src="js/tinycolor.js" type="text/javascript"></script>
+    <script src="js/bootstrap.colorpickersliders.js" type="text/javascript"></script>
+
+    <script src="js/mm-custom.js" type="text/javascript"></script>
+</head>
+<body>
+
+<!-- top menu
+------------------------------------------------------------------------------>
+  <ul id="mm-top-menu">
+    <li class="mm-left">
+      <a class="mm-menu-link" href="/">Home</a>
+    </li>
+
+    <li class="mm-right">
+      <a class="mm-menu-link" href="mm-test-cp.html">mm-test-cp</a>
+    </li>
+    <li class="mm-right">
+      <a class="mm-menu-link" href="#id-tri">Tri</a>
+    </li>
+    <li class="mm-right">
+      <a class="mm-menu-link" href="#id-loremipsum">Lorem</a>
+    </li>
+    <li class="mm-right">
+      <a class="mm-menu-link" href="#id-colors">Colors</a>
+    </li>
+  </ul>
+
+<!-- left menu with one base color
+------------------------------------------------------------------------------>
+  <ul id="mm-left-menu">
+    <li class="mm-left">
+      <a class="mm-menu-link" href="#">Other</a>
+    </li>
+
+    <div class="mm-left mm-menu-input">
+      <span>max lum</span>
+      <input type="text" id="id-base-max-lum" data-color-format="hex">
+    </div>
+
+    <div class="mm-left mm-menu-input">
+      <span>base color</span>
+      <input type="text" id="id-base-color" data-color-format="hex">
+    </div>
+
+    <div class="mm-left mm-menu-input">
+      <span>min lum</span>
+      <input type="text" id="id-base-min-lum" data-color-format="hex">
+    </div>
+
+    <div class="mm-left mm-menu-input">
+      <span>brand color</span>
+      <input type="text" id="id-brand-color" data-color-format="hex">
+    </div>
+
+    <li class="mm-left">
+      <a class="mm-menu-link" id="id-compile" href="#">Compile</a>
+    </li>
+
+    <li class="mm-left">
+      <a class="mm-menu-link" id="id-defaults" href="#">Defaults</a>
+    </li>
+  </ul>
+
+
+<!-- start of content
+------------------------------------------------------------------------------>
+  <div id="mm-content">
+
+
+<!-- please wait, formated directly
+------------------------------------------------------------------------------>
+  <div id="id-load-wait">
+    <h1>loading ...</h1>
+    <p>it may take more then 10 seconds, please be patient, it will be worth it</p>
+  </div>
+
+  <div id="id-compile-wait">
+    <h1>compiling colors ...</h1>
+    <p>it may take several seconds</p>
+  </div>
+
+
+<!-- colors, formated with bootstrap
+------------------------------------------------------------------------------>
+  <div id="id-colors" class="container-fluid">
+    <h1>Colors</h1>
+    <div class="row mm-custom-100">
+      <div class="col-md-2 col-xs-3"></div>
+      <div class="col-md-3 col-xs-6"></div>
+      <div class="col-md-2 col-xs-3">@custom-fff</div>
+      <div class="col-md-5 col-xs-12">Used in ... </div>
+    </div>
+    <div class="row mm-custom-96">
+      <div class="col-md-2 col-xs-3"></div>
+      <div class="col-md-3 col-xs-6"></div>
+      <div class="col-md-2 col-xs-3">@custom-f5f5f5</div>
+      <div class="col-md-5 col-xs-12">Used in ... </div>
+    </div>
+    <div class="row mm-custom-92">
+      <div class="col-md-2 col-xs-3"></div>
+      <div class="col-md-3 col-xs-6"></div>
+      <div class="col-md-2 col-xs-3">@custom-eee</div>
+      <div class="col-md-5 col-xs-12">Used in ... </div>
+    </div>
+    <div class="row mm-custom-88">
+      <div class="col-md-2 col-xs-3"></div>
+      <div class="col-md-3 col-xs-6"></div>
+      <div class="col-md-2 col-xs-3">@custom-ddd</div>
+      <div class="col-md-5 col-xs-12">Used in ... </div>
+    </div>
+    <div class="row mm-custom-80">
+      <div class="col-md-2 col-xs-3"></div>
+      <div class="col-md-3 col-xs-6"></div>
+      <div class="col-md-2 col-xs-3">@custom-ccc</div>
+      <div class="col-md-5 col-xs-12">Used in ... </div>
+    </div>
+    <div class="row mm-custom-60">
+      <div class="col-md-2 col-xs-3"></div>
+      <div class="col-md-3 col-xs-6"></div>
+      <div class="col-md-2 col-xs-3">@custom-999</div>
+      <div class="col-md-5 col-xs-12">Used in ... </div>
+    </div>
+    <div class="row mm-custom-50">
+      <div class="col-md-2 col-xs-3"></div>
+      <div class="col-md-3 col-xs-6"></div>
+      <div class="col-md-2 col-xs-3">@cust-777&amp;888</div>
+      <div class="col-md-5 col-xs-12">Used in ... </div>
+    </div>
+    <div class="row mm-custom-32">
+      <div class="col-md-2 col-xs-3"></div>
+      <div class="col-md-3 col-xs-6"></div>
+      <div class="col-md-2 col-xs-3">@custom-555</div>
+      <div class="col-md-5 col-xs-12">Used in ... </div>
+    </div>
+    <div class="row mm-custom-26">
+      <div class="col-md-2 col-xs-3"></div>
+      <div class="col-md-3 col-xs-6"></div>
+      <div class="col-md-2 col-xs-3">@custom-444</div>
+      <div class="col-md-5 col-xs-12">Used in ... </div>
+    </div>
+    <div class="row mm-custom-20">
+      <div class="col-md-2 col-xs-3"></div>
+      <div class="col-md-3 col-xs-6"></div>
+      <div class="col-md-2 col-xs-3">@custom-333</div>
+      <div class="col-md-5 col-xs-12">Used in ... </div>
+    </div>
+    <div class="row mm-custom-12">
+      <div class="col-md-2 col-xs-3"></div>
+      <div class="col-md-3 col-xs-6"></div>
+      <div class="col-md-2 col-xs-3">@custom-222</div>
+      <div class="col-md-5 col-xs-12">Used in ... </div>
+    </div>
+    <div class="row mm-custom-0">
+      <div class="col-md-2 col-xs-3"></div>
+      <div class="col-md-3 col-xs-6"></div>
+      <div class="col-md-2 col-xs-3">@custom-000</div>
+      <div class="col-md-5 col-xs-12">Used in ... </div>
+    </div>
+  </div>
+
+<!-- loremipsum
+------------------------------------------------------------------------------>
+  <div id="id-loremipsum" class="container-fluid">
+    <h1>Lorem Ipsum</h1>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin facilisis pretium volutpat. Nullam rutrum mauris tellus, in eleifend neque fringilla quis. Nam sed tellus nisl. Vivamus et condimentum sem. Vivamus libero ante, tristique nec felis quis, tincidunt fermentum mauris. Pellentesque at pharetra dui. Proin a justo nec massa eleifend cursus. Donec cursus mattis ornare. Donec quis risus semper, mattis eros et, dapibus tortor. Aliquam sagittis urna vitae elit posuere, eu pulvinar purus aliquam. Cras purus ipsum, venenatis et auctor ac, aliquet in augue. Etiam tempor enim metus, quis gravida massa rutrum nec.
+    </p>
+    <p>
+      Cras nec hendrerit leo. Sed id leo auctor, tempus erat eu, eleifend enim. Phasellus sed metus in lectus venenatis pellentesque ac a quam. Fusce consectetur, lorem a sollicitudin tincidunt, dui erat finibus massa, vel sollicitudin urna nibh et quam. Proin lobortis, massa feugiat scelerisque pellentesque, enim turpis porta mi, accumsan mattis lacus nisl dictum felis. Donec molestie egestas sapien at sagittis. Etiam sit amet scelerisque ex.
+    </p>
+    <p>
+      Fusce mollis elit erat, nec ullamcorper lorem fermentum eget. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Etiam ut odio eu odio ornare fermentum ac ac ligula. Pellentesque cursus mi et tellus imperdiet, at porta tellus pellentesque. Phasellus id malesuada enim, ut feugiat enim. Proin pharetra, ante vel egestas suscipit, risus lacus faucibus elit, non ultricies urna nisl quis metus. Donec viverra, diam nec scelerisque auctor, massa mauris lobortis urna, porttitor feugiat quam purus varius libero. Nulla vel erat et ex pharetra mollis eget at enim. Aliquam blandit pulvinar tellus at dictum. Duis a scelerisque enim, a ultricies ex. Curabitur tempus dui est, eu condimentum ligula finibus ut. Fusce ac lectus tristique, mattis elit ac, sagittis dolor. In ut lobortis diam. In ornare, erat nec auctor pretium, felis lectus auctor enim, at condimentum nunc purus nec tortor. Aenean eu lectus vitae ipsum condimentum tincidunt.
+    </p>
+    <p>
+      Maecenas dapibus quis metus sagittis blandit. Nam sodales, enim vitae fringilla semper, est urna posuere lorem, molestie fermentum odio justo vel turpis. Praesent tempus tellus eget mauris consequat, vitae vestibulum urna ultricies. Vivamus ut quam sem. Aenean scelerisque libero ac efficitur vulputate. Donec libero magna, mattis non ipsum at, finibus placerat risus. Vestibulum eu nibh eget enim mattis finibus in eu tellus.
+    </p>
+    <p>
+      Aenean pretium euismod purus, eget sollicitudin eros consectetur vitae. Aliquam quis finibus ante. Suspendisse sed feugiat eros. Praesent vestibulum consequat purus eu tristique. Morbi a vestibulum enim. Quisque sollicitudin urna ac neque ultricies rutrum. Pellentesque augue arcu, efficitur ac tellus in, blandit suscipit augue. Cras sit amet erat ut elit interdum sollicitudin non eu augue. Donec non cursus dolor. Morbi gravida porta orci, sed vulputate nibh finibus at.
+    </p>
+    <p>
+      Maecenas dapibus quis metus sagittis blandit. Nam sodales, enim vitae fringilla semper, est urna posuere lorem, molestie fermentum odio justo vel turpis. Praesent tempus tellus eget mauris consequat, vitae vestibulum urna ultricies. Vivamus ut quam sem. Aenean scelerisque libero ac efficitur vulputate. Donec libero magna, mattis non ipsum at, finibus placerat risus. Vestibulum eu nibh eget enim mattis finibus in eu tellus.
+    </p>
+    <p>
+      Aenean pretium euismod purus, eget sollicitudin eros consectetur vitae. Aliquam quis finibus ante. Suspendisse sed feugiat eros. Praesent vestibulum consequat purus eu tristique. Morbi a vestibulum enim. Quisque sollicitudin urna ac neque ultricies rutrum. Pellentesque augue arcu, efficitur ac tellus in, blandit suscipit augue. Cras sit amet erat ut elit interdum sollicitudin non eu augue. Donec non cursus dolor. Morbi gravida porta orci, sed vulputate nibh finibus at.
+    </p>
+  </div>
+
+
+<!-- kr neki
+------------------------------------------------------------------------------>
+  <div id="id-tri" class="container-fluid">
+    <h1>Tri</h1>
+    <p>
+      Maecenas dapibus quis metus sagittis blandit. Nam sodales, enim vitae fringilla semper, est urna posuere lorem, molestie fermentum odio justo vel turpis. Praesent tempus tellus eget mauris consequat, vitae vestibulum urna ultricies. Vivamus ut quam sem. Aenean scelerisque libero ac efficitur vulputate. Donec libero magna, mattis non ipsum at, finibus placerat risus. Vestibulum eu nibh eget enim mattis finibus in eu tellus.
+    </p>
+    <p>
+      Aenean pretium euismod purus, eget sollicitudin eros consectetur vitae. Aliquam quis finibus ante. Suspendisse sed feugiat eros. Praesent vestibulum consequat purus eu tristique. Morbi a vestibulum enim. Quisque sollicitudin urna ac neque ultricies rutrum. Pellentesque augue arcu, efficitur ac tellus in, blandit suscipit augue. Cras sit amet erat ut elit interdum sollicitudin non eu augue. Donec non cursus dolor. Morbi gravida porta orci, sed vulputate nibh finibus at.
+    </p>
+  </div>
+
+<!-- end of content
+------------------------------------------------------------------------------>
+  </div>
+
+</body>
+</html>
