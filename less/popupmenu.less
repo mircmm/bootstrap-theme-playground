@@ -1,0 +1,121 @@
+// colors
+@mm-color-background: #334;
+@mm-color-background-button: #556;
+@mm-color-background-hover: #000;
+@mm-color-text: #fff;
+@mm-color-text-hover: #fff;
+
+// sizes
+@mm-button-width: 120px;
+@mm-button-height: 40px;
+@mm-button-padding: 5px;
+
+// text
+@mm-line-height: @mm-button-height - 4 * @mm-button-padding;
+@mm-font-height: (@mm-button-height * 2 / 5);
+
+
+#mm-menu-main {
+  position: fixed;
+  top: 100px;
+  left: 100px;
+
+  font: normal @mm-font-height "Helvetica Neue", sans-serif;
+  line-height: @mm-line-height;
+  font-weight: bolder;
+  text-align: center;
+
+  color: @mm-color-text;
+  background-color: @mm-color-background;
+
+  margin: 0;
+  border: 0;
+  padding: 0;
+
+  z-index: 1000;
+
+  ul {
+    display: block;
+    list-style-type: none;
+    height: @mm-button-height + 2 * @mm-button-padding;
+    margin: 0;
+    padding: @mm-button-padding 0 0 @mm-button-padding;
+
+    li {
+      display: inline;
+      float: left;
+      margin: 0;
+      padding: 0 @mm-button-padding @mm-button-padding 0;
+    }
+
+  }
+
+}
+
+.mm-button-mixin(@width) {
+  display: block;
+  height: @mm-button-height;
+  width: @width;
+  padding: 2 * @mm-button-padding;
+  color: @mm-color-text;
+  background-color: @mm-color-background-button;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:hover {
+    color: @mm-color-text-hover;
+    background-color: @mm-color-background-hover;
+    cursor: context-menu;
+  }
+}
+
+.mm-long-button {
+  .mm-button-mixin(@mm-button-width);
+}
+
+.mm-short-button {
+  .mm-button-mixin(@mm-button-height);
+}
+
+#mm-menu-drag { cursor: move; }
+#mm-menu-help { cursor: help; }
+#mm-menu-close { cursor: pointer; }
+
+
+/* ------------------------------------------------ */
+
+.mm-menu-down-mixin (@menu-number) {
+  position: absolute;
+  left: @mm-button-height + @mm-button-padding + @menu-number * @mm-button-width + @menu-number * @mm-button-padding;
+  top: @mm-button-height + @mm-button-padding;
+  width: @mm-button-width  + 2 * @mm-button-padding;
+
+  color: @mm-color-text;
+  background-color: @mm-color-background;
+
+  z-index: 1000;
+//  display: none;
+}
+
+#mm-menu-file {
+  .mm-menu-down-mixin(0);
+}
+
+#mm-menu-color {
+  .mm-menu-down-mixin(1);
+}
+
+#mm-menu-font {
+  .mm-menu-down-mixin(2);
+}
+
+
+/* ------------------------------------------------ */
+#mm-content{
+  margin: 20px;
+  padding: 20px;
+}
+
+
+

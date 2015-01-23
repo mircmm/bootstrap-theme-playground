@@ -1,0 +1,102 @@
+#mm-menu-main {
+  position: fixed;
+  top: 100px;
+  left: 100px;
+  font: normal 16px "Helvetica Neue", sans-serif;
+  line-height: 20px;
+  font-weight: bolder;
+  text-align: center;
+  color: #ffffff;
+  background-color: #333344;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  z-index: 1000;
+}
+#mm-menu-main ul {
+  display: block;
+  list-style-type: none;
+  height: 50px;
+  margin: 0;
+  padding: 5px 0 0 5px;
+}
+#mm-menu-main ul li {
+  display: inline;
+  float: left;
+  margin: 0;
+  padding: 0 5px 5px 0;
+}
+.mm-long-button {
+  display: block;
+  height: 40px;
+  width: 120px;
+  padding: 10px;
+  color: #ffffff;
+  background-color: #555566;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.mm-long-button:hover {
+  color: #ffffff;
+  background-color: #000000;
+  cursor: context-menu;
+}
+.mm-short-button {
+  display: block;
+  height: 40px;
+  width: 40px;
+  padding: 10px;
+  color: #ffffff;
+  background-color: #555566;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.mm-short-button:hover {
+  color: #ffffff;
+  background-color: #000000;
+  cursor: context-menu;
+}
+#mm-menu-drag {
+  cursor: move;
+}
+#mm-menu-help {
+  cursor: help;
+}
+#mm-menu-close {
+  cursor: pointer;
+}
+/* ------------------------------------------------ */
+#mm-menu-file {
+  position: absolute;
+  left: 45px;
+  top: 45px;
+  width: 130px;
+  color: #ffffff;
+  background-color: #333344;
+  z-index: 1000;
+}
+#mm-menu-color {
+  position: absolute;
+  left: 170px;
+  top: 45px;
+  width: 130px;
+  color: #ffffff;
+  background-color: #333344;
+  z-index: 1000;
+}
+#mm-menu-font {
+  position: absolute;
+  left: 295px;
+  top: 45px;
+  width: 130px;
+  color: #ffffff;
+  background-color: #333344;
+  z-index: 1000;
+}
+/* ------------------------------------------------ */
+#mm-content {
+  margin: 20px;
+  padding: 20px;
+}

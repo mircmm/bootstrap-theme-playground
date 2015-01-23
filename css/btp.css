@@ -17,6 +17,7 @@
   overflow: hidden;
   background-color: #333344;
   font-family: ​Helvetica Neue, Helvetica, Arial;
+  z-index: 1100;
 }
 #mm-top-menu li {
   display: inline-block;
@@ -36,6 +37,7 @@
   overflow: hidden;
   background-color: #333344;
   font-family: ​Helvetica Neue, Helvetica, Arial;
+  z-index: 1100;
 }
 #mm-left-menu li {
   width: 100%;
