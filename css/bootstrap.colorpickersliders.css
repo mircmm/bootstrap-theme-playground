@@ -19,7 +19,7 @@
   height: 26px;
   border: 1px solid #dadada;
   margin: 0 4px;
-  margin-bottom: 5pt;
+//  margin-bottom: 5pt;
   position: relative;
 }
 
@@ -27,7 +27,7 @@
 .cp-container  .cp-sliderbutton {
   color: #fff;
   background-color: #333;
-  background-image: none; 
+  background-image: none;
   text-align: center;
   vertical-align: middle;
   font-size: 15px;
@@ -37,7 +37,7 @@
   border: 2px solid #999;
   border-radius: 8px;
   margin: 0 4px;
-  margin-bottom: 5pt;
+//  margin-bottom: 5pt;
   cursor: pointer;
 }
 
@@ -53,7 +53,7 @@
   left: 22px;
 }
 /* -mm-end-------------------------- */
- 
+
 .cp-container .cp-hsvpanel {
   width: auto;
   height: auto;

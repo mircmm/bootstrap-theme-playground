@@ -1,55 +1,73 @@
 $( document ).ready(function() {
   'use strict';
 
+//  alert("dela");
+
   $( "#mm-menu-main" ).draggable({
     handle: "#mm-menu-drag",
     containment: "window"
   });
 
-/*
-  $( "#mm-menu-down-file" ).on("click", function( event ) {
-    var presedButton = event.which;
-    $( "#mm-menu-down-file .mm-long-button div" ).hide();
-    presedButton.show();
-  });
-*/
-
-
-  $( "#mm-menu-down-file" ).on("click",function( event ){
-    $( "#mm-menu-file" ).toggle();
-    $( "#mm-menu-color" ).hide();
-    $( "#mm-menu-font" ).hide();
+  $( ".mm-menu-top" ).on( "click", function() {
+    $( ".mm-menu-top+div" ).hide();
+    $( this ).next().show();
   });
 
-  $( "#mm-menu-down-color" ).on("click",function(){
-    $( "#mm-menu-file" ).hide();
-    $( "#mm-menu-color" ).toggle();
-    $( "#mm-menu-font" ).hide();
-  });
-
-  $( "#mm-menu-down-font" ).on("click",function(){
-    $( "#mm-menu-file" ).hide();
-    $( "#mm-menu-color" ).hide();
-    $( "#mm-menu-font" ).toggle();
+  $( "#mm-menu-color-close" ).on( "click", function() {
+    $( ".mm-menu-top+div" ).hide();
   });
 
 
 
-  $("lalabody").click(function() {
-    $("#mm-popupmenu").hide();
-    setTimeout(function(){
-      $("#mm-popupmenu").show();
-    }, 2000);
+  $("#cp-max-light").ColorPickerSliders({
+    color: "hsl(180, 50%, 100%)",
+    previewformat: 'hsl-rgb',
+    rendervalues: true,
+    slidersplusminus: true,
+    flat: true,
+    sliders: true,
+    swatches: false,
+    hsvpanel: false,
+    order: {
+      preview: 1,
+      hslL: 6
+    }
   });
 
 
-});
+  $("#cp-min-light").ColorPickerSliders({
+    color: "hsl(180, 50%, 0%)",
+    previewformat: 'hsl-rgb',
+    rendervalues: true,
+    slidersplusminus: true,
+    flat: true,
+    sliders: true,
+    swatches: false,
+    hsvpanel: false,
+    order: {
+      preview: 1,
+      hslL: 6
+    }
+  });
+
+  $("#cp-hue-sat").ColorPickerSliders({
+    color: "hsl(180, 50%, 50%)",
+    previewformat: 'hsl-rgb',
+    rendervalues: true,
+    slidersplusminus: true,
+    flat: true,
+    sliders: true,
+    swatches: false,
+    hsvpanel: false,
+    order: {
+      preview: 1,
+      hslH: 4,
+      hslS: 5
+    }
+  });
+
+
+}); // ----- end of document ready -----
 
 
 
-
-/*
- * css ko dela ?
- * cursor: wait;
- *
- */

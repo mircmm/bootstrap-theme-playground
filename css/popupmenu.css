@@ -1,3 +1,6 @@
+/* ----------------------------------------------------------------------------
+ * main menu, draggable, displays in the middle of the page
+ * ---------------------------------------------------------------------------- */
 #mm-menu-main {
   position: fixed;
   top: 100px;
@@ -26,6 +29,9 @@
   margin: 0;
   padding: 0 5px 5px 0;
 }
+/* ----------------------------------------------------------------------------
+ * buttons
+ * ---------------------------------------------------------------------------- */
 .mm-long-button {
   display: block;
   height: 40px;
@@ -67,8 +73,10 @@
 #mm-menu-close {
   cursor: pointer;
 }
-/* ------------------------------------------------ */
-#mm-menu-file {
+/* ----------------------------------------------------------------------------
+ * drop down menus
+ * ---------------------------------------------------------------------------- */
+#mm-menu-file-down {
   position: absolute;
   left: 45px;
   top: 45px;
@@ -76,8 +84,9 @@
   color: #ffffff;
   background-color: #333344;
   z-index: 1000;
+  display: none;
 }
-#mm-menu-color {
+#mm-menu-color-down {
   position: absolute;
   left: 170px;
   top: 45px;
@@ -85,8 +94,22 @@
   color: #ffffff;
   background-color: #333344;
   z-index: 1000;
+  display: none;
+  left: 45px;
+  width: 380px;
 }
-#mm-menu-font {
+#mm-menu-color-down #cp-max-light,
+#mm-menu-color-down #cp-hue-sat,
+#mm-menu-color-down #cp-min-light {
+  text-align: center;
+  margin: 0;
+  border: 0;
+  padding: 0 30px;
+}
+#mm-menu-color-down .mm-long-button {
+  margin-top: 5px;
+}
+#mm-menu-font-down {
   position: absolute;
   left: 295px;
   top: 45px;
@@ -94,8 +117,14 @@
   color: #ffffff;
   background-color: #333344;
   z-index: 1000;
+  display: none;
 }
-/* ------------------------------------------------ */
+/* ----------------------------------------------------------------------------
+ * color pickers
+ * ---------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------
+ * rest of the page
+ * ---------------------------------------------------------------------------- */
 #mm-content {
   margin: 20px;
   padding: 20px;
