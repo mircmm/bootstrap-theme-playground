@@ -5,8 +5,8 @@
   position: fixed;
   top: 100px;
   left: 100px;
-  font: normal 16px "Helvetica Neue", sans-serif;
-  line-height: 20px;
+  font: normal 12px "Helvetica Neue", sans-serif;
+  line-height: 18px;
   font-weight: bolder;
   text-align: center;
   color: #ffffff;
@@ -19,24 +19,24 @@
 #mm-menu-main ul {
   display: block;
   list-style-type: none;
-  height: 50px;
+  height: 36px;
   margin: 0;
-  padding: 5px 0 0 5px;
+  padding: 3px 0 0 3px;
 }
 #mm-menu-main ul li {
   display: inline;
   float: left;
   margin: 0;
-  padding: 0 5px 5px 0;
+  padding: 0 3px 3px 0;
 }
 /* ----------------------------------------------------------------------------
  * buttons
  * ---------------------------------------------------------------------------- */
 .mm-long-button {
   display: block;
-  height: 40px;
+  height: 30px;
   width: 120px;
-  padding: 10px;
+  padding: 6px;
   color: #ffffff;
   background-color: #555566;
   overflow: hidden;
@@ -50,9 +50,9 @@
 }
 .mm-short-button {
   display: block;
-  height: 40px;
-  width: 40px;
-  padding: 10px;
+  height: 30px;
+  width: 30px;
+  padding: 6px;
   color: #ffffff;
   background-color: #555566;
   overflow: hidden;
@@ -78,9 +78,9 @@
  * ---------------------------------------------------------------------------- */
 #mm-menu-file-down {
   position: absolute;
-  left: 45px;
-  top: 45px;
-  width: 130px;
+  left: 33px;
+  top: 33px;
+  width: 126px;
   color: #ffffff;
   background-color: #333344;
   z-index: 1000;
@@ -88,15 +88,15 @@
 }
 #mm-menu-color-down {
   position: absolute;
-  left: 170px;
-  top: 45px;
-  width: 130px;
+  left: 156px;
+  top: 33px;
+  width: 126px;
   color: #ffffff;
   background-color: #333344;
   z-index: 1000;
   display: none;
-  left: 45px;
-  width: 380px;
+  left: 33px;
+  width: 372px;
 }
 #mm-menu-color-down #cp-max-light,
 #mm-menu-color-down #cp-hue-sat,
@@ -107,13 +107,13 @@
   padding: 0 30px;
 }
 #mm-menu-color-down .mm-long-button {
-  margin-top: 5px;
+  margin-top: 3px;
 }
 #mm-menu-font-down {
   position: absolute;
-  left: 295px;
-  top: 45px;
-  width: 130px;
+  left: 279px;
+  top: 33px;
+  width: 126px;
   color: #ffffff;
   background-color: #333344;
   z-index: 1000;
