@@ -19,7 +19,7 @@
 #mm-menu-main ul {
   display: block;
   list-style-type: none;
-  height: 36px;
+  height: 33px;
   margin: 0;
   padding: 3px 0 0 3px;
 }
@@ -32,6 +32,22 @@
 /* ----------------------------------------------------------------------------
  * buttons
  * ---------------------------------------------------------------------------- */
+.mm-menu-title {
+  display: block;
+  height: 30px;
+  width: 366px;
+  padding: 6px;
+  color: #ffffff;
+  background-color: #555566;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.mm-menu-title:hover {
+  color: #ffffff;
+  background-color: #000000;
+  cursor: context-menu;
+}
 .mm-long-button {
   display: block;
   height: 30px;
@@ -78,7 +94,7 @@
  * ---------------------------------------------------------------------------- */
 #mm-menu-file-down {
   position: absolute;
-  left: 33px;
+  left: 0px;
   top: 33px;
   width: 126px;
   color: #ffffff;
@@ -88,19 +104,19 @@
 }
 #mm-menu-color-down {
   position: absolute;
-  left: 156px;
+  left: 123px;
   top: 33px;
   width: 126px;
   color: #ffffff;
   background-color: #333344;
   z-index: 1000;
   display: none;
-  left: 33px;
+  left: 0;
   width: 372px;
 }
-#mm-menu-color-down #cp-max-light,
-#mm-menu-color-down #cp-hue-sat,
-#mm-menu-color-down #cp-min-light {
+#mm-menu-color-down #mm-color-light-100,
+#mm-menu-color-down #mm-color-light-50,
+#mm-menu-color-down #mm-color-light-0 {
   text-align: center;
   margin: 0;
   border: 0;
@@ -111,13 +127,20 @@
 }
 #mm-menu-font-down {
   position: absolute;
-  left: 279px;
+  left: 246px;
   top: 33px;
   width: 126px;
   color: #ffffff;
   background-color: #333344;
   z-index: 1000;
   display: none;
+}
+.mm-preview {
+  height: 30px;
+  text-align: center;
+  margin: 3px 6px;
+  border: 1px solid #ffffff;
+  padding: 3px 6px;
 }
 /* ----------------------------------------------------------------------------
  * color pickers

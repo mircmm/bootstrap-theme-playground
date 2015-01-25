@@ -33,9 +33,11 @@
   font-size: 15px;
   font-weight: bolder;
   width: 20px;
+//  height: 26px;
   height: 26px;
   border: 2px solid #999;
-  border-radius: 8px;
+//  border-radius: 8px;
+  border-radius: 0;
   margin: 0 4px;
 //  margin-bottom: 5pt;
   cursor: pointer;
@@ -44,13 +46,13 @@
 .cp-container  .cp-sliderbutton-minus {
   float: left;
   position: relative;
-  left: -22px;
+  left: -20px;
 }
 
 .cp-container  .cp-sliderbutton-plus {
   float: right;
   position: relative;
-  left: 22px;
+  left: 20px;
 }
 /* -mm-end-------------------------- */
 

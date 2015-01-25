@@ -18,6 +18,9 @@
  * main menu, draggable, displays in the middle of the page
  * ---------------------------------------------------------------------------- */
 #mm-menu-main {
+//
+//  display: none;
+//
   position: fixed;
   top: 100px;
   left: 100px;
@@ -39,7 +42,7 @@
   ul {
     display: block;
     list-style-type: none;
-    height: @mm-button-height + 2 * @mm-button-padding;
+    height: @mm-button-height + @mm-button-padding;
     margin: 0;
     padding: @mm-button-padding 0 0 @mm-button-padding;
 
@@ -73,6 +76,10 @@
   }
 }
 
+.mm-menu-title {
+  .mm-button-mixin(3*@mm-button-width + 2*@mm-button-padding);
+}
+
 .mm-long-button {
   .mm-button-mixin(@mm-button-width);
 }
@@ -90,7 +97,7 @@
  * ---------------------------------------------------------------------------- */
 .mm-menu-down-mixin (@menu-number) {
   position: absolute;
-  left: @mm-button-height + @mm-button-padding + @menu-number * @mm-button-width + @menu-number * @mm-button-padding;
+  left: @menu-number * @mm-button-width + @menu-number * @mm-button-padding;
   top: @mm-button-height + @mm-button-padding;
   width: @mm-button-width  + 2 * @mm-button-padding;
 
@@ -108,12 +115,13 @@
 #mm-menu-color-down {
   .mm-menu-down-mixin(1);
 
-  left: @mm-button-height + @mm-button-padding;
+//  left: @mm-button-height + @mm-button-padding;
+  left: 0;
   width: 3 * @mm-button-width  + 4 * @mm-button-padding;
 
-  #cp-max-light,
-  #cp-hue-sat,
-  #cp-min-light {
+  #mm-color-light-100,
+  #mm-color-light-50,
+  #mm-color-light-0 {
     text-align: center;
     margin: 0;
     border: 0;
@@ -128,6 +136,14 @@
 #mm-menu-font-down {
   .mm-menu-down-mixin(2);
 }
+
+  .mm-preview {
+    height: @mm-button-height;
+    text-align: center;
+    margin: @mm-button-padding 2*@mm-button-padding;;
+    border: 1px solid @mm-color-text;
+    padding: @mm-button-padding 2*@mm-button-padding;
+  }
 
 /* ----------------------------------------------------------------------------
  * color pickers
