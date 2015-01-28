@@ -1,0 +1,41 @@
+#mm-color-container {
+  position: fixed;
+  top: 100px;
+  left: 100px;
+  font: normal 20px "Helvetica Neue", sans-serif;
+  line-height: 30px;
+  font-weight: bolder;
+  text-align: center;
+  color: #ffffff;
+  background-color: #333344;
+}
+#mm-color-container .mm-color-line {
+  margin: 5px;
+}
+#mm-color-container .mm-color-line .mm-color-view {
+  display: inline-block;
+  width: 200px;
+  height: 40px;
+  padding: 5px;
+}
+#mm-color-container .mm-color-line .mm-pointer {
+  display: inline-block;
+  width: 30px;
+  height: 40px;
+  padding: 5px;
+  transition: 200;
+  font-size: ;
+}
+#mm-color-container .mm-color-line .mm-pointer:hover {
+  cursor: pointer;
+  transform: rotateY(180deg);
+}
+#mm-color-container #mm-color-edit-1 .mm-color-view {
+  background-color: #369;
+}
+#mm-color-container #mm-color-edit-2 .mm-color-view {
+  background-color: #639;
+}
+#mm-color-container #mm-color-edit-3 .mm-color-view {
+  background-color: #396;
+}
