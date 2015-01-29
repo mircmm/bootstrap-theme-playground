@@ -2,40 +2,68 @@
   position: fixed;
   top: 100px;
   left: 100px;
-  font: normal 20px "Helvetica Neue", sans-serif;
+  font-style: "Helvetica Neue", sans-serif;
+  font-size: 15px;
   line-height: 30px;
-  font-weight: bolder;
-  text-align: center;
   color: #ffffff;
   background-color: #333344;
 }
 #mm-color-container .mm-color-line {
+  display: flex;
   margin: 5px;
 }
 #mm-color-container .mm-color-line .mm-color-view {
-  display: inline-block;
   width: 200px;
   height: 40px;
+  border: 0;
   padding: 5px;
 }
 #mm-color-container .mm-color-line .mm-pointer {
-  display: inline-block;
-  width: 30px;
+  width: 40px;
   height: 40px;
   padding: 5px;
-  transition: 200;
-  font-size: ;
+  text-align: left;
+  line-height: 25px;
+  font-size: 40px;
+  transition: 500;
 }
 #mm-color-container .mm-color-line .mm-pointer:hover {
   cursor: pointer;
+  position: relative;
+  left: 10px;
+}
+#mm-color-container .mm-color-line .mm-pointer {
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  text-align: left;
+  line-height: 25px;
+  font-size: 40px;
+  transition: 50;
+}
+#mm-color-container .mm-color-line .mm-pointer:hover {
+  cursor: pointer;
+}
+#mm-color-container .mm-color-line .mm-pointer[slider] {
   transform: rotateY(180deg);
 }
+#mm-color-container .mm-color-line .cp-container {
+  padding: 5px;
+  margin: 0px 20px;
+}
+#mm-color-container .mm-color-line .cp-container .cp-sliderbutton {
+  top: 2px;
+}
+#mm-color-container .mm-color-line .cp-container .cp-slider {
+  width: 200px;
+  height: 30px;
+}
 #mm-color-container #mm-color-edit-1 .mm-color-view {
-  background-color: #369;
+  background-color: #336699;
 }
 #mm-color-container #mm-color-edit-2 .mm-color-view {
-  background-color: #639;
+  background-color: #669933;
 }
 #mm-color-container #mm-color-edit-3 .mm-color-view {
-  background-color: #396;
+  background-color: #993366;
 }
