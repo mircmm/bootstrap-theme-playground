@@ -1,10 +1,7 @@
 // colors
 @mm-color-background: #334;
-@mm-color-background-button: #556;
-@mm-color-background-hover: #000;
 @mm-color-text: #fff;
-@mm-color-text-hover: #fff;
-// button sizes
+// sizes
 @mm-width-color: 200px;
 @mm-width-pointer: 40px;
 @mm-height: 40px;
@@ -14,10 +11,9 @@
 @mm-height-font: @mm-height-line - 2 * @mm-separate;
 
 
-
 #mm-color-container {
   position: fixed;
-  top: 100px;
+  top: 10px;
   left: 100px;
 
   font-style: "Helvetica Neue", sans-serif;
@@ -42,26 +38,8 @@
       height: @mm-height;
       padding: @mm-separate;
       text-align: left;
-      line-height: @mm-height - 3 * @mm-separate;
+      line-height: @mm-height - 2 * @mm-separate;
       font-size: @mm-height;
-      transition: 500;
-
-      &:hover {
-        cursor: pointer;
-        position: relative;
-        left: 2 * @mm-separate;
-        // transform: rotateY(180deg);
-      }
-    } // .mm-pointer
-
-    .mm-pointer {
-      width: @mm-width-pointer;
-      height: @mm-height;
-      padding: @mm-separate;
-      text-align: left;
-      line-height: @mm-height - 3 * @mm-separate;
-      font-size: @mm-height;
-      transition: 50;
 
       &:hover {
         cursor: pointer;
@@ -86,9 +64,10 @@
 
   } // .mm-color-line
 
+} // #mm-color-container
+
   #mm-color-edit-1 .mm-color-view { background-color: #369 }
   #mm-color-edit-2 .mm-color-view { background-color: #693 }
   #mm-color-edit-3 .mm-color-view { background-color: #936 }
 
-} // #mm-color-container
 

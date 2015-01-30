@@ -1,14 +1,3 @@
-(function($) {
-  'use strict';
-
-  $.fn.mmTest = function(options) {
-
-    alert('mmTest');
-
-  }; // PopupMenu
-
-})(jQuery);
-
 
 
 (function($) {
@@ -25,35 +14,36 @@
         popover_container,
         elements,
         connectedinput = false,
-        mm_color_light = [100, 96, 92, 88, 80, 60, 50, 32, 26, 20, 12, 0],
+        // color_menu
+        cm_default_base = tinycolor("hsl(180, 50%, 50%)"),
+        cm_default_max = 100, 
+        cm_default_min = 0, 
+        cm_default_proc = [ 100, 96, 92, 88, 80, 60, 50, 32, 26, 20, 12, 0 ],
+        cm_show_L = [ 100, 0 ],
+        cm_show_HS = [ 50 ],
         // default sliders options
         cpDefault = {
-          previewformat: "hsl",
+          previewformat: 'hsl-rgb',
+          previewontriggerelement: true,
           rendervalues: true,
           slidersplusminus: true,
           flat: true,
           sliders: true,
           swatches: false,
           hsvpanel: false,
+          order: {
+              hslL: 4
+            },
           onchange: _onColorChange
         },
-        // specific slider options
-        cpMaxLight = $.extend( {}, cpDefault, {
-          color: "hsl(180, 50%, 90%)",
-          order: { hslL: 6 }
-        }),
-        cpHueSat   = $.extend( {}, cpDefault, {
-          color: "hsl(180, 50%, 50%)",
-          order: { hslH: 4, hslS: 5 }
-        }),
-        cpMinLight = $.extend( {}, cpDefault, {
-          color: "hsl(180, 50%, 10%)",
-          order: { hslL: 6 }
-        }),
         lastVar;
       // end of variables
 
-      init();
+      // init
+      _initSettings();
+      _showPopover();
+      _bindEvents();
+      
 
       function _initSettings() {
         if (typeof options === 'undefined') {
@@ -66,24 +56,16 @@
         }, options);
       }; // _initSettings
 
-      function init() {
-        _initSettings();
-        _showPopover();
-        _bindEvents();
-      } // init
-
       function _showPopover() {
-        popover_container = $('<div id="mm-menu-main"></div>').appendTo('body');
-        popover_container.html( _getControllerHtml() );
-        // ----- make menu draggable inside browser window --------------------
+        // create and display main menu
+        popover_container = $('<div id="mm-menu-main"></div>').appendTo('body').html( _getControllerHtml() );
+        // make menu draggable inside browser window
         $( "#mm-menu-main" ).draggable({
           handle: "#mm-menu-drag",
           containment: "window"
         });
-        // ----- init color sliders in colors menu ----------------------------
-        $(" #mm-color-light-100" ).removeClass( "mm-preview" ).addClass( "mm-preview-bm1" ).ColorPickerSliders( cpMaxLight );
-        $(" #mm-color-light-50" ).removeClass( "mm-preview" ).addClass( "mm-preview-bm2" ).ColorPickerSliders( cpHueSat );
-        $(" #mm-color-light-0" ).removeClass( "mm-preview" ).addClass( "mm-preview-bm1" ).ColorPickerSliders( cpMinLight );
+        // init color sliders in colors menu
+        _updateColorsTable ();
       } // showPopover
 
       function _getControllerHtml() {
@@ -136,15 +118,32 @@
       } // _getControllerHtml
 
       function _getColorsTable () {
-        var colors_html = '';
-        // use array mm_color_light
-        for (var c in mm_color_light) {
+        var colors_html = '<div id="mm-color-menu-container">';
+        // create color edit line for each lightness
+        for (var proc in cm_default_proc) {
           colors_html +=
-            '<div class="mm-preview" id="mm-color-light-' + mm_color_light[c] + '">' + mm_color_light[c] + '&#37;</div>';
+            '<div id="mm-color-edit-' + cm_default_proc[proc] + '" class="mm-color-line">' +
+              '<input type="text" class="mm-color-view" data-color-format="hex">' +
+              '<div class="mm-pointer">&#x25B6;</div>' +
+            '</div>'
         }
+        colors_html += '</div>';
         return colors_html;
       } // _getColorsTable
 
+      function _updateColorsTable () {
+        var proc;
+        for (proc in cm_default_proc) {
+          var line_id = '#mm-color-edit-' + cm_default_proc[proc];
+          var color_input = $( line_id + ' .mm-color-view' );
+          var color_hsl = cm_default_base.toHsl();
+          color_hsl.l = cm_default_proc[proc] / 100;
+          var color_new = tinycolor( color_hsl );
+          
+          var konec = 0;
+        }
+      }
+      
       function _onColorChange(container, color) {
 /* tukaj naredi update background barv za vse % */
         var a = container.parent();
@@ -161,6 +160,19 @@
         $( "#mm-menu-color-close" ).on( "click", function() {
           $( ".mm-menu-top+div" ).hide();
         });
+        
+        $( '.mm-pointer' ).on( 'click', function(ev) {
+          ev.preventDefault();
+          var ptr = $(this);
+          if ( ptr.prev().hasClass('mm-color-view') ) {
+            var bc = ptr.prev().css('background-color');
+            ptr.prev().ColorPickerSliders( $.extend( {color: bc}, cpDefault ) );
+            ptr.attr('slider', true);
+          } else {
+            ptr.prev().remove();
+            ptr.removeAttr('slider');
+          };
+        });
       } // _bindEvents
 
 //    }); // this.each
@@ -173,14 +185,8 @@
 
 // ----- main -----------------------------------------------------------------
 $( document ).ready(function() {
-//  alert("dela");
 
-//  $( "body" ).mmTest();
-
-
-//  $( "body" ).PopupMenu();
   $().PopupMenu();
-
 
 }); // ----- end of document ready --------------------------------------------
 

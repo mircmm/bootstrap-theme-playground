@@ -1,4 +1,3 @@
-
 $( document ).ready( function() {
 
   var cpDefault = {
@@ -16,15 +15,9 @@ $( document ).ready( function() {
       }
   };
 
-  // var bc = $( '#mm-color-edit-1 .mm-color-view' ).css('background-color');
-  // $( '#mm-color-edit-1 .mm-color-view' ).ColorPickerSliders( $.extend( {color: bc}, cpDefault ) );
-
-
-
   $( '.mm-pointer' ).on( 'click', function(ev) {
     ev.preventDefault();
     var ptr = $(this);
-
     if ( ptr.prev().hasClass('mm-color-view') ) {
       var bc = ptr.prev().css('background-color');
       ptr.prev().ColorPickerSliders( $.extend( {color: bc}, cpDefault ) );
@@ -33,8 +26,6 @@ $( document ).ready( function() {
       ptr.prev().remove();
       ptr.removeAttr('slider');
     };
-
-
   });
 
   var konec = null;
