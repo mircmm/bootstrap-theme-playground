@@ -3,10 +3,11 @@
  * ---------------------------------------------------------------------------- */
 #mm-menu-main {
   position: fixed;
-  top: 100px;
+  top: 20px;
   left: 100px;
-  font: normal 12px "Helvetica Neue", sans-serif;
-  line-height: 18px;
+  font-style: "Helvetica Neue", sans-serif;
+  font-size: 15px;
+  line-height: 24px;
   font-weight: bolder;
   text-align: center;
   color: #ffffff;
@@ -99,7 +100,6 @@
   width: 126px;
   color: #ffffff;
   background-color: #333344;
-  z-index: 1000;
   display: none;
 }
 #mm-menu-color-down {
@@ -109,63 +109,12 @@
   width: 126px;
   color: #ffffff;
   background-color: #333344;
-  z-index: 1000;
   display: none;
   left: 0;
-  width: 372px;
+  width: 520px;
 }
 #mm-menu-color-down .mm-long-button {
   margin-top: 3px;
-}
-#mm-menu-color-down .mm-preview {
-  height: 30px;
-  text-align: center;
-  margin: 3px 6px;
-  border: 1px solid #ffffff;
-  padding: 3px 6px;
-}
-#mm-menu-color-down .mm-preview .cp-container {
-  position: relative;
-  top: 4px;
-  height: 30px;
-  margin: 3px 20px;
-}
-#mm-menu-color-down .mm-preview .cp-container .cp-sliderbutton {
-  border-color: #fff;
-}
-#mm-menu-color-down .mm-preview-bm1 {
-  height: 30px;
-  text-align: center;
-  margin: 3px 6px;
-  border: 1px solid #ffffff;
-  padding: 3px 6px;
-  margin-bottom: 30px;
-}
-#mm-menu-color-down .mm-preview-bm1 .cp-container {
-  position: relative;
-  top: 4px;
-  height: 30px;
-  margin: 3px 20px;
-}
-#mm-menu-color-down .mm-preview-bm1 .cp-container .cp-sliderbutton {
-  border-color: #fff;
-}
-#mm-menu-color-down .mm-preview-bm2 {
-  height: 30px;
-  text-align: center;
-  margin: 3px 6px;
-  border: 1px solid #ffffff;
-  padding: 3px 6px;
-  margin-bottom: 56px;
-}
-#mm-menu-color-down .mm-preview-bm2 .cp-container {
-  position: relative;
-  top: 4px;
-  height: 30px;
-  margin: 3px 20px;
-}
-#mm-menu-color-down .mm-preview-bm2 .cp-container .cp-sliderbutton {
-  border-color: #fff;
 }
 #mm-menu-font-down {
   position: absolute;
@@ -174,11 +123,53 @@
   width: 126px;
   color: #ffffff;
   background-color: #333344;
-  z-index: 1000;
   display: none;
 }
 /* ----------------------------------------------------------------------------
- * rest of the page
+ * color edit menu
+ * ---------------------------------------------------------------------------- */
+#mm-color-menu-container {
+  color: #ffffff;
+  background-color: #333344;
+  font-weight: normal;
+}
+#mm-color-menu-container .mm-color-line {
+  display: flex;
+  margin: 3px;
+}
+#mm-color-menu-container .mm-color-line .mm-color-view {
+  width: 200px;
+  height: 30px;
+  border: 0;
+  padding: 3px;
+}
+#mm-color-menu-container .mm-color-line .mm-pointer {
+  width: 30px;
+  height: 30px;
+  padding: 3px;
+  text-align: left;
+  line-height: 24px;
+  font-size: 30px;
+}
+#mm-color-menu-container .mm-color-line .mm-pointer:hover {
+  cursor: pointer;
+}
+#mm-color-menu-container .mm-color-line .mm-pointer[slider] {
+  transform: rotateY(180deg);
+}
+#mm-color-menu-container .mm-color-line .cp-container {
+  padding: 3px;
+  margin: 0px 20px;
+}
+#mm-color-menu-container .mm-color-line .cp-container .cp-sliderbutton {
+  height: 24px;
+}
+#mm-color-menu-container .mm-color-line .cp-container .cp-slider {
+  width: 200px;
+  height: 24px;
+}
+/* ----------------------------------------------------------------------------
+ * page default
  * ---------------------------------------------------------------------------- */
 #mm-content {
   margin: 20px;

@@ -16,8 +16,8 @@
         connectedinput = false,
         // color_menu
         cm_default_base = tinycolor("hsl(180, 50%, 50%)"),
-        cm_default_max = 100, 
-        cm_default_min = 0, 
+        cm_default_max = 100,
+        cm_default_min = 0,
         cm_default_proc = [ 100, 96, 92, 88, 80, 60, 50, 32, 26, 20, 12, 0 ],
         cm_show_L = [ 100, 0 ],
         cm_show_HS = [ 50 ],
@@ -43,7 +43,7 @@
       _initSettings();
       _showPopover();
       _bindEvents();
-      
+
 
       function _initSettings() {
         if (typeof options === 'undefined') {
@@ -125,7 +125,7 @@
             '<div id="mm-color-edit-' + cm_default_proc[proc] + '" class="mm-color-line">' +
               '<input type="text" class="mm-color-view" data-color-format="hex">' +
               '<div class="mm-pointer">&#x25B6;</div>' +
-            '</div>'
+            '</div>';
         }
         colors_html += '</div>';
         return colors_html;
@@ -138,12 +138,12 @@
           var color_input = $( line_id + ' .mm-color-view' );
           var color_hsl = cm_default_base.toHsl();
           color_hsl.l = cm_default_proc[proc] / 100;
-          var color_new = tinycolor( color_hsl );
-          
+          var color_new = tinycolor( color_hsl ).toHslString();
+          color_input.css( 'background-color', color_new );
           var konec = 0;
         }
       }
-      
+
       function _onColorChange(container, color) {
 /* tukaj naredi update background barv za vse % */
         var a = container.parent();
@@ -160,7 +160,7 @@
         $( "#mm-menu-color-close" ).on( "click", function() {
           $( ".mm-menu-top+div" ).hide();
         });
-        
+
         $( '.mm-pointer' ).on( 'click', function(ev) {
           ev.preventDefault();
           var ptr = $(this);

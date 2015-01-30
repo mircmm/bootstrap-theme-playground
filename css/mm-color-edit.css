@@ -1,6 +1,6 @@
 #mm-color-container {
   position: fixed;
-  top: 100px;
+  top: 10px;
   left: 100px;
   font-style: "Helvetica Neue", sans-serif;
   font-size: 15px;
@@ -23,23 +23,8 @@
   height: 40px;
   padding: 5px;
   text-align: left;
-  line-height: 25px;
+  line-height: 30px;
   font-size: 40px;
-  transition: 500;
-}
-#mm-color-container .mm-color-line .mm-pointer:hover {
-  cursor: pointer;
-  position: relative;
-  left: 10px;
-}
-#mm-color-container .mm-color-line .mm-pointer {
-  width: 40px;
-  height: 40px;
-  padding: 5px;
-  text-align: left;
-  line-height: 25px;
-  font-size: 40px;
-  transition: 50;
 }
 #mm-color-container .mm-color-line .mm-pointer:hover {
   cursor: pointer;
@@ -58,12 +43,12 @@
   width: 200px;
   height: 30px;
 }
-#mm-color-container #mm-color-edit-1 .mm-color-view {
+#mm-color-edit-1 .mm-color-view {
   background-color: #336699;
 }
-#mm-color-container #mm-color-edit-2 .mm-color-view {
+#mm-color-edit-2 .mm-color-view {
   background-color: #669933;
 }
-#mm-color-container #mm-color-edit-3 .mm-color-view {
+#mm-color-edit-3 .mm-color-view {
   background-color: #993366;
 }
