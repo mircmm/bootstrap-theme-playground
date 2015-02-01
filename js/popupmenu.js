@@ -69,6 +69,7 @@
         // init color sliders in colors menu
         _updateColorsTable ();
         // show default sliders
+        _initShowSliderButtons();
         $( '.mm-color-line' ).each( function() {
           _showLineSliders( $(this) );
         });
@@ -136,19 +137,40 @@
           var show_slider_h = proc.h ? ' show-slider=true' : '';
           var show_slider_s = proc.s ? ' show-slider=true' : '';
           var show_slider_l = proc.l ? ' show-slider=true' : '';
-//          var show_pointer = (proc.h || proc.s || proc.l) ? '<div class="mm-pointer">&#x25B6;</div>' : '';
           colors_html +=
             '<div id="mm-color-edit-' + proc.p + '" class="mm-color-line">' +
-              '<div class="mm-color-H"' + show_slider_h + '>H</div>' +
-              '<div class="mm-color-S"' + show_slider_s + '>S</div>' +
-              '<div class="mm-color-L"' + show_slider_l + '>L</div>' +
+              '<div class="mm-color-H"' + '' + '>H</div>' +
+              '<div class="mm-color-S"' + '' + '>S</div>' +
+              '<div class="mm-color-L"' + '' + '>L</div>' +
               '<input type="text" class="mm-color-view" readonly data-color-format="hsl">' +
-//              show_pointer +
             '</div>';
         }
         colors_html += '</div>';
         return colors_html;
       } // _getColorsTable
+
+      function _initShowSliderButtons () {
+        for (var i = 0; i < cm_proc_array.length; i++) {
+          var proc = cm_proc_array[i];
+          var line_selector = '#mm-color-edit-' + proc.p;
+          var line = $( line_selector );
+          if ( proc.h ) {
+            line.find( '.mm-color-H' ).attr( 'show-slider', true );
+          } else {
+            line.find( '.mm-color-H' ).removeAttr( 'show-slider' );
+          };
+          if ( proc.s ) {
+            line.find( '.mm-color-S' ).attr( 'show-slider', true );
+          } else {
+            line.find( '.mm-color-S' ).removeAttr( 'show-slider' );
+          };
+          if ( proc.l ) {
+            line.find( '.mm-color-L' ).attr( 'show-slider', true );
+          } else {
+            line.find( '.mm-color-L' ).removeAttr( 'show-slider' );
+          };
+        }
+      } // _initShowSliderButtons
 
       function _showLineSliders( line ) {
         // line is jquery object
@@ -241,9 +263,13 @@
           $( '.mm-menu-top+div' ).hide();
         });
 
-        // reset all colors to default
+        // reset colors and sliders to default
         $( '#mm-menu-color-defaults' ).on( 'click', function() {
           _updateColorsTable();
+          _initShowSliderButtons();
+          $( '.mm-color-line' ).each( function() {
+            _showLineSliders( $(this) );
+          });
         });
 
         // toggle H S L buttons in color lines and show or hide sliders
@@ -261,25 +287,6 @@
           _showLineSliders( line );
         });
 
-        // to bo za zbrisat, pointerje sem ukinil
-        // show or hide sliders for clicked line
-        $( '.mm-pointer' ).on( 'click', function(ev) {
-          ev.preventDefault();
-          var ptr = $(this);
-          var line = ptr.parent();
-          var show_slider_h = line.find( '.mm-color-H' ).attr( 'show-slider' );
-          var show_slider_s = line.find( '.mm-color-S' ).attr( 'show-slider' );
-          var show_slider_l = line.find( '.mm-color-L' ).attr( 'show-slider' );
-
-          if ( ptr.prev().hasClass( 'mm-color-view' ) ) {
-            var bc = ptr.prev().css( 'background-color' );
-            ptr.prev().ColorPickerSliders( $.extend( {color: bc}, cpDefault ) );
-            ptr.attr( 'slider', true );
-          } else {
-            ptr.prev().remove();
-            ptr.removeAttr( 'slider' );
-          };
-        });
       } // _bindEvents
 
 //    }); // this.each

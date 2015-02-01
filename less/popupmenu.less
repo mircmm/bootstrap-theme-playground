@@ -1,28 +1,26 @@
 // colors
+@mm-color-text: #fff;
 @mm-color-background: #334;
 @mm-color-background-button: #556;
 @mm-color-background-hover: #000;
-@mm-color-text: #fff;
-@mm-color-text-hover: #fff;
+
 // sizes
 @mm-width-color: 240px;
-@mm-width-pointer: 30px;
-@mm-width-hsl: 15px;
 @mm-width-button: 120px;
+@mm-width-short-button: 18px;
 @mm-height: 30px;
 @mm-separate: 3px;
-// text
-@mm-height-line: @mm-height * 6 / 10;
-@mm-height-font: @mm-height * 4 / 10;
+// text (not used, because lines are flex)
+// @mm-height-line: @mm-height * 6 / 10;
+// @mm-height-font: @mm-height * 4 / 10;
 
 /* ----------------------------------------------------------------------------
  * main menu, draggable, displays in the middle of the page
  * ---------------------------------------------------------------------------- */
 #mm-menu-main {
-  //display: none;
   position: fixed;
-  top: 20px;
-  left: 100px;
+  top: 2px;
+  left: 2px;
 
   font-style: "Helvetica Neue", sans-serif;
   font-size: @mm-height - 5 * @mm-separate;
@@ -70,9 +68,7 @@
   white-space: nowrap;
 
   &:hover {
-    color: @mm-color-text-hover;
-    background-color: @mm-color-background-hover;
-    cursor: context-menu;
+    background-color: lighten(@mm-color-background-button, 20%);
   }
 }
 
@@ -82,10 +78,13 @@
 
 .mm-long-button {
   .mm-button-mixin( @mm-width-button );
+  &:hover {
+    cursor: context-menu;
+  }
 }
 
 .mm-short-button {
-  .mm-button-mixin( @mm-height );
+  .mm-button-mixin( @mm-width-short-button );
 }
 
 // preveri, ce vse te spodaj rabis
@@ -114,11 +113,8 @@
 
 #mm-menu-color-down {
   .mm-menu-down-mixin(1);
-
-  //left: @mm-height + @mm-separate;
   left: 0;
-  // width: 3 * @mm-width-button  + 4 * @mm-separate;
-  width: 3 * @mm-width-hsl + 2 * @mm-width-color + 4 * @mm-width-pointer;
+  width: 5 * @mm-width-short-button + 2 * @mm-width-color + 9 * @mm-separate;
 
   .mm-long-button {
     margin-top: @mm-separate;
@@ -133,13 +129,6 @@
  * color edit menu
  * ---------------------------------------------------------------------------- */
 #mm-color-menu-container {
-//  position: fixed;
-//  top: 10px;
-//  left: 100px;
-
-  //font-style: "Helvetica Neue", sans-serif;
-  //font-size: @mm-height - 5 * @mm-separate;
-  //line-height: @mm-height - 2 * @mm-separate;
   color: @mm-color-text;
   background-color: @mm-color-background;
   font-weight: normal;
@@ -152,10 +141,7 @@
     .mm-color-H,
     .mm-color-S,
     .mm-color-L {
-      background-color: @mm-color-background-button;
-      color: @mm-color-text;
-      height: @mm-height;
-      width: @mm-width-hsl;
+      .mm-button-mixin(@mm-width-short-button);
       font-weight: bolder;
       margin: 0 @mm-separate 0 0;
       border: 0;
@@ -163,18 +149,16 @@
 
       &:hover {
         background-color: lighten(@mm-color-background-button, 20%);
-        color: #000;
         cursor: pointer;
       }
 
       &[show-slider] {
-        background-color: #fff;
-        color: #000;
+        background-color: @mm-color-text;
+        color: contrast(@mm-color-text);
       }
 
       &[show-slider]:hover {
         background-color: darken(#fff, 20%);
-        color: @mm-color-text;
       }
     } // mm-color-H, S, L
 
@@ -185,34 +169,32 @@
       padding: @mm-separate;
     } // .mm-color-view
 
-    .mm-pointer {
-      width: @mm-width-pointer;
-      height: @mm-height;
-      padding: @mm-separate;
-      text-align: left;
-      line-height: @mm-height - 2 * @mm-separate;
-      font-size: @mm-height;
-
-      &:hover {
-        cursor: pointer;
-      }
-
-      &[slider] {
-        transform: rotateY(180deg);
-      }
-    } // .mm-pointer
-
     .cp-container {
+      width: @mm-width-color;
       padding: @mm-separate;
-      margin: 0px 20px;
-
-      .cp-sliderbutton {
-        height: @mm-height - 2 * @mm-separate;
-      }
+      margin: 0px @mm-width-short-button;
 
       .cp-slider {
-        width: @mm-width-color;
+        // width: @mm-width-color;
         height: @mm-height - 2 * @mm-separate;
+        margin: 0;
+      }
+
+      .cp-sliderbutton {
+        .mm-button-mixin(@mm-width-short-button);
+        height: @mm-height - 2 * @mm-separate;
+        line-height: @mm-height - 4 * @mm-separate;
+        margin: 0;
+        border: 1px solid;
+        padding: @mm-separate;
+      }
+
+      .cp-sliderbutton-minus {
+        left: -@mm-width-short-button;
+      }
+
+      .cp-sliderbutton-plus {
+        left: @mm-width-short-button;
       }
     } // .cp-container
 

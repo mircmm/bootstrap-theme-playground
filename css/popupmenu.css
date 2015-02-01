@@ -3,8 +3,8 @@
  * ---------------------------------------------------------------------------- */
 #mm-menu-main {
   position: fixed;
-  top: 20px;
-  left: 100px;
+  top: 2px;
+  left: 2px;
   font-style: "Helvetica Neue", sans-serif;
   font-size: 15px;
   line-height: 24px;
@@ -45,9 +45,7 @@
   white-space: nowrap;
 }
 .mm-menu-title:hover {
-  color: #ffffff;
-  background-color: #000000;
-  cursor: context-menu;
+  background-color: #86869b;
 }
 .mm-long-button {
   display: block;
@@ -61,14 +59,15 @@
   white-space: nowrap;
 }
 .mm-long-button:hover {
-  color: #ffffff;
-  background-color: #000000;
+  background-color: #86869b;
+}
+.mm-long-button:hover {
   cursor: context-menu;
 }
 .mm-short-button {
   display: block;
   height: 30px;
-  width: 30px;
+  width: 18px;
   padding: 6px;
   color: #ffffff;
   background-color: #555566;
@@ -77,9 +76,7 @@
   white-space: nowrap;
 }
 .mm-short-button:hover {
-  color: #ffffff;
-  background-color: #000000;
-  cursor: context-menu;
+  background-color: #86869b;
 }
 #mm-menu-drag {
   cursor: move;
@@ -111,7 +108,7 @@
   background-color: #333344;
   display: none;
   left: 0;
-  width: 645px;
+  width: 597px;
 }
 #mm-menu-color-down .mm-long-button {
   margin-top: 3px;
@@ -141,10 +138,15 @@
 #mm-color-menu-container .mm-color-line .mm-color-H,
 #mm-color-menu-container .mm-color-line .mm-color-S,
 #mm-color-menu-container .mm-color-line .mm-color-L {
-  background-color: #555566;
-  color: #ffffff;
+  display: block;
   height: 30px;
-  width: 15px;
+  width: 18px;
+  padding: 6px;
+  color: #ffffff;
+  background-color: #555566;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
   font-weight: bolder;
   margin: 0 3px 0 0;
   border: 0;
@@ -154,20 +156,23 @@
 #mm-color-menu-container .mm-color-line .mm-color-S:hover,
 #mm-color-menu-container .mm-color-line .mm-color-L:hover {
   background-color: #86869b;
-  color: #000;
+}
+#mm-color-menu-container .mm-color-line .mm-color-H:hover,
+#mm-color-menu-container .mm-color-line .mm-color-S:hover,
+#mm-color-menu-container .mm-color-line .mm-color-L:hover {
+  background-color: #86869b;
   cursor: pointer;
 }
 #mm-color-menu-container .mm-color-line .mm-color-H[show-slider],
 #mm-color-menu-container .mm-color-line .mm-color-S[show-slider],
 #mm-color-menu-container .mm-color-line .mm-color-L[show-slider] {
-  background-color: #fff;
-  color: #000;
+  background-color: #ffffff;
+  color: #000000;
 }
 #mm-color-menu-container .mm-color-line .mm-color-H[show-slider]:hover,
 #mm-color-menu-container .mm-color-line .mm-color-S[show-slider]:hover,
 #mm-color-menu-container .mm-color-line .mm-color-L[show-slider]:hover {
   background-color: #cccccc;
-  color: #ffffff;
 }
 #mm-color-menu-container .mm-color-line .mm-color-view {
   width: 240px;
@@ -175,30 +180,39 @@
   border: 0;
   padding: 3px;
 }
-#mm-color-menu-container .mm-color-line .mm-pointer {
-  width: 30px;
-  height: 30px;
-  padding: 3px;
-  text-align: left;
-  line-height: 24px;
-  font-size: 30px;
-}
-#mm-color-menu-container .mm-color-line .mm-pointer:hover {
-  cursor: pointer;
-}
-#mm-color-menu-container .mm-color-line .mm-pointer[slider] {
-  transform: rotateY(180deg);
-}
 #mm-color-menu-container .mm-color-line .cp-container {
+  width: 240px;
   padding: 3px;
-  margin: 0px 20px;
-}
-#mm-color-menu-container .mm-color-line .cp-container .cp-sliderbutton {
-  height: 24px;
+  margin: 0px 18px;
 }
 #mm-color-menu-container .mm-color-line .cp-container .cp-slider {
-  width: 240px;
   height: 24px;
+  margin: 0;
+}
+#mm-color-menu-container .mm-color-line .cp-container .cp-sliderbutton {
+  display: block;
+  height: 30px;
+  width: 18px;
+  padding: 6px;
+  color: #ffffff;
+  background-color: #555566;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+  height: 24px;
+  line-height: 18px;
+  margin: 0;
+  border: 1px solid;
+  padding: 3px;
+}
+#mm-color-menu-container .mm-color-line .cp-container .cp-sliderbutton:hover {
+  background-color: #86869b;
+}
+#mm-color-menu-container .mm-color-line .cp-container .cp-sliderbutton-minus {
+  left: -18px;
+}
+#mm-color-menu-container .mm-color-line .cp-container .cp-sliderbutton-plus {
+  left: 18px;
 }
 /* ----------------------------------------------------------------------------
  * page default
