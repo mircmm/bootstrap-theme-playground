@@ -5,8 +5,9 @@
 @mm-color-text: #fff;
 @mm-color-text-hover: #fff;
 // sizes
-@mm-width-color: 200px;
+@mm-width-color: 240px;
 @mm-width-pointer: 30px;
+@mm-width-hsl: 15px;
 @mm-width-button: 120px;
 @mm-height: 30px;
 @mm-separate: 3px;
@@ -117,8 +118,8 @@
   //left: @mm-height + @mm-separate;
   left: 0;
   // width: 3 * @mm-width-button  + 4 * @mm-separate;
-  width: 2 * @mm-width-color + 4 * @mm-width-pointer;
-  
+  width: 3 * @mm-width-hsl + 2 * @mm-width-color + 4 * @mm-width-pointer;
+
   .mm-long-button {
     margin-top: @mm-separate;
   }
@@ -142,10 +143,40 @@
   color: @mm-color-text;
   background-color: @mm-color-background;
   font-weight: normal;
-  
+  margin: 3 * @mm-separate  2 * @mm-separate  0  2 * @mm-separate;
+
   .mm-color-line {
     display: flex;
     margin: @mm-separate;
+
+    .mm-color-H,
+    .mm-color-S,
+    .mm-color-L {
+      background-color: @mm-color-background-button;
+      color: @mm-color-text;
+      height: @mm-height;
+      width: @mm-width-hsl;
+      font-weight: bolder;
+      margin: 0 @mm-separate 0 0;
+      border: 0;
+      padding: @mm-separate;
+
+      &:hover {
+        background-color: lighten(@mm-color-background-button, 20%);
+        color: #000;
+        cursor: pointer;
+      }
+
+      &[show-slider] {
+        background-color: #fff;
+        color: #000;
+      }
+
+      &[show-slider]:hover {
+        background-color: darken(#fff, 20%);
+        color: @mm-color-text;
+      }
+    } // mm-color-H, S, L
 
     .mm-color-view {
       width: @mm-width-color;
@@ -174,9 +205,11 @@
     .cp-container {
       padding: @mm-separate;
       margin: 0px 20px;
+
       .cp-sliderbutton {
         height: @mm-height - 2 * @mm-separate;
       }
+
       .cp-slider {
         width: @mm-width-color;
         height: @mm-height - 2 * @mm-separate;

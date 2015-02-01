@@ -111,7 +111,7 @@
   background-color: #333344;
   display: none;
   left: 0;
-  width: 520px;
+  width: 645px;
 }
 #mm-menu-color-down .mm-long-button {
   margin-top: 3px;
@@ -132,13 +132,45 @@
   color: #ffffff;
   background-color: #333344;
   font-weight: normal;
+  margin: 9px 6px 0 6px;
 }
 #mm-color-menu-container .mm-color-line {
   display: flex;
   margin: 3px;
 }
+#mm-color-menu-container .mm-color-line .mm-color-H,
+#mm-color-menu-container .mm-color-line .mm-color-S,
+#mm-color-menu-container .mm-color-line .mm-color-L {
+  background-color: #555566;
+  color: #ffffff;
+  height: 30px;
+  width: 15px;
+  font-weight: bolder;
+  margin: 0 3px 0 0;
+  border: 0;
+  padding: 3px;
+}
+#mm-color-menu-container .mm-color-line .mm-color-H:hover,
+#mm-color-menu-container .mm-color-line .mm-color-S:hover,
+#mm-color-menu-container .mm-color-line .mm-color-L:hover {
+  background-color: #86869b;
+  color: #000;
+  cursor: pointer;
+}
+#mm-color-menu-container .mm-color-line .mm-color-H[show-slider],
+#mm-color-menu-container .mm-color-line .mm-color-S[show-slider],
+#mm-color-menu-container .mm-color-line .mm-color-L[show-slider] {
+  background-color: #fff;
+  color: #000;
+}
+#mm-color-menu-container .mm-color-line .mm-color-H[show-slider]:hover,
+#mm-color-menu-container .mm-color-line .mm-color-S[show-slider]:hover,
+#mm-color-menu-container .mm-color-line .mm-color-L[show-slider]:hover {
+  background-color: #cccccc;
+  color: #ffffff;
+}
 #mm-color-menu-container .mm-color-line .mm-color-view {
-  width: 200px;
+  width: 240px;
   height: 30px;
   border: 0;
   padding: 3px;
@@ -165,7 +197,7 @@
   height: 24px;
 }
 #mm-color-menu-container .mm-color-line .cp-container .cp-slider {
-  width: 200px;
+  width: 240px;
   height: 24px;
 }
 /* ----------------------------------------------------------------------------
