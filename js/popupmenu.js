@@ -11,8 +11,11 @@
         title = 'Bootstrap Theme Playground',
         settings,
         popoverContainer,
-        // default color (just in case user fucked-up and we need a value)
-        btpDefaultHSL= { h: 180, s: 0.5, l: 0.5 },
+        // default color (use whenever there is no user choosen value))
+//        btpDefaultHSL= { h: 180, s: 0.5, l: 0.5 },
+        btpDefaultH = 180,
+        btpDefaultS = 0.6,
+        btpDefaultL = 0.5,
         // colors used in the table (array of objects)
         // proc: 50, // 0..100 (x axis for color mixes)
         // init: {h: false, s: false, l: false}   // startup defaults, false, if slider is hidden or hsl value if shown
@@ -32,23 +35,6 @@
           { proc:  20, init: {h: false, s: false, l: false}, used: {}, calc: {} },
           { proc:  12, init: {h: false, s: false, l: false}, used: {}, calc: {} },
           { proc:   0, init: {h: false, s: false, l: 0.001}, used: {}, calc: {} }
-        ],
-        // defaults for color menu
-        cm_default_base = tinycolor('hsl(180, 50%, 50%)'),
-        // percents and default hsl buttons
-        cm_proc_array = [
-          {p: 100, h: false, s: false, l: true},
-          {p:  96, h: false, s: false, l: false},
-          {p:  92, h: false, s: false, l: false},
-          {p:  88, h: false, s: false, l: false},
-          {p:  80, h: false, s: false, l: false},
-          {p:  60, h: false, s: false, l: false},
-          {p:  50, h: true,  s: false, l: false},
-          {p:  32, h: false, s: false, l: false},
-          {p:  26, h: false, s: false, l: false},
-          {p:  20, h: false, s: false, l: false},
-          {p:  12, h: false, s: false, l: false},
-          {p:   0, h: false, s: false, l: true}
         ],
         // default sliders options
         cpDefault = {
@@ -80,10 +66,14 @@
           title: '',
           lastOption: null
         }, options);
-        // init btpColors table
+        // init btpColors used from init
         for ( var i=0; i < btpColors.length; i++ ) {
-          btpColors[i].used = btpColors[i].init;
-          btpColors[i].calc = btpDefaultHSL;
+          // must use Object.create to get a copy, otherwise just pointer
+          btpColors[i].used = Object.create( btpColors[i].init );
+        }
+        // this is temporary, must be replaced with calculate from used
+        for ( var i=0; i < btpColors.length; i++ ) {
+          btpColors[i].calc = { btpDefaultH, btpDefaultS, btpDefaultL };
         }
       }; // _initSettings
 
@@ -156,9 +146,9 @@
       function _getColorsTable () {
         var colors_html = '<div id="mm-color-menu-container">';
         // create color edit line for each lightness
-        for (var i = 0; i < cm_proc_array.length; i++) {
+        for (var i = 0; i < btpColors.length; i++) {
           colors_html +=
-            '<div id="mm-color-edit-' + cm_proc_array[i].p + '" class="mm-color-line">' +
+            '<div id="mm-color-edit-' + btpColors[i].proc + '" class="mm-color-line">' +
               '<div class="mm-color-H">H</div>' +
               '<div class="mm-color-S">S</div>' +
               '<div class="mm-color-L">L</div>' +
@@ -170,20 +160,20 @@
       } // _getColorsTable
 
       function _initShowSliderButtons () {
-        for (var i = 0; i < cm_proc_array.length; i++) {
-          var proc = cm_proc_array[i];
-          var line = $( '#mm-color-edit-' + proc.p );
-          if ( proc.h ) {
+        for (var i = 0; i < btpColors.length; i++) {
+          var btpline = btpColors[i];
+          var line = $( '#mm-color-edit-' + btpline.proc );
+          if ( btpline.used.h ) {
             line.find( '.mm-color-H' ).attr( 'show-slider', true );
           } else {
             line.find( '.mm-color-H' ).removeAttr( 'show-slider' );
           };
-          if ( proc.s ) {
+          if ( btpline.used.s ) {
             line.find( '.mm-color-S' ).attr( 'show-slider', true );
           } else {
             line.find( '.mm-color-S' ).removeAttr( 'show-slider' );
           };
-          if ( proc.l ) {
+          if ( btpline.used.l ) {
             line.find( '.mm-color-L' ).attr( 'show-slider', true );
           } else {
             line.find( '.mm-color-L' ).removeAttr( 'show-slider' );
@@ -218,11 +208,11 @@
       } // _showLineSliders
 
       function _updateColorsTable() {
-        for (var i = 0; i < cm_proc_array.length; i++) {
-          var color_input = $( '#mm-color-edit-' + cm_proc_array[i].p + ' .mm-color-view' );
+        for (var i = 0; i < btpColors.length; i++) {
+          var color_input = $( '#mm-color-edit-' + btpColors[i].proc + ' .mm-color-view' );
 
-          var color_hsl = cm_default_base.toHsl();
-          color_hsl.l = cm_proc_array[i].p / 100;
+          var color_hsl = tinycolor({ h: btpDefaultH, s: btpDefaultS, l: btpDefaultL }).toHsl();
+          color_hsl.l = btpColors[i].proc / 100;
 
           var color_back = tinycolor( color_hsl ).toHslString();
           var color_txt = tinycolor.mostReadable( color_hsl, ['#000', '#fff'] ).toHslString();
@@ -233,9 +223,8 @@
       function _new_updateColorsTable() {
         // find shown sliders and save index and color
         var usedSliders = [];
-        for (var i = 0; i < cm_proc_array.length; i++) {
-          var proc = cm_proc_array[i];
-          var line = $( '#mm-color-edit-' + proc.p );
+        for (var i = 0; i < btpColors.length; i++) {
+          var line = $( '#mm-color-edit-' + btpColors[i].proc );
           var proc_h = line.find( '.mm-color-H' ).attr( 'show-slider' );
           var proc_s = line.find( '.mm-color-S' ).attr( 'show-slider' );
           var proc_l = line.find( '.mm-color-L' ).attr( 'show-slider' );
@@ -250,56 +239,88 @@
         firstSlider = usedSliders.shift();
         while ( lastSlider = usedSliders.shift() ) {
           for ( i = firstSlider.i+1; i < lastSlider.i; i++ ) {
-
             mix = tinycolor (
-              _mixHSL ( cm_proc_array[i].p,
-              firstSlider, cm_proc_array[firstSlider.i].p,
-              lastSlider, cm_proc_array[lastSlider.i].p )
+              _mixHSL ( btpColors[i].proc,
+              firstSlider, btpColors[firstSlider.i].proc,
+              lastSlider, btpColors[lastSlider.i].proc )
             );
-
-            var color_input = $( '#mm-color-edit-' + cm_proc_array[i].p + ' .mm-color-view' );
+            var color_input = $( '#mm-color-edit-' + btpColors[i].proc + ' .mm-color-view' );
             var color_back = tinycolor( mix ).toHslString();
             var color_txt = tinycolor.mostReadable( mix, ['#000', '#fff'] ).toHslString();
             color_input.css( {'background-color': color_back, 'color': color_txt} ).val( color_back );
-
           }
           firstSlider = lastSlider;
         }
-
         var konec = 0;
       } // _new_updateColorsTable
 
+      function _slidersToCalc() {
+      // scan displayed sliders and save to btpColors[i].used
+      // potem popravi update colors table
+      } _slidersToCalc
+
       function _btpColorsCalculate() {
-        var fh = [], fs = [], fl = [];
-        // search for sliders and save values
+        // sliders (shown by user) === points
+        // find and save points to calculate curves
+        var pts_h = [], pts_s = [], pts_l = [];
         for ( var i=0; i < btpColors.length; i++ ) {
           if ( btpColors[i].used.h ) {
-            fh.push( { proc: btpColors[i].proc, h: btpColors[i].used.h} );
+            pts_h.push( { x: btpColors[i].proc, y: btpColors[i].used.h} );
           };
           if ( btpColors[i].used.s ) {
-            fs.push( { proc: btpColors[i].proc, s: btpColors[i].used.s} );
+            pts_s.push( { x: btpColors[i].proc, y: btpColors[i].used.s} );
           };
           if ( btpColors[i].used.l ) {
-            fl.push( { proc: btpColors[i].proc, l: btpColors[i].used.l} );
+            pts_l.push( { x: btpColors[i].proc, y: btpColors[i].used.l} );
           };
         } // for
-        // if no sliders used, use default
-        if ( fh.length === 0 ) {
-          fh.push( { proc: 50, h: btpDefaultHSL.h} );
-        };
-        if ( fh.length === 0 ) {
-          fh.push( { proc: 50, s: btpDefaultHSL.s} );
-        };
-        if ( fh.length === 0 ) {
-          fh.push( { proc: 50, l: btpDefaultHSL.l} );
-        };
-
-
-
+        // now calculate colors using found points
         for ( var i=0; i < btpColors.length; i++ ) {
-          btpColors[i].calc = btpDefaultHSL;
+          btpColors[i].calc.h = _btpColorsPoint( pts_h, btpDefaultH, btpColors[i].proc );
+          btpColors[i].calc.s = _btpColorsPoint( pts_s, btpDefaultS, btpColors[i].proc );
+          btpColors[i].calc.l = _btpColorsPoint( pts_l, btpDefaultL, btpColors[i].proc );
         }
+        var konec = 0;
       } // _btpColorsCalculate
+
+      // help function for _btpColorsCalculate
+      // points: array of x, y pairs
+      // default_y: y used if array is empty
+      // x: calculate y = f(x)
+      function _btpColorsPoint(points, default_y, x) {
+        // functions to calculate middle values
+        // for 2 points, y = a*x + b
+        function f2() {
+          var x0 = points[0].x;
+          var y0 = points[0].y;
+          var x1 = points[1].x;
+          var y1 = points[1].y;
+          var a = (y1 - y0) / (x1 - x0);
+          var b = y0 - a * x0;
+          var r = a * x + b;
+          return r;
+        }
+        // for 3 points, y = a*x*x + b*x + c
+        function f3() {
+          return null;
+        }
+        //
+        var r;
+        switch( points.length ) {
+          case 0:
+            r = default_y;
+            break;
+          case 1:
+            r = points[0].y;
+            break;
+          case 2:
+            r = f2();
+            break;
+          default:
+            r = null;
+        }
+        return r;
+      } // _btpColorsPoint
 
       function _mixHSL( pmix, hsl_1, proc_1, hsl_2, proc_2 ) {
         var w1, w2;
@@ -347,7 +368,8 @@
         // update colors
         $( '#mm-menu-color-update' ).on( 'click', function(ev) {
           ev.preventDefault();
-          _new_updateColorsTable();
+          // _new_updateColorsTable();
+          _btpColorsCalculate();
         });
 
         // close colors drop down
