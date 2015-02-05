@@ -1,18 +1,16 @@
 // colors
 @mm-color-text: #fff;
+@mm-color-text-selected: #000;
 @mm-color-background: #334;
 @mm-color-background-button: #556;
-@mm-color-background-hover: #000;
 
 // sizes
-@mm-width-color: 240px;
+@mm-width-color: 180px;
+@mm-width-slider: 270px;
 @mm-width-button: 120px;
 @mm-width-short-button: 18px;
 @mm-height: 30px;
 @mm-separate: 3px;
-// text (not used, because lines are flex)
-// @mm-height-line: @mm-height * 6 / 10;
-// @mm-height-font: @mm-height * 4 / 10;
 
 /* ----------------------------------------------------------------------------
  * main menu, draggable, displays in the middle of the page
@@ -54,6 +52,56 @@
 }
 
 /* ----------------------------------------------------------------------------
+ * custom popup to show more info about color
+ * ---------------------------------------------------------------------------- */
+.mm-color-view-popup {
+  position: fixed;
+  width: @mm-width-slider + @mm-width-button;
+
+  font-style: "Helvetica Neue", sans-serif;
+  font-size: @mm-height - 5 * @mm-separate;
+  line-height: @mm-height - 2 * @mm-separate;
+  font-weight: normal;
+  text-align: left;
+
+  margin: 0;
+  border: @mm-separate solid;
+  padding: @mm-separate  2 * @mm-separate;
+
+  z-index: 1100;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+ * custom popup to show more info about color
+ * ---------------------------------------------------------------------------- */
+.mm-help-popup {
+  position: fixed;
+  width: @mm-width-slider + @mm-width-button;
+
+  font-style: "Helvetica Neue", sans-serif;
+  font-size: @mm-height - 5 * @mm-separate;
+  line-height: @mm-height - 2 * @mm-separate;
+  font-weight: normal;
+  text-align: left;
+  color: @mm-color-text;
+  background-color: @mm-color-background;
+
+  margin: 0;
+  border: @mm-separate solid;
+  padding: @mm-separate  2 * @mm-separate;
+
+  z-index: 1100;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+/* ----------------------------------------------------------------------------
  * buttons
  * ---------------------------------------------------------------------------- */
 .mm-button-mixin(@width) {
@@ -73,7 +121,13 @@
 }
 
 .mm-menu-title {
-  .mm-button-mixin( 3 * @mm-width-button + 2 * @mm-separate );
+  .mm-button-mixin( 3 * @mm-width-button + @mm-separate - @mm-width-short-button );
+  cursor: move;
+}
+
+.mm-menu-help {
+  .mm-button-mixin( @mm-width-short-button );
+  cursor: help;
 }
 
 .mm-long-button {
@@ -86,11 +140,6 @@
 .mm-short-button {
   .mm-button-mixin( @mm-width-short-button );
 }
-
-// preveri, ce vse te spodaj rabis
-#mm-menu-drag { cursor: move; }
-#mm-menu-help { cursor: help; }
-#mm-menu-close { cursor: pointer; }
 
 /* ----------------------------------------------------------------------------
  * drop down menus
@@ -114,7 +163,7 @@
 #mm-menu-color-down {
   .mm-menu-down-mixin(1);
   left: 0;
-  width: 5 * @mm-width-short-button + 2 * @mm-width-color + 9 * @mm-separate;
+  width: 5 * @mm-width-short-button + @mm-width-color + @mm-width-slider + 9 * @mm-separate;
 
   .mm-long-button {
     margin-top: @mm-separate;
@@ -154,7 +203,7 @@
 
       &[show-slider] {
         background-color: @mm-color-text;
-        color: contrast(@mm-color-text);
+        color: @mm-color-text-selected;
       }
 
       &[show-slider]:hover {
@@ -167,15 +216,18 @@
       height: @mm-height;
       border: 0;
       padding: @mm-separate;
+
+      &:hover {
+        cursor: pointer;
+      }
     } // .mm-color-view
 
     .cp-container {
-      width: @mm-width-color;
+      width: @mm-width-slider;
       padding: @mm-separate;
       margin: 0px @mm-width-short-button;
 
       .cp-slider {
-        // width: @mm-width-color;
         height: @mm-height - 2 * @mm-separate;
         margin: 0;
       }

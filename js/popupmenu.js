@@ -7,21 +7,21 @@
       var
         title = 'Bootstrap Theme Playground',
         settings,
-        // can not use false or 0, because it can be a legal value
-        empty = 'E',
         // default color (use whenever there is no user choosen value))
         btpDefaultH = 180,
         btpDefaultS = 0.6,
         btpDefaultL = 0.5,
+        // constant for not used (can not use false or 0, because it can be a legal value)
+        empty = 'E',
         // colors used in the table (array of objects)
         // proc: 50, // 0..100 (x axis for color mixes)
-        // init: {h: false, s: false, l: false}   // startup defaults, false, if slider is hidden or hsl value if shown
+        // init: {h: empty, s: empty, l: empty}   // startup defaults, false, if slider is hidden or hsl value if shown
         //    or {h: 120, s: 0.5, l: 0.5}
-        // used: {h: false, s: false, l: false}   // same as init, updated when user clicks
-        // calc: {h: 120, s: 0.5, l: 0.5}         // calculated hsl values
+        // used: same as init, updated when user clicks
+        // calc: calculated hsl values
         btpColors = [
-          { proc: 100, init: {h: empty, s: empty, l: 0.999}, used: {}, calc: {} },
-          { proc:  96, init: {h: empty, s: empty, l: empty}, used: {}, calc: {} },
+          { proc: 100, init: {h: empty, s: empty, l: empty}, used: {}, calc: {} },
+          { proc:  96, init: {h: empty, s: empty, l: 0.96 }, used: {}, calc: {} },
           { proc:  92, init: {h: empty, s: empty, l: empty}, used: {}, calc: {} },
           { proc:  88, init: {h: empty, s: empty, l: empty}, used: {}, calc: {} },
           { proc:  80, init: {h: empty, s: empty, l: empty}, used: {}, calc: {} },
@@ -30,9 +30,24 @@
           { proc:  32, init: {h: empty, s: empty, l: empty}, used: {}, calc: {} },
           { proc:  26, init: {h: empty, s: empty, l: empty}, used: {}, calc: {} },
           { proc:  20, init: {h: empty, s: empty, l: empty}, used: {}, calc: {} },
-          { proc:  12, init: {h: empty, s: empty, l: empty}, used: {}, calc: {} },
-          { proc:   0, init: {h: empty, s: empty, l: 0.001}, used: {}, calc: {} }
+          { proc:  12, init: {h: empty, s: empty, l: 0.12 }, used: {}, calc: {} },
+          { proc:   0, init: {h: empty, s: empty, l: empty}, used: {}, calc: {} }
         ],
+        // bootstrap color descriptions for _colorViewPopup
+        btpDescription = {
+          '100': 'default lightness: 100%, color #fff <br> bootstrap: most backgrounds and active components',
+           '96': 'default lightness 96%, color #f5f5f5 <br> bootstrap: hoover on elements, other backgrounds',
+           '92': 'default lightness 96%, color #eee, @gray-lighter <br> bootstrap: nav and pagination hoover, jumbotron bg',
+           '88': 'default lightness 88%, color #ddd <br> bootstrap: most borders ',
+           '80': 'default lightness 80% default color #ccc <br> bootstrap: button and input borders',
+           '60': 'default lightness 60% default color #999 <br> bootstrap: input placeholder text',
+           '50': 'default lightness 50% default color #777, @gray-light <br> bootstrap: default navbar, disabled button, dropdown and pagination',
+           '32': 'default lightness 32% default color #555, @gray <br> bootstrap: input text, navbar active and hoover',
+           '26': 'default lightness 26% default color #444 <br> bootstrap: inverse navbar link disabled',
+           '20': 'default lightness 20% default color #333, @gray-dark <br> bootstrap: text',
+           '12': 'default lightness 12% default color #222, @gray-darker <br> bootstrap: inverse navbar bg',
+            '0': 'default lightness 0% default color #000 <br> bootstrap: tooltip and modal bg'
+        },
         // default sliders options
         cpDefault = {
           previewformat: 'hsl-rgb',
@@ -48,10 +63,11 @@
         lastVar;
       // end of variables
 
-      // working
+      // ----- initialize, show menus and wait for user actions ---------------
       _initSettings();
       _showPopover();
       _bindEvents();
+      // ----------------------------------------------------------------------
 
       function _initSettings() {
         // init options
@@ -84,7 +100,8 @@
         // dragable top
         popup_menu_html += '<ul>' ;
         popup_menu_html +=
-          '<li><span class="mm-menu-title mm-menu-top" id="mm-menu-drag">' + title + '</span></li>';
+          '<li><span class="mm-menu-title mm-menu-top" id="mm-menu-drag">' + title + '</span></li>' +
+          '<li><span class="mm-menu-help">' + '?' + '</span></li>';
         popup_menu_html += '</ul>' ;
         // menus
         popup_menu_html += '<ul>' ;
@@ -169,7 +186,7 @@
         $( '.mm-color-line' ).each( function() {
           _showLineSliders( $(this) );
         });
-        } // updateSlidersHTML
+      } // updateSlidersHTML
 
       function _showLineSliders( line ) {
         // line is jquery object
@@ -197,6 +214,29 @@
         }
       } // _showLineSliders
 
+      function _colorViewPopup( element, event ) {
+        var val = element.val();
+        var col = element.css('color');
+        var bck = element.css('background-color');
+        var rgb = tinycolor(bck).toRgbString();
+        var id = element.parent().attr('id');
+        var i = id.slice( id.lastIndexOf('-')+1 );
+        var text = val + '&nbsp;&nbsp;' + rgb + '<br>' + btpDescription[i];
+        var pop = $( '<div class="mm-color-view-popup">' + text + '</div>').css({
+          'background-color': bck,
+          'color': col,
+          'border-color': col,
+          'left': event.clientX-30,
+          'top': event.clientY-30
+          });
+        element.after( pop );
+        // close it on next click
+        $( '.mm-color-view-popup' ).on( 'click', function(ev) {
+          ev.preventDefault();
+          $(this).remove();
+        });
+      } // _colorViewPopup
+
       function _updateColorsHTML() {
         for (var i = 0; i < btpColors.length; i++) {
           var color_input = $( '#mm-color-edit-' + btpColors[i].proc + ' .mm-color-view' );
@@ -214,7 +254,7 @@
         }
       } // _btpUpdateUsedFromInit
 
-      function _updateUsedFromHTML() {
+      function _btpUpdateUsedFromHTML() {
         for (var i = 0; i < btpColors.length; i++) {
           var line = $( '#mm-color-edit-' + btpColors[i].proc );
           var color = tinycolor( line.find( '.mm-color-view' ).val() );
@@ -238,7 +278,7 @@
             btpColors[i].used.l = empty;
           };
         }
-      } // _updateUsedFromHTML
+      } // _btpUpdateUsedFromHTML
 
       function _btpColorsCalculate() {
         // sliders (shown by user) === points
@@ -257,41 +297,67 @@
         } // for
         // now calculate colors using found points
         for ( var i=0; i < btpColors.length; i++ ) {
-          btpColors[i].calc.h = (_btpColorsPoint( pts_h, btpDefaultH, btpColors[i].proc ) + 360) % 360;
+          btpColors[i].calc.h = ( _btpColorsPoint( pts_h, btpDefaultH, btpColors[i].proc ) + 360 ) % 360;
           btpColors[i].calc.s = _btpColorsPoint( pts_s, btpDefaultS, btpColors[i].proc );
           btpColors[i].calc.l = _btpColorsPoint( pts_l, btpDefaultL, btpColors[i].proc );
         }
-        var konec = 0;
       } // _btpColorsCalculate
 
       // help function for _btpColorsCalculate
       // points: array of x, y pairs
       // default_y: y used if array is empty
-      // x: calculate y = f(x)
+      // x: input parameter for y = f(x)
       function _btpColorsPoint(points, default_y, x) {
-        var r;
+        var y;
         if( points.length == 0 ) {
-          r = default_y;
+          // no user choice, use default
+          y = default_y;
         } else if ( points.length == 1 ) {
-          r = points[0].y;
+          // single user choice, use it everywhere
+          y = points[0].y;
         } else {
+          // multiple user choices
+          // first find the 2 points around x
           var i = 0;
           do {
             var p0 = points[i];
             var p1 = points[i+1];
             i++;
           } while ( x < p1.x && i < points.length-1 );
+          // y = linear aproximation
           var a = (p1.y - p0.y) / (p1.x - p0.x);
           var b = p0.y - a * p0.x;
-          r = a * x + b;
+          y = a * x + b;
         }
-        return r;
+        return y;
       } // _btpColorsPoint
+
+
+      function _helpPopup( event ) {
+        var text = 'help';
+        var pop = $( '<div class="mm-help-popup">' + text + '</div>').css({
+          'left': event.clientX,
+          'top': event.clientY
+          });
+        $( 'body' ).after( pop );
+        $( '.mm-help-popup' ).on( 'click', function(ev) {
+          ev.preventDefault();
+          $(this).remove();
+        });
+      }
+
 
       function _onColorChange(container, color) {
       } // _onColorChange
 
       function _bindEvents() {
+
+        // show help
+        $( '.mm-menu-help' ).on( 'click', function(ev) {
+          ev.preventDefault();
+          _helpPopup( ev );
+        });
+
         // open clicked drop down menu and close all others
         $( '.mm-menu-top' ).on( 'click', function(ev) {
           ev.preventDefault();
@@ -311,7 +377,7 @@
         // update colors
         $( '#mm-menu-color-update' ).on( 'click', function(ev) {
           ev.preventDefault();
-          _updateUsedFromHTML();
+          _btpUpdateUsedFromHTML();
           _btpColorsCalculate();
           _updateColorsHTML();
           _updateSlidersHTML();
@@ -336,6 +402,12 @@
           };
           // show or hide sliders
           _showLineSliders( line );
+        });
+
+        // show info about color (popup)
+        $( '.mm-color-view' ).on( 'click', function(ev) {
+          ev.preventDefault();
+          _colorViewPopup( $(this), ev );
         });
 
       } // _bindEvents

@@ -31,20 +31,76 @@
   padding: 0 3px 3px 0;
 }
 /* ----------------------------------------------------------------------------
+ * custom popup to show more info about color
+ * ---------------------------------------------------------------------------- */
+.mm-color-view-popup {
+  position: fixed;
+  width: 390px;
+  font-style: "Helvetica Neue", sans-serif;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: normal;
+  text-align: left;
+  margin: 0;
+  border: 3px solid;
+  padding: 3px 6px;
+  z-index: 1100;
+}
+.mm-color-view-popup:hover {
+  cursor: pointer;
+}
+/* ----------------------------------------------------------------------------
+ * custom popup to show more info about color
+ * ---------------------------------------------------------------------------- */
+.mm-help-popup {
+  position: fixed;
+  width: 390px;
+  font-style: "Helvetica Neue", sans-serif;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: normal;
+  text-align: left;
+  color: #ffffff;
+  background-color: #333344;
+  margin: 0;
+  border: 3px solid;
+  padding: 3px 6px;
+  z-index: 1100;
+}
+.mm-help-popup:hover {
+  cursor: pointer;
+}
+/* ----------------------------------------------------------------------------
  * buttons
  * ---------------------------------------------------------------------------- */
 .mm-menu-title {
   display: block;
   height: 30px;
-  width: 366px;
+  width: 345px;
   padding: 6px;
   color: #ffffff;
   background-color: #555566;
   overflow: hidden;
   text-decoration: none;
   white-space: nowrap;
+  cursor: move;
 }
 .mm-menu-title:hover {
+  background-color: #86869b;
+}
+.mm-menu-help {
+  display: block;
+  height: 30px;
+  width: 18px;
+  padding: 6px;
+  color: #ffffff;
+  background-color: #555566;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: help;
+}
+.mm-menu-help:hover {
   background-color: #86869b;
 }
 .mm-long-button {
@@ -78,15 +134,6 @@
 .mm-short-button:hover {
   background-color: #86869b;
 }
-#mm-menu-drag {
-  cursor: move;
-}
-#mm-menu-help {
-  cursor: help;
-}
-#mm-menu-close {
-  cursor: pointer;
-}
 /* ----------------------------------------------------------------------------
  * drop down menus
  * ---------------------------------------------------------------------------- */
@@ -108,7 +155,7 @@
   background-color: #333344;
   display: none;
   left: 0;
-  width: 597px;
+  width: 567px;
 }
 #mm-menu-color-down .mm-long-button {
   margin-top: 3px;
@@ -175,13 +222,16 @@
   background-color: #cccccc;
 }
 #mm-color-menu-container .mm-color-line .mm-color-view {
-  width: 240px;
+  width: 180px;
   height: 30px;
   border: 0;
   padding: 3px;
 }
+#mm-color-menu-container .mm-color-line .mm-color-view:hover {
+  cursor: pointer;
+}
 #mm-color-menu-container .mm-color-line .cp-container {
-  width: 240px;
+  width: 270px;
   padding: 3px;
   margin: 0px 18px;
 }
