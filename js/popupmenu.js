@@ -6,6 +6,7 @@
 
       var
         title = 'Bootstrap Theme Playground',
+        version = '0.6',
         settings,
         // default color (use whenever there is no user choosen value))
         btpDefaultH = 180,
@@ -100,7 +101,6 @@
           options = {};
         }
         settings = $.extend({
-          title: '',
           lastOption: null
         }, options);
       }; // _initSettings
@@ -126,7 +126,8 @@
         // dragable top
         popup_menu_html += '<ul>' ;
         popup_menu_html +=
-          '<li><span class="mm-menu-title mm-menu-top" id="mm-menu-drag">' + title + '</span></li>' +
+          '<li><span class="mm-menu-title mm-menu-top" id="mm-menu-drag">' + title +
+            '<span style="font-size:80%">&nbsp;&nbsp;&nbsp;(ver. ' + version + ')</span></span></li>' +
           '<li><span class="mm-menu-help">' + '?' + '</span></li>';
         popup_menu_html += '</ul>' ;
         // menus
@@ -167,7 +168,7 @@
       } // _getMainHTML
 
       function _getFileHTML() {
-        var result = 
+        var result =
           // title
           '<div class="mm-down-title">File</div>' +
           // content
@@ -180,9 +181,9 @@
           '</ul>';
         return result;
       }
-      
+
       function _getColorsHTML () {
-        var result = 
+        var result =
           // title
           '<div class="mm-down-title">Base Colors</div>' +
           // content
@@ -208,7 +209,7 @@
       } // _getColorsHTML
 
       function _getBrandHTML () {
-        var result = 
+        var result =
           // title
           '<div id="mm-brand-menu-container">' +
           // content
@@ -222,7 +223,7 @@
               '<input type="text" class="mm-color-view" readonly data-color-format="hsl">' +
             '</div>';
         }
-        result += 
+        result +=
           '</div>' +
           // menu buttons
           '<ul>' +
@@ -231,9 +232,9 @@
           '</ul>';
         return result;
       } // _getBrandHTML
-      
+
       function _getFontsHTML() {
-        var result = 
+        var result =
           // title
           '<div id="mm-fonts-menu-container">' +
           // content

@@ -76,13 +76,14 @@
 .mm-menu-title {
   display: block;
   height: 30px;
-  width: 345px;
+  width: 468px;
   padding: 6px;
   color: #ffffff;
   background-color: #555566;
   overflow: hidden;
   text-decoration: none;
   white-space: nowrap;
+  background-color: #333344;
   cursor: move;
 }
 .mm-menu-title:hover {
@@ -139,52 +140,83 @@
  * ---------------------------------------------------------------------------- */
 #mm-menu-file-down {
   position: absolute;
-  left: 0px;
-  top: 33px;
-  width: 126px;
-  color: #ffffff;
-  background-color: #333344;
-  display: none;
-}
-#mm-menu-color-down {
-  position: absolute;
-  left: 123px;
-  top: 33px;
-  width: 126px;
-  color: #ffffff;
-  background-color: #333344;
-  display: none;
   left: 0;
-  width: 567px;
+  top: 33px;
+  width: 600px;
+  color: #ffffff;
+  background-color: #333344;
+  display: none;
 }
-#mm-menu-color-down .mm-long-button {
+#mm-menu-file-down .mm-down-title {
+  color: #333344;
+  background-color: #cccccc;
+  border: 3px solid #333344;
+  font-weight: bolder;
+}
+#mm-menu-file-down .mm-long-button {
   margin-top: 3px;
 }
-#mm-menu-font-down {
+#mm-menu-color-down,
+#mm-menu-brand-down {
   position: absolute;
-  left: 246px;
+  left: 0;
   top: 33px;
-  width: 126px;
+  width: 600px;
+  color: #ffffff;
+  background-color: #333344;
+  display: none;
+  width: 567px;
+}
+#mm-menu-color-down .mm-down-title,
+#mm-menu-brand-down .mm-down-title {
+  color: #333344;
+  background-color: #cccccc;
+  border: 3px solid #333344;
+  font-weight: bolder;
+}
+#mm-menu-color-down .mm-long-button,
+#mm-menu-brand-down .mm-long-button {
+  margin-top: 3px;
+}
+#mm-menu-fonts-down {
+  position: absolute;
+  left: 0;
+  top: 33px;
+  width: 600px;
   color: #ffffff;
   background-color: #333344;
   display: none;
 }
+#mm-menu-fonts-down .mm-down-title {
+  color: #333344;
+  background-color: #cccccc;
+  border: 3px solid #333344;
+  font-weight: bolder;
+}
+#mm-menu-fonts-down .mm-long-button {
+  margin-top: 3px;
+}
 /* ----------------------------------------------------------------------------
- * color edit menu
+ * color and brand edit menu
  * ---------------------------------------------------------------------------- */
-#mm-color-menu-container {
+#mm-color-menu-container,
+#mm-brand-menu-container {
   color: #ffffff;
   background-color: #333344;
   font-weight: normal;
   margin: 9px 6px 0 6px;
 }
-#mm-color-menu-container .mm-color-line {
+#mm-color-menu-container .mm-color-line,
+#mm-brand-menu-container .mm-color-line {
   display: flex;
   margin: 3px;
 }
 #mm-color-menu-container .mm-color-line .mm-color-H,
+#mm-brand-menu-container .mm-color-line .mm-color-H,
 #mm-color-menu-container .mm-color-line .mm-color-S,
-#mm-color-menu-container .mm-color-line .mm-color-L {
+#mm-brand-menu-container .mm-color-line .mm-color-S,
+#mm-color-menu-container .mm-color-line .mm-color-L,
+#mm-brand-menu-container .mm-color-line .mm-color-L {
   display: block;
   height: 30px;
   width: 18px;
@@ -200,46 +232,63 @@
   padding: 3px;
 }
 #mm-color-menu-container .mm-color-line .mm-color-H:hover,
+#mm-brand-menu-container .mm-color-line .mm-color-H:hover,
 #mm-color-menu-container .mm-color-line .mm-color-S:hover,
-#mm-color-menu-container .mm-color-line .mm-color-L:hover {
+#mm-brand-menu-container .mm-color-line .mm-color-S:hover,
+#mm-color-menu-container .mm-color-line .mm-color-L:hover,
+#mm-brand-menu-container .mm-color-line .mm-color-L:hover {
   background-color: #86869b;
 }
 #mm-color-menu-container .mm-color-line .mm-color-H:hover,
+#mm-brand-menu-container .mm-color-line .mm-color-H:hover,
 #mm-color-menu-container .mm-color-line .mm-color-S:hover,
-#mm-color-menu-container .mm-color-line .mm-color-L:hover {
+#mm-brand-menu-container .mm-color-line .mm-color-S:hover,
+#mm-color-menu-container .mm-color-line .mm-color-L:hover,
+#mm-brand-menu-container .mm-color-line .mm-color-L:hover {
   background-color: #86869b;
   cursor: pointer;
 }
 #mm-color-menu-container .mm-color-line .mm-color-H[show-slider],
+#mm-brand-menu-container .mm-color-line .mm-color-H[show-slider],
 #mm-color-menu-container .mm-color-line .mm-color-S[show-slider],
-#mm-color-menu-container .mm-color-line .mm-color-L[show-slider] {
+#mm-brand-menu-container .mm-color-line .mm-color-S[show-slider],
+#mm-color-menu-container .mm-color-line .mm-color-L[show-slider],
+#mm-brand-menu-container .mm-color-line .mm-color-L[show-slider] {
   background-color: #ffffff;
   color: #000000;
 }
 #mm-color-menu-container .mm-color-line .mm-color-H[show-slider]:hover,
+#mm-brand-menu-container .mm-color-line .mm-color-H[show-slider]:hover,
 #mm-color-menu-container .mm-color-line .mm-color-S[show-slider]:hover,
-#mm-color-menu-container .mm-color-line .mm-color-L[show-slider]:hover {
+#mm-brand-menu-container .mm-color-line .mm-color-S[show-slider]:hover,
+#mm-color-menu-container .mm-color-line .mm-color-L[show-slider]:hover,
+#mm-brand-menu-container .mm-color-line .mm-color-L[show-slider]:hover {
   background-color: #cccccc;
 }
-#mm-color-menu-container .mm-color-line .mm-color-view {
+#mm-color-menu-container .mm-color-line .mm-color-view,
+#mm-brand-menu-container .mm-color-line .mm-color-view {
   width: 180px;
   height: 30px;
   border: 0;
   padding: 3px;
 }
-#mm-color-menu-container .mm-color-line .mm-color-view:hover {
+#mm-color-menu-container .mm-color-line .mm-color-view:hover,
+#mm-brand-menu-container .mm-color-line .mm-color-view:hover {
   cursor: pointer;
 }
-#mm-color-menu-container .mm-color-line .cp-container {
+#mm-color-menu-container .mm-color-line .cp-container,
+#mm-brand-menu-container .mm-color-line .cp-container {
   width: 270px;
   padding: 3px;
   margin: 0px 18px;
 }
-#mm-color-menu-container .mm-color-line .cp-container .cp-slider {
+#mm-color-menu-container .mm-color-line .cp-container .cp-slider,
+#mm-brand-menu-container .mm-color-line .cp-container .cp-slider {
   height: 24px;
   margin: 0;
 }
-#mm-color-menu-container .mm-color-line .cp-container .cp-sliderbutton {
+#mm-color-menu-container .mm-color-line .cp-container .cp-sliderbutton,
+#mm-brand-menu-container .mm-color-line .cp-container .cp-sliderbutton {
   display: block;
   height: 30px;
   width: 18px;
@@ -255,13 +304,16 @@
   border: 1px solid;
   padding: 3px;
 }
-#mm-color-menu-container .mm-color-line .cp-container .cp-sliderbutton:hover {
+#mm-color-menu-container .mm-color-line .cp-container .cp-sliderbutton:hover,
+#mm-brand-menu-container .mm-color-line .cp-container .cp-sliderbutton:hover {
   background-color: #86869b;
 }
-#mm-color-menu-container .mm-color-line .cp-container .cp-sliderbutton-minus {
+#mm-color-menu-container .mm-color-line .cp-container .cp-sliderbutton-minus,
+#mm-brand-menu-container .mm-color-line .cp-container .cp-sliderbutton-minus {
   left: -18px;
 }
-#mm-color-menu-container .mm-color-line .cp-container .cp-sliderbutton-plus {
+#mm-color-menu-container .mm-color-line .cp-container .cp-sliderbutton-plus,
+#mm-brand-menu-container .mm-color-line .cp-container .cp-sliderbutton-plus {
   left: 18px;
 }
 /* ----------------------------------------------------------------------------
