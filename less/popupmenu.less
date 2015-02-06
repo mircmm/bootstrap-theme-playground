@@ -121,7 +121,8 @@
 }
 
 .mm-menu-title {
-  .mm-button-mixin( 3 * @mm-width-button + @mm-separate - @mm-width-short-button );
+  .mm-button-mixin( 4 * ( @mm-width-button + @mm-separate ) - @mm-width-short-button - 2 * @mm-separate );
+  background-color: @mm-color-background;
   cursor: move;
 }
 
@@ -144,40 +145,48 @@
 /* ----------------------------------------------------------------------------
  * drop down menus
  * ---------------------------------------------------------------------------- */
-.mm-menu-down-mixin (@menu-number) {
+.mm-menu-down-mixin () {
   position: absolute;
-  left: @menu-number * @mm-width-button + @menu-number * @mm-separate;
+  left: 0;
   top: @mm-height + @mm-separate;
-  width: @mm-width-button  + 2 * @mm-separate;
+  width: 5 * @mm-width-button;
 
   color: @mm-color-text;
   background-color: @mm-color-background;
 
   display: none;
-}
 
-#mm-menu-file-down {
-  .mm-menu-down-mixin(0);
-}
-
-#mm-menu-color-down {
-  .mm-menu-down-mixin(1);
-  left: 0;
-  width: 5 * @mm-width-short-button + @mm-width-color + @mm-width-slider + 9 * @mm-separate;
-
+  .mm-down-title {
+    color: @mm-color-background;
+    background-color: darken(@mm-color-text, 20%);
+    border: @mm-separate solid @mm-color-background;
+    font-weight: bolder;
+  }
+  
   .mm-long-button {
     margin-top: @mm-separate;
   }
-} // #mm-menu-color-down
+}
 
-#mm-menu-font-down {
-  .mm-menu-down-mixin(2);
+#mm-menu-file-down {
+  .mm-menu-down-mixin();
+}
+
+#mm-menu-color-down,
+#mm-menu-brand-down {
+  .mm-menu-down-mixin();
+  width: 5 * @mm-width-short-button + @mm-width-color + @mm-width-slider + 9 * @mm-separate;
+} 
+
+#mm-menu-fonts-down {
+  .mm-menu-down-mixin();
 }
 
 /* ----------------------------------------------------------------------------
- * color edit menu
+ * color and brand edit menu
  * ---------------------------------------------------------------------------- */
-#mm-color-menu-container {
+#mm-color-menu-container,
+#mm-brand-menu-container {
   color: @mm-color-text;
   background-color: @mm-color-background;
   font-weight: normal;
@@ -207,7 +216,7 @@
       }
 
       &[show-slider]:hover {
-        background-color: darken(#fff, 20%);
+        background-color: darken(@mm-color-text, 20%);
       }
     } // mm-color-H, S, L
 

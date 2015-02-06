@@ -1,0 +1,65 @@
+najprej zdruzi fork v master !
+
+menu Typography
+===============
+
+// ----- font -----------------------------------------------------------------
+
+poglej si: 
+https://developers.google.com/fonts/docs/getting_started
+https://github.com/typekit/webfontloader
+
+
+@font-family-sans-serif:  "Helvetica Neue", Helvetica, Arial, sans-serif;
+@font-family-serif:       Georgia, "Times New Roman", Times, serif;
+@font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace;
+
+@font-family-base:        @font-family-sans-serif;
+choose sans-serif or serif
+
+TO DO
+izberi ta 2 fonta iz Google fonts
+@font-family-base:        
+@font-family-monospace:   
+
+
+
+// ----- font size ------------------------------------------------------------
+@font-size-base:          14px;
+
+TO DO (predefined)
+10
+12
+14 <-- default
+16
+18
+20
+
+// ----- padding --------------------------------------------------------------
+@padding-large-vertical:    10px;
+@padding-large-horizontal:  16px;
+@padding-base-vertical:     6px;
+@padding-base-horizontal:   12px;
+@padding-small-vertical:    5px;
+@padding-small-horizontal:  10px;
+@padding-xs-vertical:       1px;
+@padding-xs-horizontal:     5px;
+
+TO DO (predefined)
+ 6 12   4  8   3  6   1 3  
+ 7 14   5 10   4  8   1 4  
+ 8 16   6 12   5 10   1 5  <-- default
+10 18   7 14   6 12   2 6  
+12 20   8 16   7 14   2 7
+
+// ----- border radius --------------------------------------------------------
+@border-radius-base:        4px;
+@border-radius-large:       6px;  <-- 1.5 * base, zaokrozi navzgor
+@border-radius-small:       3px;  <-- 0.75 * base, zaokrozi navzdol
+
+TO DO (predefined)
+0 0 0 
+2 3 5
+3 4 6  <<- default
+4 6 9
+6 8 12

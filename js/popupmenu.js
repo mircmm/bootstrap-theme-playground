@@ -13,6 +13,13 @@
         btpDefaultL = 0.5,
         // constant for not used (can not use false or 0, because it can be a legal value)
         empty = 'E',
+        // ----- base colors -----
+        // @gray-base:              #000;
+        // @gray-darker:            lighten(@gray-base, 13.5%); // #222 --> L: 12
+        // @gray-dark:              lighten(@gray-base, 20%);   // #333 --> L: 20
+        // @gray:                   lighten(@gray-base, 33.5%); // #555 --> L: 32
+        // @gray-light:             lighten(@gray-base, 46.7%); // #777 --> L: 50
+        // @gray-lighter:           lighten(@gray-base, 93.5%); // #eee --> L: 92
         // colors used in the table (array of objects)
         // proc: 50, // 0..100 (x axis for color mixes)
         // init: {h: empty, s: empty, l: empty}   // startup defaults, false, if slider is hidden or hsl value if shown
@@ -33,6 +40,19 @@
           { proc:  12, init: {h: empty, s: empty, l: 0.12 }, used: {}, calc: {} },
           { proc:   0, init: {h: empty, s: empty, l: empty}, used: {}, calc: {} }
         ],
+        // ----- brand colors -----
+        // @brand-primary:         #337ab7;
+        // @brand-success:         #5cb85c;
+        // @brand-info:            #5bc0de;
+        // @brand-warning:         #f0ad4e;
+        // @brand-danger:          #d9534f;
+        btpBrand = [
+          { proc: 'primary', init: '#337ab7', used: empty },
+          { proc: 'success', init: '#5cb85c', used: empty },
+          { proc: 'info',    init: '#5bc0de', used: empty },
+          { proc: 'warning', init: '#f0ad4e', used: empty },
+          { proc: 'danger',  init: '#d9534f', used: empty }
+        ],
         // bootstrap color descriptions for _colorViewPopup
         btpDescription = {
           '100': 'default lightness: 100%, color #fff <br> bootstrap: most backgrounds and active components',
@@ -46,11 +66,16 @@
            '26': 'default lightness 26% default color #444 <br> bootstrap: inverse navbar link disabled',
            '20': 'default lightness 20% default color #333, @gray-dark <br> bootstrap: text',
            '12': 'default lightness 12% default color #222, @gray-darker <br> bootstrap: inverse navbar bg',
-            '0': 'default lightness 0% default color #000 <br> bootstrap: tooltip and modal bg'
+            '0': 'default lightness 0% default color #000 <br> bootstrap: tooltip and modal bg',
+          'primary': 'default: #337ab7 <br> bootstrap: brand primary color',
+          'success': 'default: #5cb85c <br> bootstrap: brand success color',
+             'info': 'default: #5bc0de <br> bootstrap: brand info color',
+          'warning': 'default: #f0ad4e <br> bootstrap: brand warning color',
+           'danger': 'default: #d9534f <br> bootstrap: brand danger color'
         },
         // default sliders options
         cpDefault = {
-          previewformat: 'hsl-rgb',
+//          previewformat: 'hsl-rgb',
           previewontriggerelement: true,
           rendervalues: true,
           slidersplusminus: true,
@@ -82,7 +107,7 @@
 
       function _showPopover() {
         // create and display main menu
-        $('<div id="mm-menu-main"></div>').appendTo('body').html( _getControllerHtml() );
+        $('<div id="mm-menu-main"></div>').appendTo('body').html( _getMainHTML() );
         // make menu draggable inside browser window
         $( '#mm-menu-main' ).draggable({
           handle: '#mm-menu-drag',
@@ -92,10 +117,11 @@
         _btpUpdateUsedFromInit();
         _btpColorsCalculate();
         _updateColorsHTML();
+        _updateBrandHTML();
         _updateSlidersHTML();
       } // showPopover
 
-      function _getControllerHtml() {
+      function _getMainHTML() {
         var popup_menu_html = '';
         // dragable top
         popup_menu_html += '<ul>' ;
@@ -109,47 +135,60 @@
         popup_menu_html +=
           '<li>' +
             '<span class="mm-long-button mm-menu-top" id="mm-menu-file">File</span>' +
-            '<div id="mm-menu-file-down">' +
-              '<ul>' +
-                '<li><span class="mm-long-button" id="mm-menu-file-1">file1</span></li>' +
-                '<li><span class="mm-long-button" id="mm-menu-file-2">file2</span></li>' +
-              '</ul>' +
-            '</div>' +
+            '<div id="mm-menu-file-down">' + _getFileHTML() + '</div>' +
           '</li>';
-        // color menu
+        // base colors menu
         popup_menu_html +=
           '<li>' +
-            '<span class="mm-long-button mm-menu-top" id="mm-menu-color">Color</span>' +
+            '<span class="mm-long-button mm-menu-top" id="mm-menu-color">Base Colors</span>' +
             '<div id="mm-menu-color-down">' +
-              _getColorsTable() +
-              '<ul>' +
-                '<li><span class="mm-long-button" id="mm-menu-color-defaults">Defaults</span></li>' +
-                '<li><span class="mm-long-button" id="mm-menu-color-update">Colors</span></li>' +
-                '<li><span class="mm-long-button" id="mm-menu-color-close">Close</span></li>' +
-              '</ul>' +
+              _getColorsHTML() +
             '</div>' +
           '</li>';
-        // font menu
+        // brand colors menu
         popup_menu_html +=
           '<li>' +
-            '<span class="mm-long-button mm-menu-top" id="mm-menu-font">Font</span>' +
-            '<div id="mm-menu-font-down">' +
-              '<ul>' +
-                '<li><span class="mm-long-button" id="mm-menu-font-1">font1</span></li>' +
-                '<li><span class="mm-long-button" id="mm-menu-font-2">font2</span></li>' +
-              '</ul>' +
+            '<span class="mm-long-button mm-menu-top" id="mm-menu-brand">Brand Colors</span>' +
+            '<div id="mm-menu-brand-down">' +
+              _getBrandHTML() +
+            '</div>' +
+          '</li>';
+        // fonts menu
+        popup_menu_html +=
+          '<li>' +
+            '<span class="mm-long-button mm-menu-top" id="mm-menu-fonts">Typography</span>' +
+            '<div id="mm-menu-fonts-down">' +
+              _getFontsHTML() +
             '</div>' +
           '</li>';
         // end of menus
         popup_menu_html += '</ul>' ;
         return popup_menu_html;
-      } // _getControllerHtml
+      } // _getMainHTML
 
-      function _getColorsTable () {
-        var colors_html = '<div id="mm-color-menu-container">';
-        // create color edit line for each lightness
+      function _getFileHTML() {
+        var result = 
+          // title
+          '<div class="mm-down-title">File</div>' +
+          // content
+          '<div id="mm-file-menu-container">' +
+          // TODO
+          '</div>' +
+          // menu buttons
+          '<ul>' +
+            '<li><span class="mm-long-button" id="mm-menu-file-close">Close</span></li>' +
+          '</ul>';
+        return result;
+      }
+      
+      function _getColorsHTML () {
+        var result = 
+          // title
+          '<div class="mm-down-title">Base Colors</div>' +
+          // content
+          '<div id="mm-color-menu-container">';
         for (var i = 0; i < btpColors.length; i++) {
-          colors_html +=
+          result +=
             '<div id="mm-color-edit-' + btpColors[i].proc + '" class="mm-color-line">' +
               '<div class="mm-color-H">H</div>' +
               '<div class="mm-color-S">S</div>' +
@@ -157,9 +196,57 @@
               '<input type="text" class="mm-color-view" readonly data-color-format="hsl">' +
             '</div>';
         }
-        colors_html += '</div>';
-        return colors_html;
-      } // _getColorsTable
+        result +=
+          '</div>' +
+          // menu buttons
+          '<ul>' +
+            '<li><span class="mm-long-button" id="mm-menu-color-defaults">Defaults</span></li>' +
+            '<li><span class="mm-long-button" id="mm-menu-color-update">Update</span></li>' +
+            '<li><span class="mm-long-button" id="mm-menu-color-close">Close</span></li>' +
+          '</ul>';
+        return result;
+      } // _getColorsHTML
+
+      function _getBrandHTML () {
+        var result = 
+          // title
+          '<div id="mm-brand-menu-container">' +
+          // content
+          '<div class="mm-down-title">Brand Colors</div>';
+        for (var i = 0; i < btpBrand.length; i++) {
+          result +=
+            '<div id="mm-color-edit-' + btpBrand[i].proc + '" class="mm-color-line">' +
+              '<div class="mm-color-H" show-slider="true">H</div>' +
+              '<div class="mm-color-S" show-slider="true">S</div>' +
+              '<div class="mm-color-L" show-slider="true">L</div>' +
+              '<input type="text" class="mm-color-view" readonly data-color-format="hsl">' +
+            '</div>';
+        }
+        result += 
+          '</div>' +
+          // menu buttons
+          '<ul>' +
+            '<li><span class="mm-long-button" id="mm-menu-brand-defaults">Defaults</span></li>' +
+            '<li><span class="mm-long-button" id="mm-menu-brand-close">Close</span></li>' +
+          '</ul>';
+        return result;
+      } // _getBrandHTML
+      
+      function _getFontsHTML() {
+        var result = 
+          // title
+          '<div id="mm-fonts-menu-container">' +
+          // content
+          '<div class="mm-down-title">Tipography</div>' +
+          // TODO
+          '</div>' +
+          // menu buttons
+          '<ul>' +
+            '<li><span class="mm-long-button" id="mm-menu-fonts-defaults">Defaults</span></li>' +
+            '<li><span class="mm-long-button" id="mm-menu-fonts-close">Close</span></li>' +
+          '</ul>';
+        return result;
+      }
 
       function _updateSlidersHTML() {
         // select/unselect HSL buttons
@@ -247,10 +334,23 @@
         }
       } // _updateColorsHTML
 
+      function _updateBrandHTML() {
+        for (var i = 0; i < btpBrand.length; i++) {
+          var color_input = $( '#mm-color-edit-' + btpBrand[i].proc + ' .mm-color-view' );
+          var color_hsl = tinycolor( btpBrand[i].used ).toHsl();
+          var color_back = tinycolor( color_hsl ).toHslString();
+          var color_txt = tinycolor.mostReadable( color_hsl, ['#000', '#fff'] ).toHslString();
+          color_input.css( {'background-color': color_back, 'color': color_txt} ).val( color_back );
+        }
+      } // _updateBrandHTML
+
       function _btpUpdateUsedFromInit() {
         for ( var i=0; i < btpColors.length; i++ ) {
           // must use Object.create to get a copy, otherwise just pointer
           btpColors[i].used = Object.create( btpColors[i].init );
+        }
+        for ( var i=0; i < btpBrand.length; i++ ) {
+          btpBrand[i].used = btpBrand[i].init;
         }
       } // _btpUpdateUsedFromInit
 
@@ -332,7 +432,6 @@
         return y;
       } // _btpColorsPoint
 
-
       function _helpPopup( event ) {
         var text = 'help';
         var pop = $( '<div class="mm-help-popup">' + text + '</div>').css({
@@ -345,7 +444,6 @@
           $(this).remove();
         });
       }
-
 
       function _onColorChange(container, color) {
       } // _onColorChange
@@ -366,11 +464,12 @@
         });
 
         // reset colors and sliders to default
-        $( '#mm-menu-color-defaults' ).on( 'click', function(ev) {
+        $( '#mm-menu-color-defaults, #mm-menu-brand-defaults' ).on( 'click', function(ev) {
           ev.preventDefault();
           _btpUpdateUsedFromInit();
           _btpColorsCalculate();
           _updateColorsHTML();
+          _updateBrandHTML();
           _updateSlidersHTML();
         });
 
@@ -384,7 +483,7 @@
         });
 
         // close colors drop down
-        $( '#mm-menu-color-close' ).on( 'click', function(ev) {
+        $( '#mm-menu-file-close, #mm-menu-color-close, #mm-menu-brand-close, #mm-menu-fonts-close' ).on( 'click', function(ev) {
           ev.preventDefault();
           $( '.mm-menu-top+div' ).hide();
         });
