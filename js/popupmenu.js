@@ -6,7 +6,7 @@
 
       var
         title = 'Bootstrap Theme Playground',
-        version = '0.6',
+        version = '0.6.1',
         settings,
         // default color (use whenever there is no user choosen value))
         btpDefaultH = 180,
@@ -240,6 +240,7 @@
           // content
           '<div class="mm-down-title">Tipography</div>' +
           // TODO
+          _buttonMinusPlus( 'lalala' ) +
           '</div>' +
           // menu buttons
           '<ul>' +
@@ -248,6 +249,13 @@
           '</ul>';
         return result;
       }
+
+      function _buttonMinusPlus( paramClass ) {
+        var result =
+          '<div class="mm-button-minus ' + paramClass + '">-</div>' +
+          '<div class="mm-button-plus ' + paramClass + '">+</div>';
+        return result;
+      } // _minusPlus
 
       function _updateSlidersHTML() {
         // select/unselect HSL buttons

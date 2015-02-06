@@ -1,11 +1,10 @@
-najprej zdruzi fork v master !
 
 menu Typography
 ===============
 
 // ----- font -----------------------------------------------------------------
 
-poglej si: 
+poglej si:
 https://developers.google.com/fonts/docs/getting_started
 https://github.com/typekit/webfontloader
 
@@ -19,8 +18,8 @@ choose sans-serif or serif
 
 TO DO
 izberi ta 2 fonta iz Google fonts
-@font-family-base:        
-@font-family-monospace:   
+@font-family-base:
+@font-family-monospace:
 
 
 
@@ -46,10 +45,10 @@ TO DO (predefined)
 @padding-xs-horizontal:     5px;
 
 TO DO (predefined)
- 6 12   4  8   3  6   1 3  
- 7 14   5 10   4  8   1 4  
+ 6 12   4  8   3  6   1 3
+ 7 14   5 10   4  8   1 4
  8 16   6 12   5 10   1 5  <-- default
-10 18   7 14   6 12   2 6  
+10 18   7 14   6 12   2 6
 12 20   8 16   7 14   2 7
 
 // ----- border radius --------------------------------------------------------
@@ -58,8 +57,22 @@ TO DO (predefined)
 @border-radius-small:       3px;  <-- 0.75 * base, zaokrozi navzdol
 
 TO DO (predefined)
-0 0 0 
+0 0 0
 2 3 5
 3 4 6  <<- default
 4 6 9
 6 8 12
+
+
+
+
+
+<div class="mm-button-minus param-class">-</div>
+<div class="mm-button-plus param-class">+</div>
+
+
+
+
+
+
+

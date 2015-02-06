@@ -135,6 +135,28 @@
 .mm-short-button:hover {
   background-color: #86869b;
 }
+.mm-button-minus,
+.mm-button-plus {
+  display: block;
+  height: 30px;
+  width: 18px;
+  padding: 6px;
+  color: #ffffff;
+  background-color: #555566;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+  height: 24px;
+  line-height: 18px;
+  margin: 0;
+  border: 1px solid #ffffff;
+  padding: 3px;
+  cursor: pointer;
+}
+.mm-button-minus:hover,
+.mm-button-plus:hover {
+  background-color: #86869b;
+}
 /* ----------------------------------------------------------------------------
  * drop down menus
  * ---------------------------------------------------------------------------- */
@@ -315,6 +337,40 @@
 #mm-color-menu-container .mm-color-line .cp-container .cp-sliderbutton-plus,
 #mm-brand-menu-container .mm-color-line .cp-container .cp-sliderbutton-plus {
   left: 18px;
+}
+/* ----------------------------------------------------------------------------
+ * typography
+ * ---------------------------------------------------------------------------- */
+#mm-typography-menu-container {
+  color: #ffffff;
+  background-color: #333344;
+  font-weight: normal;
+  width: 120px;
+  margin: 20px;
+  padding: 20px;
+}
+#mm-typography-menu-container .mm-typo-line {
+  display: flex;
+  margin: 6px;
+  border: 1px solid #ffffff;
+}
+#mm-typography-menu-container .mm-base {
+  font-size: 14px;
+  line-height: 1.42857143;
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+#mm-typography-menu-container .mm-small {
+  font-size: 12px;
+  line-height: 1.5;
+  padding: 5px 10px;
+  border-radius: 3px;
+}
+#mm-typography-menu-container .mm-large {
+  font-size: 18px;
+  line-height: 1.33;
+  padding: 10px 16px;
+  border-radius: 6px;
 }
 /* ----------------------------------------------------------------------------
  * page default
