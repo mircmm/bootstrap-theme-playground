@@ -152,6 +152,9 @@
   border: 1px solid #ffffff;
   padding: 3px;
   cursor: pointer;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
 }
 .mm-button-minus:hover,
 .mm-button-plus:hover {
@@ -342,35 +345,87 @@
  * typography
  * ---------------------------------------------------------------------------- */
 #mm-typography-menu-container {
+  width: 540px;
+  height: 300px;
   color: #ffffff;
   background-color: #333344;
   font-weight: normal;
-  width: 120px;
-  margin: 20px;
-  padding: 20px;
+  margin: 9px 6px 0 6px;
 }
-#mm-typography-menu-container .mm-typo-line {
-  display: flex;
-  margin: 6px;
-  border: 1px solid #ffffff;
+#mm-typography-menu-container #mm-typo-examples {
+  float: left;
+  width: 270px;
+  padding: 3px;
 }
-#mm-typography-menu-container .mm-base {
+#mm-typography-menu-container #mm-typo-examples .mm-base {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.42857143;
-  padding: 6px 12px;
+  margin: 6px;
+  border: 1px solid #ffffff;
   border-radius: 4px;
+  padding: 6px 12px;
 }
-#mm-typography-menu-container .mm-small {
+#mm-typography-menu-container #mm-typo-examples .mm-small {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  margin: 6px;
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  padding: 6px 12px;
   font-size: 12px;
   line-height: 1.5;
   padding: 5px 10px;
   border-radius: 3px;
 }
-#mm-typography-menu-container .mm-large {
+#mm-typography-menu-container #mm-typo-examples .mm-large {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  margin: 6px;
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  padding: 6px 12px;
   font-size: 18px;
   line-height: 1.33;
   padding: 10px 16px;
   border-radius: 6px;
+}
+#mm-typography-menu-container #mm-typo-examples .mm-code {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  margin: 6px;
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+#mm-typography-menu-container #mm-typo-controls {
+  float: left;
+  width: 270px;
+  padding: 3px;
+}
+#mm-typography-menu-container #mm-typo-controls .mm-typo-line {
+  display: flex;
+  margin: 3px;
+  padding: 3px;
+}
+#mm-typography-menu-container #mm-typo-controls .mm-typo-line span {
+  width: 90px;
+  text-align: right;
+  margin-right: 3px;
+}
+#mm-typography-menu-container #mm-typo-controls .mm-typo-line input {
+  width: 60px;
+  height: 24px;
+  border: 0 none;
+  padding: 3px;
+}
+#mm-typography-menu-container #mm-typo-controls .mm-typo-line #mm-typo-base-font,
+#mm-typography-menu-container #mm-typo-controls .mm-typo-line #mm-typo-code-font {
+  width: 120px;
 }
 /* ----------------------------------------------------------------------------
  * page default

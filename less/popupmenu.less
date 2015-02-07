@@ -7,6 +7,9 @@
 // sizes
 @mm-width-color: 180px;
 @mm-width-slider: 270px;
+@mm-width-typo-example: @mm-width-slider;
+@mm-width-typo-span: 90px;
+@mm-width-typo-input: 60px;
 @mm-width-button: 120px;
 @mm-width-short-button: 18px;
 @mm-height: 30px;
@@ -151,9 +154,9 @@
   border: 1px solid @mm-color-text;
   padding: @mm-separate;
   cursor: pointer;
-  //font-size: 15px;
-  //font-weight: 700;
-  //text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
 
 }
 
@@ -282,13 +285,16 @@
 /* ----------------------------------------------------------------------------
  * typography
  * ---------------------------------------------------------------------------- */
-@font-size-base:      14px;
-@font-size-large:     ceil((@font-size-base * 1.25)); // ~18px
-@font-size-small:     ceil((@font-size-base * 0.85)); // ~12px
+@font-family-base:          "Helvetica Neue", Helvetica, Arial, sans-serif;
+@font-family-monospace:     Menlo, Monaco, Consolas, "Courier New", monospace;
 
-@line-height-base:    1.428571429; // 20/14
-@line-height-large:   1.33;
-@line-height-small:   1.5;
+@font-size-base:            14px;
+@font-size-large:           ceil((@font-size-base * 1.25)); // ~18px
+@font-size-small:           ceil((@font-size-base * 0.85)); // ~12px
+
+@line-height-base:          1.428571429; // 20/14
+@line-height-large:         1.33;
+@line-height-small:         1.5;
 
 @padding-base-vertical:     6px;
 @padding-base-horizontal:   12px;
@@ -301,42 +307,86 @@
 @border-radius-large:       6px;
 @border-radius-small:       3px;
 
-
 #mm-typography-menu-container {
+  width: 2 * @mm-width-typo-example;
+  height: 300px;
   color: @mm-color-text;
   background-color: @mm-color-background;
   font-weight: normal;
-  width: @mm-width-button;
+  margin: 3 * @mm-separate  2 * @mm-separate  0  2 * @mm-separate;
 
-  margin: 20px;
-  padding: 20px;
+  #mm-typo-examples {
+    float:left;
+    width: @mm-width-typo-example;
+    padding: @mm-separate;
 
-  .mm-typo-line {
-    display: flex;
-    margin: 2 * @mm-separate;
-    border: 1px solid @mm-color-text;
+    .mm-base-mixin() {
+      font-family: @font-family-base;
+      font-size: @font-size-base;
+      line-height: @line-height-base;
+      margin: 2 * @mm-separate;
+      border: 1px solid @mm-color-text;
+      border-radius: @border-radius-base;
+      padding: @padding-base-vertical @padding-base-horizontal;
+    }
+
+    .mm-base {
+      .mm-base-mixin();
+    }
+
+    .mm-small {
+      .mm-base-mixin();
+      font-size: @font-size-small;
+      line-height: @line-height-small;
+      padding: @padding-small-vertical @padding-small-horizontal;
+      border-radius: @border-radius-small;
+    }
+
+    .mm-large {
+      .mm-base-mixin();
+      font-size: @font-size-large;
+      line-height: @line-height-large;
+      padding: @padding-large-vertical @padding-large-horizontal;
+      border-radius: @border-radius-large;
+    }
+
+    .mm-code {
+      .mm-base-mixin();
+      font-family: @font-family-monospace;
+    }
+  } // .mm-typo-examples
+
+  #mm-typo-controls {
+    float:left;
+    width: @mm-width-typo-example;
+    padding: @mm-separate;
+
+    .mm-typo-line {
+      display: flex;
+      margin: @mm-separate;
+      padding: @mm-separate;
+
+      span {
+        width: @mm-width-typo-span;
+        text-align: right;
+        margin-right: @mm-separate;
+      }
+
+      input {
+        width: @mm-width-typo-input;
+        height: @mm-height - 2 * @mm-separate;
+        border: 0 none;
+        padding: @mm-separate;
+      }
+
+      #mm-typo-base-font,
+      #mm-typo-code-font {
+        width: 2 * @mm-width-typo-input;
+      }
+
+    }
   }
 
-  .mm-base {
-    font-size: @font-size-base;
-    line-height: @line-height-base;
-    padding: @padding-base-vertical @padding-base-horizontal;
-    border-radius: @border-radius-base;
-  }
-
-  .mm-small {
-    font-size: @font-size-small;
-    line-height: @line-height-small;
-    padding: @padding-small-vertical @padding-small-horizontal;
-    border-radius: @border-radius-small;
-  }
-
-  .mm-large {
-    font-size: @font-size-large;
-    line-height: @line-height-large;
-    padding: @padding-large-vertical @padding-large-horizontal;
-    border-radius: @border-radius-large;
-  }
 } // #mm-typography-menu-container
 
 /* ----------------------------------------------------------------------------
@@ -346,6 +396,7 @@
   margin: 20px;
   padding: 20px;
 }
+
 
 
 
