@@ -12,9 +12,9 @@
 @mm-height: 30px;
 @mm-separate: 3px;
 
-@mm-width-typo-example: 240px;
-@mm-width-typo-span: 150px;
-@mm-width-typo-input: 60px;
+@mm-width-typo-span: 75px;
+@mm-width-typo-input: 45px;
+@mm-width-typo-input-font: 420px;
 
 /* ----------------------------------------------------------------------------
  * main menu, draggable, displays in the middle of the page
@@ -287,114 +287,74 @@
 /* ----------------------------------------------------------------------------
  * typography
  * ---------------------------------------------------------------------------- */
-@font-family-base:          "Helvetica Neue", Helvetica, Arial, sans-serif;
-@font-family-monospace:     Menlo, Monaco, Consolas, "Courier New", monospace;
-
-@font-size-base:            14px;
-@font-size-large:           ceil((@font-size-base * 1.25)); // ~18px
-@font-size-small:           ceil((@font-size-base * 0.85)); // ~12px
-
-@line-height-base:          1.428571429; // 20/14
-@line-height-large:         1.33;
-@line-height-small:         1.5;
-
-@padding-base-vertical:     6px;
-@padding-base-horizontal:   12px;
-@padding-large-vertical:    8px;
-@padding-large-horizontal:  16px;
-@padding-small-vertical:    5px;
-@padding-small-horizontal:  10px;
-
-@border-radius-base:        4px;
-@border-radius-large:       6px;
-@border-radius-small:       3px;
-
 #mm-typography-menu-container {
-//  width: 2 * @mm-width-typo-example;
-  height: 300px;
   color: @mm-color-text;
   background-color: @mm-color-background;
   font-weight: normal;
   margin: 2 * @mm-separate  @mm-separate  0  @mm-separate;
+  padding: @mm-separate;
 
-  #mm-typo-examples {
-    float:left;
-    width: @mm-width-typo-example;
+.mm-base-mixin() {
+  //font-family: @font-family-base;
+  line-height: 1.428571429; // 20/14
+  text-align: left;
+  margin: 2 * @mm-separate;
+  border: 1px solid @mm-color-text;
+}
+
+.mm-base {
+  .mm-base-mixin();
+}
+
+.mm-small {
+  .mm-base-mixin();
+  line-height: 1.5;
+}
+
+.mm-large {
+  .mm-base-mixin();
+  line-height: 1.33;
+}
+
+.mm-code {
+  .mm-base-mixin();
+  //font-family: @font-family-monospace;
+}
+
+.mm-typo-line {
+  //float: right;
+    display: flex;
+    margin: @mm-separate;
     padding: @mm-separate;
 
-    .mm-base-mixin() {
-      font-family: @font-family-base;
-      font-size: @font-size-base;
-      line-height: @line-height-base;
-      text-align: left;
-      margin: 2 * @mm-separate;
-      border: 1px solid @mm-color-text;
-      border-radius: @border-radius-base;
-      padding: @padding-base-vertical @padding-base-horizontal;
+    span {
+      width: @mm-width-typo-span;
+      text-align: right;
+      margin-right: @mm-separate;
     }
 
-    .mm-base {
-      .mm-base-mixin();
-    }
-
-    .mm-small {
-      .mm-base-mixin();
-      font-size: @font-size-small;
-      line-height: @line-height-small;
-      padding: @padding-small-vertical @padding-small-horizontal;
-      border-radius: @border-radius-small;
-    }
-
-    .mm-large {
-      .mm-base-mixin();
-      font-size: @font-size-large;
-      line-height: @line-height-large;
-      padding: @padding-large-vertical @padding-large-horizontal;
-      border-radius: @border-radius-large;
-    }
-
-    .mm-code {
-      .mm-base-mixin();
-      font-family: @font-family-monospace;
-    }
-  } // .mm-typo-examples
-
-  #mm-typo-controls {
-    float:left;
-    width: @mm-width-typo-example + @mm-width-typo-input + 6 * @mm-separate;
-    padding: @mm-separate;
-
-    .mm-typo-line {
-      float: right;
-      display: flex;
-      margin: @mm-separate;
+    input {
+      width: @mm-width-typo-input;
+      height: @mm-height - 2 * @mm-separate;
+      border: 0 none;
       padding: @mm-separate;
-
-      span {
-        width: @mm-width-typo-span;
-        text-align: right;
-        margin-right: @mm-separate;
-      }
-
-      input {
-        width: @mm-width-typo-input;
-        height: @mm-height - 2 * @mm-separate;
-        border: 0 none;
-        padding: @mm-separate;
-        background-color: @mm-color-text;
-        color: @mm-color-text-selected;
-        text-align: center;
-      }
+      background-color: @mm-color-text;
+      color: @mm-color-text-selected;
+      text-align: center;
     }
+  }
 
-    #mm-typo-font-base,
-    #mm-typo-font-code {
-      input {
-        width: 4 * @mm-width-typo-input;
-        text-align: left;
-      }
+  #mm-typo-three {
+    margin: 0;
+    padding: 0;
+  }
+
+  #mm-typo-font-base,
+  #mm-typo-font-code {
+    input {
+      width: @mm-width-typo-input-font;
+      text-align: left;
     }
-
   }
 
 } // #mm-typography-menu-container

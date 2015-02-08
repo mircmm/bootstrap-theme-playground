@@ -445,21 +445,6 @@
             '<div class="mm-down-title">Tipography</div>' +
             // container
             '<div id="mm-typography-menu-container">' +
-              // examples
-              '<div id="mm-typo-examples">' +
-                '<div class="mm-small">' +
-                  '<span>Small: bcp MIR 180 (#)</span>' +
-                '</div>' +
-                '<div class="mm-base">' +
-                  '<span>Base: bcp MIR 180 (#)</span>' +
-                '</div>' +
-                '<div class="mm-large">' +
-                  '<span>Large: bcp MIR 180 (#)</span>' +
-                '</div>' +
-                '<div class="mm-code">' +
-                  '<span>Code: bcp MIR 180 (#)</span>' +
-                '</div>' +
-              '</div>' + // examples
               // controls
               '<div id="mm-typo-controls">' +
                 '<div class="mm-typo-line" id="mm-typo-font-base">' +
@@ -470,25 +455,42 @@
                   '<span>Code Font:</span>' +
                   '<input type="text" readonly>' +
                 '</div>' +
-                '<div class="mm-typo-line" id="mm-typo-font-size">' +
-                  '<span>Base Font Size:</span>' +
-                  '<div class="mm-button-minus">-</div>' +
-                  '<input type="text" readonly>' +
-                  '<div class="mm-button-plus">+</div>' +
-                '</div>' +
-                '<div class="mm-typo-line" id="mm-typo-padding">' +
-                  '<span>Base Padding:</span>' +
-                  '<div class="mm-button-minus">-</div>' +
-                  '<input type="text" readonly>' +
-                  '<div class="mm-button-plus">+</div>' +
-                '</div>' +
-                '<div class="mm-typo-line" id="mm-typo-border-radius">' +
-                  '<span>Base Border Radius:</span>' +
-                  '<div class="mm-button-minus">-</div>' +
-                  '<input type="text" readonly>' +
-                  '<div class="mm-button-plus">+</div>' +
+                '<div class="mm-typo-line" id="mm-typo-three">' +
+                  '<div class="mm-typo-line" id="mm-typo-font-size">' +
+                    '<span>Font Size:</span>' +
+                    '<div class="mm-button-minus">-</div>' +
+                    '<input type="text" readonly>' +
+                    '<div class="mm-button-plus">+</div>' +
+                  '</div>' +
+                  '<div class="mm-typo-line" id="mm-typo-padding">' +
+                    '<span>Padding:</span>' +
+                    '<div class="mm-button-minus">-</div>' +
+                    '<input type="text" readonly>' +
+                    '<div class="mm-button-plus">+</div>' +
+                  '</div>' +
+                  '<div class="mm-typo-line" id="mm-typo-border-radius">' +
+                    '<span>Border Radius:</span>' +
+                    '<div class="mm-button-minus">-</div>' +
+                    '<input type="text" readonly>' +
+                    '<div class="mm-button-plus">+</div>' +
+                  '</div>' +
                 '</div>' +
               '</div>' + // controls
+              // examples
+              '<div id="mm-typo-examples">' +
+                '<div class="mm-base">' +
+                  '<span>Base: bcp MIR 180 (#)</span>' +
+                '</div>' +
+                '<div class="mm-small">' +
+                  '<span>Small: bcp MIR 180 (#)</span>' +
+                '</div>' +
+                '<div class="mm-large">' +
+                  '<span>Large: bcp MIR 180 (#)</span>' +
+                '</div>' +
+                '<div class="mm-code">' +
+                  '<span>Code: bcp MIR 180 (#)</span>' +
+                '</div>' +
+              '</div>' + // examples
             '</div>' + // container
           '</div>' + // fonts-menu
           // menu buttons
