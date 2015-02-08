@@ -7,13 +7,14 @@
 // sizes
 @mm-width-color: 180px;
 @mm-width-slider: 270px;
-@mm-width-typo-example: @mm-width-slider;
-@mm-width-typo-span: 90px;
-@mm-width-typo-input: 60px;
 @mm-width-button: 120px;
 @mm-width-short-button: 18px;
 @mm-height: 30px;
 @mm-separate: 3px;
+
+@mm-width-typo-example: 240px;
+@mm-width-typo-span: 150px;
+@mm-width-typo-input: 60px;
 
 /* ----------------------------------------------------------------------------
  * main menu, draggable, displays in the middle of the page
@@ -167,7 +168,8 @@
   position: absolute;
   left: 0;
   top: @mm-height + @mm-separate;
-  width: 5 * @mm-width-button;
+//  width: 5 * @mm-width-button;
+  width: 5 * @mm-width-short-button + @mm-width-color + @mm-width-slider + 9 * @mm-separate;
 
   color: @mm-color-text;
   background-color: @mm-color-background;
@@ -193,7 +195,7 @@
 #mm-menu-color-down,
 #mm-menu-brand-down {
   .mm-menu-down-mixin();
-  width: 5 * @mm-width-short-button + @mm-width-color + @mm-width-slider + 9 * @mm-separate;
+//  width: 5 * @mm-width-short-button + @mm-width-color + @mm-width-slider + 9 * @mm-separate;
 }
 
 #mm-menu-fonts-down {
@@ -298,7 +300,7 @@
 
 @padding-base-vertical:     6px;
 @padding-base-horizontal:   12px;
-@padding-large-vertical:    10px;
+@padding-large-vertical:    8px;
 @padding-large-horizontal:  16px;
 @padding-small-vertical:    5px;
 @padding-small-horizontal:  10px;
@@ -308,12 +310,12 @@
 @border-radius-small:       3px;
 
 #mm-typography-menu-container {
-  width: 2 * @mm-width-typo-example;
+//  width: 2 * @mm-width-typo-example;
   height: 300px;
   color: @mm-color-text;
   background-color: @mm-color-background;
   font-weight: normal;
-  margin: 3 * @mm-separate  2 * @mm-separate  0  2 * @mm-separate;
+  margin: 2 * @mm-separate  @mm-separate  0  @mm-separate;
 
   #mm-typo-examples {
     float:left;
@@ -324,6 +326,7 @@
       font-family: @font-family-base;
       font-size: @font-size-base;
       line-height: @line-height-base;
+      text-align: left;
       margin: 2 * @mm-separate;
       border: 1px solid @mm-color-text;
       border-radius: @border-radius-base;
@@ -358,10 +361,11 @@
 
   #mm-typo-controls {
     float:left;
-    width: @mm-width-typo-example;
+    width: @mm-width-typo-example + @mm-width-typo-input + 6 * @mm-separate;
     padding: @mm-separate;
 
     .mm-typo-line {
+      float: right;
       display: flex;
       margin: @mm-separate;
       padding: @mm-separate;
@@ -377,14 +381,20 @@
         height: @mm-height - 2 * @mm-separate;
         border: 0 none;
         padding: @mm-separate;
+        background-color: @mm-color-text;
+        color: @mm-color-text-selected;
+        text-align: center;
       }
-
-      #mm-typo-base-font,
-      #mm-typo-code-font {
-        width: 2 * @mm-width-typo-input;
-      }
-
     }
+
+    #mm-typo-font-base,
+    #mm-typo-font-code {
+      input {
+        width: 4 * @mm-width-typo-input;
+        text-align: left;
+      }
+    }
+
   }
 
 } // #mm-typography-menu-container

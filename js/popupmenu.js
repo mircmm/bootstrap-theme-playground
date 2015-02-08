@@ -54,7 +54,35 @@
           { proc: 'warning', init: '#f0ad4e', used: empty },
           { proc: 'danger',  init: '#d9534f', used: empty }
         ],
-        // bootstrap color descriptions for _colorViewPopup
+        // typography
+        btpFonts = [
+          { id: '#mm-typo-font-base',
+            init: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+            used: '',
+            append: ''
+          },
+          { id: '#mm-typo-font-code',
+            init: 'Menlo, Monaco, Consolas, "Courier New", monospace',
+            used: '',
+            append: ''
+          },
+          { id: '#mm-typo-font-size',
+            init: 14,
+            used: 0,
+            append: 'px',
+          },
+          { id: '#mm-typo-padding',
+            init: 6,
+            used: 0,
+            append: 'px',
+          },
+          { id: '#mm-typo-border-radius',
+            init: 4,
+            used: 0,
+            append: 'px',
+          }
+        ],
+        // bootstrap color descriptions for _descriptionPopup
         btpDescription = {
           '100': 'default lightness: 100%, color #fff <br> bootstrap: most backgrounds and active components',
            '96': 'default lightness 96%, color #f5f5f5 <br> bootstrap: hoover on elements, other backgrounds',
@@ -76,7 +104,6 @@
         },
         // default sliders options
         cpDefault = {
-//          previewformat: 'hsl-rgb',
           previewontriggerelement: true,
           rendervalues: true,
           slidersplusminus: true,
@@ -89,11 +116,12 @@
         lastVar;
       // end of variables
 
-      // ----- initialize, show menus and wait for user actions ---------------
+/* ----------------------------------------------------------------------------
+ * main
+ * ---------------------------------------------------------------------------- */
       _initSettings();
       _showPopover();
       _bindEvents();
-      // ----------------------------------------------------------------------
 
       function _initSettings() {
         // init options
@@ -107,21 +135,24 @@
 
       function _showPopover() {
         // create and display main menu
-        $('<div id="mm-menu-main"></div>').appendTo('body').html( _getMainHTML() );
+        $('<div id="mm-menu-main"></div>').appendTo('body').html( _createMainHTML() );
         // make menu draggable inside browser window
         $( '#mm-menu-main' ).draggable({
           handle: '#mm-menu-drag',
           containment: 'window'
         });
-        // init colors & sliders
-        _btpUpdateUsedFromInit();
+        // init colors, sliders & typography
+        _btpColorsUsedInit();
+        _btpBrandUsedInit();
+        _btpFontsUsedInit();
         _btpColorsCalculate();
         _updateColorsHTML();
         _updateBrandHTML();
         _updateSlidersHTML();
+        _updateFontsHTML();
       } // showPopover
 
-      function _getMainHTML() {
+      function _createMainHTML() {
         var popup_menu_html = '';
         // dragable top
         popup_menu_html += '<ul>' ;
@@ -136,43 +167,40 @@
         popup_menu_html +=
           '<li>' +
             '<span class="mm-long-button mm-menu-top" id="mm-menu-file">File</span>' +
-            '<div id="mm-menu-file-down">' + _getFileHTML() + '</div>' +
+            '<div id="mm-menu-file-down">' + _createFileHTML() + '</div>' +
           '</li>';
         // base colors menu
         popup_menu_html +=
           '<li>' +
             '<span class="mm-long-button mm-menu-top" id="mm-menu-color">Base Colors</span>' +
-            '<div id="mm-menu-color-down">' +
-              _getColorsHTML() +
-            '</div>' +
+            '<div id="mm-menu-color-down">' + _createColorsHTML() + '</div>' +
           '</li>';
         // brand colors menu
         popup_menu_html +=
           '<li>' +
             '<span class="mm-long-button mm-menu-top" id="mm-menu-brand">Brand Colors</span>' +
-            '<div id="mm-menu-brand-down">' +
-              _getBrandHTML() +
-            '</div>' +
+            '<div id="mm-menu-brand-down">' + _createBrandHTML() + '</div>' +
           '</li>';
         // fonts menu
         popup_menu_html +=
           '<li>' +
             '<span class="mm-long-button mm-menu-top" id="mm-menu-fonts">Typography</span>' +
-            '<div id="mm-menu-fonts-down">' +
-              _getFontsHTML() +
-            '</div>' +
+            '<div id="mm-menu-fonts-down">' + _createFontsHTML() + '</div>' +
           '</li>';
         // end of menus
         popup_menu_html += '</ul>' ;
         return popup_menu_html;
-      } // _getMainHTML
+      } // _createMainHTML
 
-      function _getFileHTML() {
+/* ----------------------------------------------------------------------------
+ * file menu
+ * ---------------------------------------------------------------------------- */
+      function _createFileHTML() {
         var result =
-          // title
           '<div class="mm-down-title">File</div>' +
-          // content
+          // title
           '<div id="mm-file-menu-container">' +
+          // content
           // TODO
           '</div>' +
           // menu buttons
@@ -180,14 +208,17 @@
             '<li><span class="mm-long-button" id="mm-menu-file-close">Close</span></li>' +
           '</ul>';
         return result;
-      }
+      } // _createFileHTML
 
-      function _getColorsHTML () {
+/* ----------------------------------------------------------------------------
+ * colors menu
+ * ---------------------------------------------------------------------------- */
+      function _createColorsHTML () {
         var result =
-          // title
           '<div class="mm-down-title">Base Colors</div>' +
-          // content
+          // title
           '<div id="mm-color-menu-container">';
+          // content
         for (var i = 0; i < btpColors.length; i++) {
           result +=
             '<div id="mm-color-edit-' + btpColors[i].proc + '" class="mm-color-line">' +
@@ -206,132 +237,14 @@
             '<li><span class="mm-long-button" id="mm-menu-color-close">Close</span></li>' +
           '</ul>';
         return result;
-      } // _getColorsHTML
+      } // _createColorsHTML
 
-      function _getBrandHTML () {
-        var result =
-          // title
-          '<div id="mm-brand-menu-container">' +
-          // content
-          '<div class="mm-down-title">Brand Colors</div>';
-        for (var i = 0; i < btpBrand.length; i++) {
-          result +=
-            '<div id="mm-color-edit-' + btpBrand[i].proc + '" class="mm-color-line">' +
-              '<div class="mm-color-H" show-slider="true">H</div>' +
-              '<div class="mm-color-S" show-slider="true">S</div>' +
-              '<div class="mm-color-L" show-slider="true">L</div>' +
-              '<input type="text" class="mm-color-view" readonly data-color-format="hsl">' +
-            '</div>';
+      function _btpColorsUsedInit() {
+        for ( var i=0; i < btpColors.length; i++ ) {
+          // must use Object.create to get a copy, otherwise just pointer
+          btpColors[i].used = Object.create( btpColors[i].init );
         }
-        result +=
-          '</div>' +
-          // menu buttons
-          '<ul>' +
-            '<li><span class="mm-long-button" id="mm-menu-brand-defaults">Defaults</span></li>' +
-            '<li><span class="mm-long-button" id="mm-menu-brand-close">Close</span></li>' +
-          '</ul>';
-        return result;
-      } // _getBrandHTML
-
-      function _getFontsHTML() {
-        var result =
-          // title
-          '<div id="mm-fonts-menu-container">' +
-          // content
-          '<div class="mm-down-title">Tipography</div>' +
-          // TODO
-          _buttonMinusPlus( 'lalala' ) +
-          '</div>' +
-          // menu buttons
-          '<ul>' +
-            '<li><span class="mm-long-button" id="mm-menu-fonts-defaults">Defaults</span></li>' +
-            '<li><span class="mm-long-button" id="mm-menu-fonts-close">Close</span></li>' +
-          '</ul>';
-        return result;
-      }
-
-      function _buttonMinusPlus( paramClass ) {
-        var result =
-          '<div class="mm-button-minus ' + paramClass + '">-</div>' +
-          '<div class="mm-button-plus ' + paramClass + '">+</div>';
-        return result;
-      } // _minusPlus
-
-      function _updateSlidersHTML() {
-        // select/unselect HSL buttons
-        for (var i = 0; i < btpColors.length; i++) {
-          var btpline = btpColors[i];
-          var line = $( '#mm-color-edit-' + btpline.proc );
-          if ( btpline.used.h === empty ) {
-            line.find( '.mm-color-H' ).removeAttr( 'show-slider' );
-          } else {
-            line.find( '.mm-color-H' ).attr( 'show-slider', true );
-          };
-          if ( btpline.used.s === empty ) {
-            line.find( '.mm-color-S' ).removeAttr( 'show-slider' );
-          } else {
-            line.find( '.mm-color-S' ).attr( 'show-slider', true );
-          };
-          if ( btpline.used.l === empty ) {
-            line.find( '.mm-color-L' ).removeAttr( 'show-slider' );
-          } else {
-            line.find( '.mm-color-L' ).attr( 'show-slider', true );
-          };
-        }
-        // show/hide color sliders
-        $( '.mm-color-line' ).each( function() {
-          _showLineSliders( $(this) );
-        });
-      } // updateSlidersHTML
-
-      function _showLineSliders( line ) {
-        // line is jquery object
-        // remove sliders if exists
-        var sliders = line.find( '.cp-container' );
-        if ( sliders.length ) {
-          sliders.remove();
-        }
-        // add sliders
-        var new_order = {};
-        if( line.find( '.mm-color-H' ).attr( 'show-slider' ) ) {
-          $.extend( new_order, { hslH: 1 } );
-        }
-        if( line.find( '.mm-color-S' ).attr( 'show-slider' ) ) {
-          $.extend( new_order, { hslS: 2 } );
-        }
-        if( line.find( '.mm-color-L' ).attr( 'show-slider' ) ) {
-          $.extend( new_order, { hslL: 3 } );
-        }
-        if ( new_order !== {} ) {
-          var color_view = line.find( '.mm-color-view' );
-          var bc = color_view.css( 'background-color' );
-          var params = $.extend( {color: bc, order: new_order }, cpDefault );
-          color_view.ColorPickerSliders( params );
-        }
-      } // _showLineSliders
-
-      function _colorViewPopup( element, event ) {
-        var val = element.val();
-        var col = element.css('color');
-        var bck = element.css('background-color');
-        var rgb = tinycolor(bck).toRgbString();
-        var id = element.parent().attr('id');
-        var i = id.slice( id.lastIndexOf('-')+1 );
-        var text = val + '&nbsp;&nbsp;' + rgb + '<br>' + btpDescription[i];
-        var pop = $( '<div class="mm-color-view-popup">' + text + '</div>').css({
-          'background-color': bck,
-          'color': col,
-          'border-color': col,
-          'left': event.clientX-30,
-          'top': event.clientY-30
-          });
-        element.after( pop );
-        // close it on next click
-        $( '.mm-color-view-popup' ).on( 'click', function(ev) {
-          ev.preventDefault();
-          $(this).remove();
-        });
-      } // _colorViewPopup
+      } // _btpColorsUsedInit
 
       function _updateColorsHTML() {
         for (var i = 0; i < btpColors.length; i++) {
@@ -343,27 +256,7 @@
         }
       } // _updateColorsHTML
 
-      function _updateBrandHTML() {
-        for (var i = 0; i < btpBrand.length; i++) {
-          var color_input = $( '#mm-color-edit-' + btpBrand[i].proc + ' .mm-color-view' );
-          var color_hsl = tinycolor( btpBrand[i].used ).toHsl();
-          var color_back = tinycolor( color_hsl ).toHslString();
-          var color_txt = tinycolor.mostReadable( color_hsl, ['#000', '#fff'] ).toHslString();
-          color_input.css( {'background-color': color_back, 'color': color_txt} ).val( color_back );
-        }
-      } // _updateBrandHTML
-
-      function _btpUpdateUsedFromInit() {
-        for ( var i=0; i < btpColors.length; i++ ) {
-          // must use Object.create to get a copy, otherwise just pointer
-          btpColors[i].used = Object.create( btpColors[i].init );
-        }
-        for ( var i=0; i < btpBrand.length; i++ ) {
-          btpBrand[i].used = btpBrand[i].init;
-        }
-      } // _btpUpdateUsedFromInit
-
-      function _btpUpdateUsedFromHTML() {
+      function _btpColorsUsedFromHTML() {
         for (var i = 0; i < btpColors.length; i++) {
           var line = $( '#mm-color-edit-' + btpColors[i].proc );
           var color = tinycolor( line.find( '.mm-color-view' ).val() );
@@ -375,7 +268,7 @@
             btpColors[i].used.h = empty;
           };
           if ( line.find( '.mm-color-S' ).attr( 'show-slider') ) {
-            var s = color.toHsl().s
+            var s = color.toHsl().s;
             btpColors[i].used.s = s;
           } else {
             btpColors[i].used.s = empty;
@@ -387,7 +280,7 @@
             btpColors[i].used.l = empty;
           };
         }
-      } // _btpUpdateUsedFromHTML
+      } // _btpColorsUsedFromHTML
 
       function _btpColorsCalculate() {
         // sliders (shown by user) === points
@@ -441,6 +334,264 @@
         return y;
       } // _btpColorsPoint
 
+      function _showLineSliders( line ) {
+        // line is jquery object
+        // remove sliders if exists
+        var sliders = line.find( '.cp-container' );
+        if ( sliders.length ) {
+          sliders.remove();
+        }
+        // add sliders
+        var new_order = {};
+        if( line.find( '.mm-color-H' ).attr( 'show-slider' ) ) {
+          $.extend( new_order, { hslH: 1 } );
+        }
+        if( line.find( '.mm-color-S' ).attr( 'show-slider' ) ) {
+          $.extend( new_order, { hslS: 2 } );
+        }
+        if( line.find( '.mm-color-L' ).attr( 'show-slider' ) ) {
+          $.extend( new_order, { hslL: 3 } );
+        }
+        if ( new_order !== {} ) {
+          var color_view = line.find( '.mm-color-view' );
+          var bc = color_view.css( 'background-color' );
+          var params = $.extend( {color: bc, order: new_order }, cpDefault );
+          color_view.ColorPickerSliders( params );
+        }
+      } // _showLineSliders
+
+      function _updateSlidersHTML() {
+        // select/unselect HSL buttons
+        for (var i = 0; i < btpColors.length; i++) {
+          var btpline = btpColors[i];
+          var line = $( '#mm-color-edit-' + btpline.proc );
+          if ( btpline.used.h === empty ) {
+            line.find( '.mm-color-H' ).removeAttr( 'show-slider' );
+          } else {
+            line.find( '.mm-color-H' ).attr( 'show-slider', true );
+          };
+          if ( btpline.used.s === empty ) {
+            line.find( '.mm-color-S' ).removeAttr( 'show-slider' );
+          } else {
+            line.find( '.mm-color-S' ).attr( 'show-slider', true );
+          };
+          if ( btpline.used.l === empty ) {
+            line.find( '.mm-color-L' ).removeAttr( 'show-slider' );
+          } else {
+            line.find( '.mm-color-L' ).attr( 'show-slider', true );
+          };
+        }
+        // show/hide color sliders
+        $( '.mm-color-line' ).each( function() {
+          _showLineSliders( $(this) );
+        });
+      } // updateSlidersHTML
+
+/* ----------------------------------------------------------------------------
+ * brand menu
+ * ---------------------------------------------------------------------------- */
+      function _createBrandHTML () {
+        var result =
+          '<div id="mm-brand-menu-container">' +
+            // title
+            '<div class="mm-down-title">Brand Colors</div>';
+            // content
+        for (var i = 0; i < btpBrand.length; i++) {
+          result +=
+            '<div id="mm-color-edit-' + btpBrand[i].proc + '" class="mm-color-line">' +
+              '<div class="mm-color-H" show-slider="true">H</div>' +
+              '<div class="mm-color-S" show-slider="true">S</div>' +
+              '<div class="mm-color-L" show-slider="true">L</div>' +
+              '<input type="text" class="mm-color-view" readonly data-color-format="hsl">' +
+            '</div>';
+        }
+        result +=
+          '</div>' +
+          // menu buttons
+          '<ul>' +
+            '<li><span class="mm-long-button" id="mm-menu-brand-defaults">Defaults</span></li>' +
+            '<li><span class="mm-long-button" id="mm-menu-brand-close">Close</span></li>' +
+          '</ul>';
+        return result;
+      } // _createBrandHTML
+
+      function _btpBrandUsedInit() {
+        for ( var i=0; i < btpBrand.length; i++ ) {
+          btpBrand[i].used = btpBrand[i].init;
+        }
+      } // _btpBrandUsedInit
+
+      function _updateBrandHTML() {
+        for (var i = 0; i < btpBrand.length; i++) {
+          var color_input = $( '#mm-color-edit-' + btpBrand[i].proc + ' .mm-color-view' );
+          var color_hsl = tinycolor( btpBrand[i].used ).toHsl();
+          var color_back = tinycolor( color_hsl ).toHslString();
+          var color_txt = tinycolor.mostReadable( color_hsl, ['#000', '#fff'] ).toHslString();
+          color_input.css( {'background-color': color_back, 'color': color_txt} ).val( color_back );
+        }
+      } // _updateBrandHTML
+
+      // use same functions as for colors
+      // function _showLineSliders( line )
+      // function _updateSlidersHTML()
+
+/* ----------------------------------------------------------------------------
+ * fonts menu
+ * ---------------------------------------------------------------------------- */
+      function _createFontsHTML() {
+        var result =
+          '<div id="mm-fonts-menu-container">' +
+            // title
+            '<div class="mm-down-title">Tipography</div>' +
+            // container
+            '<div id="mm-typography-menu-container">' +
+              // examples
+              '<div id="mm-typo-examples">' +
+                '<div class="mm-small">' +
+                  '<span>Small: bcp MIR 180 (#)</span>' +
+                '</div>' +
+                '<div class="mm-base">' +
+                  '<span>Base: bcp MIR 180 (#)</span>' +
+                '</div>' +
+                '<div class="mm-large">' +
+                  '<span>Large: bcp MIR 180 (#)</span>' +
+                '</div>' +
+                '<div class="mm-code">' +
+                  '<span>Code: bcp MIR 180 (#)</span>' +
+                '</div>' +
+              '</div>' + // examples
+              // controls
+              '<div id="mm-typo-controls">' +
+                '<div class="mm-typo-line" id="mm-typo-font-base">' +
+                  '<span>Base Font:</span>' +
+                  '<input type="text" readonly>' +
+                '</div>' +
+                '<div class="mm-typo-line" id="mm-typo-font-code">' +
+                  '<span>Code Font:</span>' +
+                  '<input type="text" readonly>' +
+                '</div>' +
+                '<div class="mm-typo-line" id="mm-typo-font-size">' +
+                  '<span>Base Font Size:</span>' +
+                  '<div class="mm-button-minus">-</div>' +
+                  '<input type="text" readonly>' +
+                  '<div class="mm-button-plus">+</div>' +
+                '</div>' +
+                '<div class="mm-typo-line" id="mm-typo-padding">' +
+                  '<span>Base Padding:</span>' +
+                  '<div class="mm-button-minus">-</div>' +
+                  '<input type="text" readonly>' +
+                  '<div class="mm-button-plus">+</div>' +
+                '</div>' +
+                '<div class="mm-typo-line" id="mm-typo-border-radius">' +
+                  '<span>Base Border Radius:</span>' +
+                  '<div class="mm-button-minus">-</div>' +
+                  '<input type="text" readonly>' +
+                  '<div class="mm-button-plus">+</div>' +
+                '</div>' +
+              '</div>' + // controls
+            '</div>' + // container
+          '</div>' + // fonts-menu
+          // menu buttons
+          '<ul>' +
+            '<li><span class="mm-long-button" id="mm-menu-fonts-defaults">Defaults</span></li>' +
+            '<li><span class="mm-long-button" id="mm-menu-fonts-close">Close</span></li>' +
+          '</ul>';
+        return result;
+      } // _createFontsHTML
+
+      function _btpFontsUsedInit() {
+        for ( var i = 0; i < btpFonts.length; i++ ) {
+          btpFonts[i].used = btpFonts[i].init;
+        }
+      } // _btpFontsUsedInit
+
+      function _btpFontsUsedFromHTML() {
+        for (var i = 0; i < btpFonts.length; i++) {
+          var value = $( btpFonts[i].id ).find( 'input' ).val();
+          if ( btpFonts[i].append === 'px' ) {
+            value = parseInt( value );
+          }
+          btpFonts[i].used = value;
+        }
+      } // _btpFontsUsedFromHTML
+
+      function _updateFontsHTML() {
+        var base = $( '#mm-typo-examples .mm-base' );
+        var small = $( '#mm-typo-examples .mm-small' );
+        var large = $( '#mm-typo-examples .mm-large' );
+        var code = $( '#mm-typo-examples .mm-code' );
+
+        for ( var i = 0; i < btpFonts.length; i++ ) {
+          var value = btpFonts[i].used;
+          $( btpFonts[i].id ).find( 'input' ).val( value );
+          // update examples
+          switch( btpFonts[i].id ) {
+            case '#mm-typo-font-base':
+              // TODO
+              break;
+            case '#mm-typo-font-code':
+              // TODO
+              break;
+            case '#mm-typo-font-size':
+              base.css('font-size', value+btpFonts[i].append);
+              code.css('font-size', value+btpFonts[i].append);
+              small.css('font-size', Math.floor(value*0.85)+btpFonts[i].append);
+              large.css('font-size', Math.ceil(value*1.25)+btpFonts[i].append);
+              break;
+            case '#mm-typo-padding':
+              base.css('padding-top', value+btpFonts[i].append)
+                  .css('padding-bottom', value+btpFonts[i].append)
+                  .css('padding-left', 2*value+btpFonts[i].append)
+                  .css('padding-right', 2*value+btpFonts[i].append);
+              code.css('padding-top', value+btpFonts[i].append)
+                  .css('padding-bottom', value+btpFonts[i].append)
+                  .css('padding-left', 2*value+btpFonts[i].append)
+                  .css('padding-right', 2*value+btpFonts[i].append);
+              small.css('padding-top', Math.floor(value*0.8)+btpFonts[i].append)
+                  .css('padding-bottom', Math.floor(value*0.8)+btpFonts[i].append)
+                  .css('padding-left', 2*Math.floor(value*0.8)+btpFonts[i].append)
+                  .css('padding-right', 2*Math.floor(value*0.8)+btpFonts[i].append);
+              large.css('padding-top', Math.ceil(value*1.3333)+btpFonts[i].append)
+                  .css('padding-bottom', Math.ceil(value*1.3333)+btpFonts[i].append)
+                  .css('padding-left', 2*Math.ceil(value*1.3333)+btpFonts[i].append)
+                  .css('padding-right', 2*Math.ceil(value*1.3333)+btpFonts[i].append);
+              break;
+            case '#mm-typo-border-radius':
+              base.css('border-radius', value+btpFonts[i].append);
+              code.css('border-radius', value+btpFonts[i].append);
+              small.css('border-radius', Math.floor(value*0.75)+btpFonts[i].append);
+              large.css('border-radius', Math.ceil(value*1.5)+btpFonts[i].append);
+              break;
+          }
+        }
+      } // _updateFontsHTML
+
+/* ----------------------------------------------------------------------------
+ * other
+ * ---------------------------------------------------------------------------- */
+      function _descriptionPopup( element, event ) {
+        var val = element.val();
+        var col = element.css('color');
+        var bck = element.css('background-color');
+        var rgb = tinycolor(bck).toRgbString();
+        var id = element.parent().attr('id');
+        var i = id.slice( id.lastIndexOf('-')+1 );
+        var text = val + '&nbsp;&nbsp;' + rgb + '<br>' + btpDescription[i];
+        var pop = $( '<div class="mm-color-view-popup">' + text + '</div>').css({
+          'background-color': bck,
+          'color': col,
+          'border-color': col,
+          'left': event.clientX-30,
+          'top': event.clientY-30
+          });
+        element.after( pop );
+        // close it on next click
+        $( '.mm-color-view-popup' ).on( 'click', function(ev) {
+          ev.preventDefault();
+          $(this).remove();
+        });
+      } // _descriptionPopup
+
       function _helpPopup( event ) {
         var text = 'help';
         var pop = $( '<div class="mm-help-popup">' + text + '</div>').css({
@@ -457,13 +608,10 @@
       function _onColorChange(container, color) {
       } // _onColorChange
 
+/* ----------------------------------------------------------------------------
+ * events
+ * ---------------------------------------------------------------------------- */
       function _bindEvents() {
-
-        // show help
-        $( '.mm-menu-help' ).on( 'click', function(ev) {
-          ev.preventDefault();
-          _helpPopup( ev );
-        });
 
         // open clicked drop down menu and close all others
         $( '.mm-menu-top' ).on( 'click', function(ev) {
@@ -472,20 +620,34 @@
           $( this ).next().show();
         });
 
-        // reset colors and sliders to default
-        $( '#mm-menu-color-defaults, #mm-menu-brand-defaults' ).on( 'click', function(ev) {
+        // reset colors to default
+        $( '#mm-menu-color-defaults' ).on( 'click', function(ev) {
           ev.preventDefault();
-          _btpUpdateUsedFromInit();
+          _btpColorsUsedInit();
           _btpColorsCalculate();
           _updateColorsHTML();
+          _updateSlidersHTML();
+        });
+
+        // reset brand to default
+        $( '#mm-menu-brand-defaults' ).on( 'click', function(ev) {
+          ev.preventDefault();
+          _btpBrandUsedInit();
           _updateBrandHTML();
           _updateSlidersHTML();
+        });
+
+        // reset fonts to default
+        $( '#mm-menu-fonts-defaults' ).on( 'click', function(ev) {
+          ev.preventDefault();
+          _btpFontsUsedInit();
+          _updateFontsHTML();
         });
 
         // update colors
         $( '#mm-menu-color-update' ).on( 'click', function(ev) {
           ev.preventDefault();
-          _btpUpdateUsedFromHTML();
+          _btpColorsUsedFromHTML();
           _btpColorsCalculate();
           _updateColorsHTML();
           _updateSlidersHTML();
@@ -512,15 +674,45 @@
           _showLineSliders( line );
         });
 
+        // typography button minus
+        $( '#mm-typography-menu-container .mm-button-minus' ).on( 'click', function(ev) {
+          ev.preventDefault();
+          var input = $(this).parent().find( 'input' );
+          var value = parseInt( input.val() );
+          if ( value > 0 ) {
+            input.val( (value-1)+'px' );
+          }
+          _btpFontsUsedFromHTML();
+          _updateFontsHTML();
+        });
+
+        // typography button plus
+        $( '#mm-typography-menu-container .mm-button-plus' ).on( 'click', function(ev) {
+          ev.preventDefault();
+          var input = $(this).parent().find( 'input' );
+          var value = parseInt( input.val() );
+          input.val( (value+1)+'px' );
+          _btpFontsUsedFromHTML();
+          _updateFontsHTML();
+        });
+
         // show info about color (popup)
         $( '.mm-color-view' ).on( 'click', function(ev) {
           ev.preventDefault();
-          _colorViewPopup( $(this), ev );
+          _descriptionPopup( $(this), ev );
+        });
+
+        // show help
+        $( '.mm-menu-help' ).on( 'click', function(ev) {
+          ev.preventDefault();
+          _helpPopup( ev );
         });
 
       } // _bindEvents
 
-      // never used, but just in case I need it again it is still here
+/* ----------------------------------------------------------------------------
+ * never used, but not yet deleted, just in case I need it again
+ * ---------------------------------------------------------------------------- */
       function _mixHSL( pmix, hsl_1, proc_1, hsl_2, proc_2 ) {
         var w1, w2;
         if ( proc_1 === proc_2 ) {

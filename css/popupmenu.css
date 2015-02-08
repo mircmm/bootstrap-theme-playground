@@ -167,7 +167,7 @@
   position: absolute;
   left: 0;
   top: 33px;
-  width: 600px;
+  width: 567px;
   color: #ffffff;
   background-color: #333344;
   display: none;
@@ -186,11 +186,10 @@
   position: absolute;
   left: 0;
   top: 33px;
-  width: 600px;
+  width: 567px;
   color: #ffffff;
   background-color: #333344;
   display: none;
-  width: 567px;
 }
 #mm-menu-color-down .mm-down-title,
 #mm-menu-brand-down .mm-down-title {
@@ -207,7 +206,7 @@
   position: absolute;
   left: 0;
   top: 33px;
-  width: 600px;
+  width: 567px;
   color: #ffffff;
   background-color: #333344;
   display: none;
@@ -345,22 +344,22 @@
  * typography
  * ---------------------------------------------------------------------------- */
 #mm-typography-menu-container {
-  width: 540px;
   height: 300px;
   color: #ffffff;
   background-color: #333344;
   font-weight: normal;
-  margin: 9px 6px 0 6px;
+  margin: 6px 3px 0 3px;
 }
 #mm-typography-menu-container #mm-typo-examples {
   float: left;
-  width: 270px;
+  width: 240px;
   padding: 3px;
 }
 #mm-typography-menu-container #mm-typo-examples .mm-base {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.42857143;
+  text-align: left;
   margin: 6px;
   border: 1px solid #ffffff;
   border-radius: 4px;
@@ -370,6 +369,7 @@
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.42857143;
+  text-align: left;
   margin: 6px;
   border: 1px solid #ffffff;
   border-radius: 4px;
@@ -383,19 +383,21 @@
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.42857143;
+  text-align: left;
   margin: 6px;
   border: 1px solid #ffffff;
   border-radius: 4px;
   padding: 6px 12px;
   font-size: 18px;
   line-height: 1.33;
-  padding: 10px 16px;
+  padding: 8px 16px;
   border-radius: 6px;
 }
 #mm-typography-menu-container #mm-typo-examples .mm-code {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.42857143;
+  text-align: left;
   margin: 6px;
   border: 1px solid #ffffff;
   border-radius: 4px;
@@ -404,16 +406,17 @@
 }
 #mm-typography-menu-container #mm-typo-controls {
   float: left;
-  width: 270px;
+  width: 318px;
   padding: 3px;
 }
 #mm-typography-menu-container #mm-typo-controls .mm-typo-line {
+  float: right;
   display: flex;
   margin: 3px;
   padding: 3px;
 }
 #mm-typography-menu-container #mm-typo-controls .mm-typo-line span {
-  width: 90px;
+  width: 150px;
   text-align: right;
   margin-right: 3px;
 }
@@ -422,10 +425,14 @@
   height: 24px;
   border: 0 none;
   padding: 3px;
+  background-color: #ffffff;
+  color: #000000;
+  text-align: center;
 }
-#mm-typography-menu-container #mm-typo-controls .mm-typo-line #mm-typo-base-font,
-#mm-typography-menu-container #mm-typo-controls .mm-typo-line #mm-typo-code-font {
-  width: 120px;
+#mm-typography-menu-container #mm-typo-controls #mm-typo-font-base input,
+#mm-typography-menu-container #mm-typo-controls #mm-typo-font-code input {
+  width: 240px;
+  text-align: left;
 }
 /* ----------------------------------------------------------------------------
  * page default
