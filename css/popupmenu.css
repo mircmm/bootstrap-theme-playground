@@ -104,6 +104,21 @@
 .mm-menu-help:hover {
   background-color: #86869b;
 }
+.mm-menu-top {
+  display: block;
+  height: 30px;
+  width: 120px;
+  padding: 6px;
+  color: #ffffff;
+  background-color: #555566;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: context-menu;
+}
+.mm-menu-top:hover {
+  background-color: #86869b;
+}
 .mm-long-button {
   display: block;
   height: 30px;
@@ -114,25 +129,9 @@
   overflow: hidden;
   text-decoration: none;
   white-space: nowrap;
+  cursor: pointer;
 }
 .mm-long-button:hover {
-  background-color: #86869b;
-}
-.mm-long-button:hover {
-  cursor: context-menu;
-}
-.mm-short-button {
-  display: block;
-  height: 30px;
-  width: 18px;
-  padding: 6px;
-  color: #ffffff;
-  background-color: #555566;
-  overflow: hidden;
-  text-decoration: none;
-  white-space: nowrap;
-}
-.mm-short-button:hover {
   background-color: #86869b;
 }
 .mm-button-minus,
@@ -147,14 +146,13 @@
   text-decoration: none;
   white-space: nowrap;
   height: 24px;
-  line-height: 18px;
+  line-height: 15px;
   margin: 0;
   border: 1px solid #ffffff;
   padding: 3px;
-  cursor: pointer;
-  font-size: 15px;
   font-weight: 700;
   text-align: center;
+  cursor: pointer;
 }
 .mm-button-minus:hover,
 .mm-button-plus:hover {
@@ -323,7 +321,7 @@
   text-decoration: none;
   white-space: nowrap;
   height: 24px;
-  line-height: 18px;
+  line-height: 15px;
   margin: 0;
   border: 1px solid;
   padding: 3px;
@@ -400,9 +398,13 @@
   padding: 0;
 }
 #mm-typography-menu-container #mm-typo-font-base input,
-#mm-typography-menu-container #mm-typo-font-code input {
-  width: 420px;
+#mm-typography-menu-container #mm-typo-font-code input,
+#mm-typography-menu-container #mm-typo-example input {
+  width: 465px;
   text-align: left;
+}
+#mm-typography-menu-container #mm-typo-border-radius span {
+  width: 116px;
 }
 /* ----------------------------------------------------------------------------
  * page default

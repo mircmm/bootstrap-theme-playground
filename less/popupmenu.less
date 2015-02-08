@@ -13,8 +13,9 @@
 @mm-separate: 3px;
 
 @mm-width-typo-span: 75px;
+@mm-width-typo-span-br: 116px;
 @mm-width-typo-input: 45px;
-@mm-width-typo-input-font: 420px;
+@mm-width-typo-input-font: 465px;
 
 /* ----------------------------------------------------------------------------
  * main menu, draggable, displays in the middle of the page
@@ -135,30 +136,27 @@
   cursor: help;
 }
 
-.mm-long-button {
+.mm-menu-top {
   .mm-button-mixin( @mm-width-button );
-  &:hover {
-    cursor: context-menu;
-  }
+  cursor: context-menu;
 }
 
-.mm-short-button {
-  .mm-button-mixin( @mm-width-short-button );
+.mm-long-button {
+  .mm-button-mixin( @mm-width-button );
+  cursor: pointer;
 }
 
 .mm-button-minus,
 .mm-button-plus {
   .mm-button-mixin(@mm-width-short-button);
   height: @mm-height - 2 * @mm-separate;
-  line-height: @mm-height - 4 * @mm-separate;
+  line-height: @mm-height - 5 * @mm-separate;
   margin: 0;
   border: 1px solid @mm-color-text;
   padding: @mm-separate;
-  cursor: pointer;
-  font-size: 15px;
   font-weight: 700;
   text-align: center;
-
+  cursor: pointer;
 }
 
 /* ----------------------------------------------------------------------------
@@ -264,7 +262,7 @@
       .cp-sliderbutton {
         .mm-button-mixin(@mm-width-short-button);
         height: @mm-height - 2 * @mm-separate;
-        line-height: @mm-height - 4 * @mm-separate;
+        line-height: @mm-height - 5 * @mm-separate;
         margin: 0;
         border: 1px solid;
         padding: @mm-separate;
@@ -350,10 +348,17 @@
   }
 
   #mm-typo-font-base,
-  #mm-typo-font-code {
+  #mm-typo-font-code,
+  #mm-typo-example {
     input {
       width: @mm-width-typo-input-font;
       text-align: left;
+    }
+  }
+
+  #mm-typo-border-radius {
+    span {
+      width: @mm-width-typo-span-br;
     }
   }
 

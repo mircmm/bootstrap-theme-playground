@@ -6,7 +6,7 @@
 
       var
         title = 'Bootstrap Theme Playground',
-        version = '0.6.1',
+        version = '0.6.2',
         settings,
         // default color (use whenever there is no user choosen value))
         btpDefaultH = 180,
@@ -48,23 +48,23 @@
         // @brand-warning:         #f0ad4e;
         // @brand-danger:          #d9534f;
         btpBrand = [
-          { proc: 'primary', init: '#337ab7', used: empty },
-          { proc: 'success', init: '#5cb85c', used: empty },
-          { proc: 'info',    init: '#5bc0de', used: empty },
-          { proc: 'warning', init: '#f0ad4e', used: empty },
-          { proc: 'danger',  init: '#d9534f', used: empty }
+          { proc: 'primary', rgb: '#337ab7', init: {h: true, s: true,  l: true }, used: {}, calc: {} },
+          { proc: 'success', rgb: '#5cb85c', init: {h: true, s: empty, l: empty}, used: {}, calc: {} },
+          { proc: 'info',    rgb: '#5bc0de', init: {h: true, s: empty, l: empty}, used: {}, calc: {} },
+          { proc: 'warning', rgb: '#f0ad4e', init: {h: true, s: empty, l: empty}, used: {}, calc: {} },
+          { proc: 'danger',  rgb: '#d9534f', init: {h: true, s: empty, l: empty}, used: {}, calc: {} }
         ],
         // typography
         btpFonts = [
           { id: '#mm-typo-font-base',
             init: '"Helvetica Neue", Helvetica, Arial, sans-serif',
             used: '',
-            append: ''
+            append: '',
           },
           { id: '#mm-typo-font-code',
             init: 'Menlo, Monaco, Consolas, "Courier New", monospace',
             used: '',
-            append: ''
+            append: '',
           },
           { id: '#mm-typo-font-size',
             init: 14,
@@ -80,7 +80,12 @@
             init: 4,
             used: 0,
             append: 'px',
-          }
+          },
+          { id: '#mm-typo-example',
+            init: 'this is sample text; abcd ABCD 1480 #$%&/()[]{}@',
+            used: '',
+            append: ''
+          },
         ],
         // bootstrap color descriptions for _descriptionPopup
         btpDescription = {
@@ -143,12 +148,14 @@
         });
         // init colors, sliders & typography
         _btpColorsUsedInit();
-        _btpBrandUsedInit();
-        _btpFontsUsedInit();
         _btpColorsCalculate();
         _updateColorsHTML();
+        _updateColorSlidersHTML();
+        _btpBrandUsedInit();
+        _btpBrandCalculate();
         _updateBrandHTML();
-        _updateSlidersHTML();
+        _updateBrandSlidersHTML();
+        _btpFontsUsedInit();
         _updateFontsHTML();
       } // showPopover
 
@@ -157,7 +164,7 @@
         // dragable top
         popup_menu_html += '<ul>' ;
         popup_menu_html +=
-          '<li><span class="mm-menu-title mm-menu-top" id="mm-menu-drag">' + title +
+          '<li><span class="mm-menu-title" id="mm-menu-drag">' + title +
             '<span style="font-size:80%">&nbsp;&nbsp;&nbsp;(ver. ' + version + ')</span></span></li>' +
           '<li><span class="mm-menu-help">' + '?' + '</span></li>';
         popup_menu_html += '</ul>' ;
@@ -166,25 +173,25 @@
         // file menu
         popup_menu_html +=
           '<li>' +
-            '<span class="mm-long-button mm-menu-top" id="mm-menu-file">File</span>' +
+            '<span class="mm-menu-top" id="mm-menu-file">File</span>' +
             '<div id="mm-menu-file-down">' + _createFileHTML() + '</div>' +
           '</li>';
         // base colors menu
         popup_menu_html +=
           '<li>' +
-            '<span class="mm-long-button mm-menu-top" id="mm-menu-color">Base Colors</span>' +
+            '<span class="mm-menu-top" id="mm-menu-color">Base Colors</span>' +
             '<div id="mm-menu-color-down">' + _createColorsHTML() + '</div>' +
           '</li>';
         // brand colors menu
         popup_menu_html +=
           '<li>' +
-            '<span class="mm-long-button mm-menu-top" id="mm-menu-brand">Brand Colors</span>' +
+            '<span class="mm-menu-top" id="mm-menu-brand">Brand Colors</span>' +
             '<div id="mm-menu-brand-down">' + _createBrandHTML() + '</div>' +
           '</li>';
         // fonts menu
         popup_menu_html +=
           '<li>' +
-            '<span class="mm-long-button mm-menu-top" id="mm-menu-fonts">Typography</span>' +
+            '<span class="mm-menu-top" id="mm-menu-fonts">Typography</span>' +
             '<div id="mm-menu-fonts-down">' + _createFontsHTML() + '</div>' +
           '</li>';
         // end of menus
@@ -360,7 +367,7 @@
         }
       } // _showLineSliders
 
-      function _updateSlidersHTML() {
+      function _updateColorSlidersHTML() {
         // select/unselect HSL buttons
         for (var i = 0; i < btpColors.length; i++) {
           var btpline = btpColors[i];
@@ -385,7 +392,7 @@
         $( '.mm-color-line' ).each( function() {
           _showLineSliders( $(this) );
         });
-      } // updateSlidersHTML
+      } // _updateColorSlidersHTML
 
 /* ----------------------------------------------------------------------------
  * brand menu
@@ -399,9 +406,9 @@
         for (var i = 0; i < btpBrand.length; i++) {
           result +=
             '<div id="mm-color-edit-' + btpBrand[i].proc + '" class="mm-color-line">' +
-              '<div class="mm-color-H" show-slider="true">H</div>' +
-              '<div class="mm-color-S" show-slider="true">S</div>' +
-              '<div class="mm-color-L" show-slider="true">L</div>' +
+              '<div class="mm-color-H">H</div>' +
+              '<div class="mm-color-S">S</div>' +
+              '<div class="mm-color-L">L</div>' +
               '<input type="text" class="mm-color-view" readonly data-color-format="hsl">' +
             '</div>';
         }
@@ -410,6 +417,7 @@
           // menu buttons
           '<ul>' +
             '<li><span class="mm-long-button" id="mm-menu-brand-defaults">Defaults</span></li>' +
+            '<li><span class="mm-long-button" id="mm-menu-brand-update">Update</span></li>' +
             '<li><span class="mm-long-button" id="mm-menu-brand-close">Close</span></li>' +
           '</ul>';
         return result;
@@ -417,23 +425,72 @@
 
       function _btpBrandUsedInit() {
         for ( var i=0; i < btpBrand.length; i++ ) {
-          btpBrand[i].used = btpBrand[i].init;
+          btpBrand[i].used = Object.create( btpBrand[i].init );
         }
       } // _btpBrandUsedInit
+
+      function _btpBrandCalculate() {
+        // sliders (shown by user) === points
+        // find and save points to calculate curves
+        var pts_h = [], pts_s = [], pts_l = [];
+        for ( var i=0; i < btpBrand.length; i++ ) {
+          if ( btpBrand[i].used.h !== empty ) {
+            pts_h.push( { x: btpBrand[i].proc, y: btpBrand[i].used.h} );
+          };
+          if ( btpBrand[i].used.s !== empty ) {
+            pts_s.push( { x: btpBrand[i].proc, y: btpBrand[i].used.s} );
+          };
+          if ( btpBrand[i].used.l !== empty ) {
+            pts_l.push( { x: btpBrand[i].proc, y: btpBrand[i].used.l} );
+          };
+        } // for
+        // now calculate colors using found points
+        for ( var i=0; i < btpBrand.length; i++ ) {
+          // TODO popravi na pravi calc
+          btpBrand[i].calc = btpBrand[i].rgb;
+        }
+      } // _btpBrandCalculate
 
       function _updateBrandHTML() {
         for (var i = 0; i < btpBrand.length; i++) {
           var color_input = $( '#mm-color-edit-' + btpBrand[i].proc + ' .mm-color-view' );
-          var color_hsl = tinycolor( btpBrand[i].used ).toHsl();
+          //var color_hsl = tinycolor( btpBrand[i].used ).toHsl();
+          var color_hsl = tinycolor( btpBrand[i].calc ).toHsl();
           var color_back = tinycolor( color_hsl ).toHslString();
           var color_txt = tinycolor.mostReadable( color_hsl, ['#000', '#fff'] ).toHslString();
           color_input.css( {'background-color': color_back, 'color': color_txt} ).val( color_back );
         }
       } // _updateBrandHTML
 
-      // use same functions as for colors
+      function _updateBrandSlidersHTML() {
+        // select/unselect HSL buttons
+        for (var i = 0; i < btpBrand.length; i++) {
+          var btpline = btpBrand[i];
+          var line = $( '#mm-color-edit-' + btpline.proc );
+          if ( btpline.used.h === empty ) {
+            line.find( '.mm-color-H' ).removeAttr( 'show-slider' );
+          } else {
+            line.find( '.mm-color-H' ).attr( 'show-slider', true );
+          };
+          if ( btpline.used.s === empty ) {
+            line.find( '.mm-color-S' ).removeAttr( 'show-slider' );
+          } else {
+            line.find( '.mm-color-S' ).attr( 'show-slider', true );
+          };
+          if ( btpline.used.l === empty ) {
+            line.find( '.mm-color-L' ).removeAttr( 'show-slider' );
+          } else {
+            line.find( '.mm-color-L' ).attr( 'show-slider', true );
+          };
+        }
+        // show/hide color sliders
+        $( '.mm-color-line' ).each( function() {
+          _showLineSliders( $(this) );
+        });
+      } // updateSlidersHTML
+
+      // use same function as for colors
       // function _showLineSliders( line )
-      // function _updateSlidersHTML()
 
 /* ----------------------------------------------------------------------------
  * fonts menu
@@ -446,51 +503,43 @@
             // container
             '<div id="mm-typography-menu-container">' +
               // controls
-              '<div id="mm-typo-controls">' +
-                '<div class="mm-typo-line" id="mm-typo-font-base">' +
-                  '<span>Base Font:</span>' +
+              '<div class="mm-typo-line" id="mm-typo-font-base">' +
+                '<span>Base Font:</span>' +
+                '<input type="text" readonly>' +
+              '</div>' +
+              '<div class="mm-typo-line" id="mm-typo-font-code">' +
+                '<span>Code Font:</span>' +
+                '<input type="text" readonly>' +
+              '</div>' +
+              '<div class="mm-typo-line" id="mm-typo-three">' +
+                '<div class="mm-typo-line" id="mm-typo-font-size">' +
+                  '<span>Font Size:</span>' +
+                  '<div class="mm-button-minus">-</div>' +
                   '<input type="text" readonly>' +
+                  '<div class="mm-button-plus">+</div>' +
                 '</div>' +
-                '<div class="mm-typo-line" id="mm-typo-font-code">' +
-                  '<span>Code Font:</span>' +
+                '<div class="mm-typo-line" id="mm-typo-padding">' +
+                  '<span>Padding:</span>' +
+                  '<div class="mm-button-minus">-</div>' +
                   '<input type="text" readonly>' +
+                  '<div class="mm-button-plus">+</div>' +
                 '</div>' +
-                '<div class="mm-typo-line" id="mm-typo-three">' +
-                  '<div class="mm-typo-line" id="mm-typo-font-size">' +
-                    '<span>Font Size:</span>' +
-                    '<div class="mm-button-minus">-</div>' +
-                    '<input type="text" readonly>' +
-                    '<div class="mm-button-plus">+</div>' +
-                  '</div>' +
-                  '<div class="mm-typo-line" id="mm-typo-padding">' +
-                    '<span>Padding:</span>' +
-                    '<div class="mm-button-minus">-</div>' +
-                    '<input type="text" readonly>' +
-                    '<div class="mm-button-plus">+</div>' +
-                  '</div>' +
-                  '<div class="mm-typo-line" id="mm-typo-border-radius">' +
-                    '<span>Border Radius:</span>' +
-                    '<div class="mm-button-minus">-</div>' +
-                    '<input type="text" readonly>' +
-                    '<div class="mm-button-plus">+</div>' +
-                  '</div>' +
+                '<div class="mm-typo-line" id="mm-typo-border-radius">' +
+                  '<span>Border Radius:</span>' +
+                  '<div class="mm-button-minus">-</div>' +
+                  '<input type="text" readonly>' +
+                  '<div class="mm-button-plus">+</div>' +
                 '</div>' +
-              '</div>' + // controls
+              '</div>' +
+              '<div class="mm-typo-line" id="mm-typo-example">' +
+                '<span>Example:</span>' +
+                '<input type="text">' +
+              '</div>' +
               // examples
-              '<div id="mm-typo-examples">' +
-                '<div class="mm-base">' +
-                  '<span>Base: bcp MIR 180 (#)</span>' +
-                '</div>' +
-                '<div class="mm-small">' +
-                  '<span>Small: bcp MIR 180 (#)</span>' +
-                '</div>' +
-                '<div class="mm-large">' +
-                  '<span>Large: bcp MIR 180 (#)</span>' +
-                '</div>' +
-                '<div class="mm-code">' +
-                  '<span>Code: bcp MIR 180 (#)</span>' +
-                '</div>' +
-              '</div>' + // examples
+              '<div class="mm-small"> <span> </span> </div>' +
+              '<div class="mm-base"> <span> </span> </div>' +
+              '<div class="mm-large"> <span> </span> </div>' +
+              '<div class="mm-code"> <span> </span> </div>' +
             '</div>' + // container
           '</div>' + // fonts-menu
           // menu buttons
@@ -518,53 +567,61 @@
       } // _btpFontsUsedFromHTML
 
       function _updateFontsHTML() {
-        var base = $( '#mm-typo-examples .mm-base' );
-        var small = $( '#mm-typo-examples .mm-small' );
-        var large = $( '#mm-typo-examples .mm-large' );
-        var code = $( '#mm-typo-examples .mm-code' );
+        var base = $( '#mm-typography-menu-container .mm-base' );
+        var small = $( '#mm-typography-menu-container .mm-small' );
+        var large = $( '#mm-typography-menu-container .mm-large' );
+        var code = $( '#mm-typography-menu-container .mm-code' );
 
         for ( var i = 0; i < btpFonts.length; i++ ) {
           var value = btpFonts[i].used;
-          $( btpFonts[i].id ).find( 'input' ).val( value );
+          $( btpFonts[i].id ).find( 'input' ).val( value + btpFonts[i].append );
           // update examples
           switch( btpFonts[i].id ) {
             case '#mm-typo-font-base':
-              // TODO
+              base.css( 'font-family', value );
+              small.css( 'font-family', value );
+              large.css( 'font-family', value );
               break;
             case '#mm-typo-font-code':
-              // TODO
+              code.css( 'font-family', value );
               break;
             case '#mm-typo-font-size':
-              base.css('font-size', value+btpFonts[i].append);
-              code.css('font-size', value+btpFonts[i].append);
-              small.css('font-size', Math.floor(value*0.85)+btpFonts[i].append);
-              large.css('font-size', Math.ceil(value*1.25)+btpFonts[i].append);
+              base.css( 'font-size', value + btpFonts[i].append );
+              code.css( 'font-size', value + btpFonts[i].append );
+              small.css( 'font-size', Math.floor(value*0.85) + btpFonts[i].append );
+              large.css( 'font-size', Math.ceil(value*1.25) + btpFonts[i].append );
               break;
             case '#mm-typo-padding':
-              base.css('padding-top', value+btpFonts[i].append)
-                  .css('padding-bottom', value+btpFonts[i].append)
-                  .css('padding-left', 2*value+btpFonts[i].append)
-                  .css('padding-right', 2*value+btpFonts[i].append);
-              code.css('padding-top', value+btpFonts[i].append)
-                  .css('padding-bottom', value+btpFonts[i].append)
-                  .css('padding-left', 2*value+btpFonts[i].append)
-                  .css('padding-right', 2*value+btpFonts[i].append);
-              small.css('padding-top', Math.floor(value*0.8)+btpFonts[i].append)
-                  .css('padding-bottom', Math.floor(value*0.8)+btpFonts[i].append)
-                  .css('padding-left', 2*Math.floor(value*0.8)+btpFonts[i].append)
-                  .css('padding-right', 2*Math.floor(value*0.8)+btpFonts[i].append);
-              large.css('padding-top', Math.ceil(value*1.3333)+btpFonts[i].append)
-                  .css('padding-bottom', Math.ceil(value*1.3333)+btpFonts[i].append)
-                  .css('padding-left', 2*Math.ceil(value*1.3333)+btpFonts[i].append)
-                  .css('padding-right', 2*Math.ceil(value*1.3333)+btpFonts[i].append);
+              base.css( 'padding-top', value + btpFonts[i].append )
+                  .css( 'padding-bottom', value + btpFonts[i].append )
+                  .css( 'padding-left', 2*value + btpFonts[i].append )
+                  .css( 'padding-right', 2*value + btpFonts[i].append );
+              code.css( 'padding-top', value + btpFonts[i].append )
+                  .css( 'padding-bottom', value + btpFonts[i].append )
+                  .css( 'padding-left', 2*value + btpFonts[i].append )
+                  .css( 'padding-right', 2*value + btpFonts[i].append );
+              small.css( 'padding-top', Math.floor(value*0.8) + btpFonts[i].append )
+                  .css( 'padding-bottom', Math.floor(value*0.8) + btpFonts[i].append )
+                  .css( 'padding-left', 2*Math.floor(value*0.8) + btpFonts[i].append )
+                  .css( 'padding-right', 2*Math.floor(value*0.8) + btpFonts[i].append );
+              large.css( 'padding-top', Math.ceil(value*1.3333) + btpFonts[i].append )
+                  .css( 'padding-bottom', Math.ceil(value*1.3333) + btpFonts[i].append )
+                  .css( 'padding-left', 2*Math.ceil(value*1.3333) + btpFonts[i].append )
+                  .css( 'padding-right', 2*Math.ceil(value*1.3333) + btpFonts[i].append );
               break;
             case '#mm-typo-border-radius':
-              base.css('border-radius', value+btpFonts[i].append);
-              code.css('border-radius', value+btpFonts[i].append);
-              small.css('border-radius', Math.floor(value*0.75)+btpFonts[i].append);
-              large.css('border-radius', Math.ceil(value*1.5)+btpFonts[i].append);
+              base.css( 'border-radius', value + btpFonts[i].append );
+              code.css( 'border-radius', value + btpFonts[i].append );
+              small.css( 'border-radius', Math.floor(value*0.75) + btpFonts[i].append );
+              large.css( 'border-radius', Math.ceil(value*1.5) + btpFonts[i].append );
               break;
-          }
+            case '#mm-typo-example':
+              base.find( 'span' ).text( 'Base: ' + value );
+              code.find( 'span' ).text( 'Code: ' + value );
+              small.find( 'span' ).text( 'Small: ' + value );
+              large.find( 'span' ).text( 'Large: ' + value );
+              break;
+          } // switch
         }
       } // _updateFontsHTML
 
@@ -573,11 +630,11 @@
  * ---------------------------------------------------------------------------- */
       function _descriptionPopup( element, event ) {
         var val = element.val();
-        var col = element.css('color');
-        var bck = element.css('background-color');
+        var col = element.css( 'color');
+        var bck = element.css( 'background-color');
         var rgb = tinycolor(bck).toRgbString();
         var id = element.parent().attr('id');
-        var i = id.slice( id.lastIndexOf('-')+1 );
+        var i = id.slice( id.lastIndexOf('-') + 1 );
         var text = val + '&nbsp;&nbsp;' + rgb + '<br>' + btpDescription[i];
         var pop = $( '<div class="mm-color-view-popup">' + text + '</div>').css({
           'background-color': bck,
@@ -628,15 +685,16 @@
           _btpColorsUsedInit();
           _btpColorsCalculate();
           _updateColorsHTML();
-          _updateSlidersHTML();
+          _updateColorSlidersHTML();
         });
 
         // reset brand to default
         $( '#mm-menu-brand-defaults' ).on( 'click', function(ev) {
           ev.preventDefault();
           _btpBrandUsedInit();
+          _btpBrandCalculate();
           _updateBrandHTML();
-          _updateSlidersHTML();
+          _updateBrandSlidersHTML();
         });
 
         // reset fonts to default
@@ -652,10 +710,19 @@
           _btpColorsUsedFromHTML();
           _btpColorsCalculate();
           _updateColorsHTML();
-          _updateSlidersHTML();
+          _updateColorSlidersHTML();
         });
 
-        // close colors drop down
+        // update brand
+        $( '#mm-menu-brand-update' ).on( 'click', function(ev) {
+          ev.preventDefault();
+          _btpBrandUsedFromHTML();
+          _btpBrandCalculate();
+          _updateBrandHTML();
+          _updateBrandSlidersHTML();
+        });
+
+        // close any drop down
         $( '#mm-menu-file-close, #mm-menu-color-close, #mm-menu-brand-close, #mm-menu-fonts-close' ).on( 'click', function(ev) {
           ev.preventDefault();
           $( '.mm-menu-top+div' ).hide();
