@@ -48,7 +48,8 @@
         // @brand-warning:         #f0ad4e;
         // @brand-danger:          #d9534f;
         btpBrand = [
-          { proc: 'primary', rgb: '#337ab7', init: {h: true, s: true,  l: true }, used: {}, calc: {} },
+          { proc: 'general', rgb: '#337ab7', init: {h: empty, s: true, l: true }, used: {}, calc: {} },
+          { proc: 'primary', rgb: '#337ab7', init: {h: true, s: empty, l: empty}, used: {}, calc: {} },
           { proc: 'success', rgb: '#5cb85c', init: {h: true, s: empty, l: empty}, used: {}, calc: {} },
           { proc: 'info',    rgb: '#5bc0de', init: {h: true, s: empty, l: empty}, used: {}, calc: {} },
           { proc: 'warning', rgb: '#f0ad4e', init: {h: true, s: empty, l: empty}, used: {}, calc: {} },
@@ -89,6 +90,7 @@
         ],
         // bootstrap color descriptions for _descriptionPopup
         btpDescription = {
+          // colors
           '100': 'default lightness: 100%, color #fff <br> bootstrap: most backgrounds and active components',
            '96': 'default lightness 96%, color #f5f5f5 <br> bootstrap: hoover on elements, other backgrounds',
            '92': 'default lightness 96%, color #eee, @gray-lighter <br> bootstrap: nav and pagination hoover, jumbotron bg',
@@ -101,11 +103,17 @@
            '20': 'default lightness 20% default color #333, @gray-dark <br> bootstrap: text',
            '12': 'default lightness 12% default color #222, @gray-darker <br> bootstrap: inverse navbar bg',
             '0': 'default lightness 0% default color #000 <br> bootstrap: tooltip and modal bg',
+           // brand
+          'general': 'not used in bootstrap <br> adjust S and L for all 5 brand colors',
           'primary': 'default: #337ab7 <br> bootstrap: brand primary color',
           'success': 'default: #5cb85c <br> bootstrap: brand success color',
              'info': 'default: #5bc0de <br> bootstrap: brand info color',
           'warning': 'default: #f0ad4e <br> bootstrap: brand warning color',
-           'danger': 'default: #d9534f <br> bootstrap: brand danger color'
+           'danger': 'default: #d9534f <br> bootstrap: brand danger color',
+          // fonts
+          // TODO
+          // end
+          'n': 'n'
         },
         // default sliders options
         cpDefault = {
@@ -426,35 +434,57 @@
       function _btpBrandUsedInit() {
         for ( var i=0; i < btpBrand.length; i++ ) {
           btpBrand[i].used = Object.create( btpBrand[i].init );
+          var color = tinycolor( btpBrand[i].rgb ).toHsl();
+          btpBrand[i].calc.h = color.h;
+          btpBrand[i].calc.s = color.s;
+          btpBrand[i].calc.l = color.l;
         }
       } // _btpBrandUsedInit
 
+      function _btpBrandUsedFromHTML() {
+        for (var i = 0; i < btpBrand.length; i++) {
+          var line = $( '#mm-color-edit-' + btpBrand[i].proc );
+          var color = tinycolor( line.find( '.mm-color-view' ).val() );
+          // set calc to current color
+          btpBrand[i].calc = color.toHsl();
+          // set used to shown sliders
+          if ( line.find( '.mm-color-H' ).attr( 'show-slider') ) {
+            btpBrand[i].used.h = true;
+          } else {
+            btpBrand[i].used.h = empty;
+          };
+          if ( line.find( '.mm-color-S' ).attr( 'show-slider') ) {
+            btpBrand[i].used.s = true;
+          } else {
+            btpBrand[i].used.s = empty;
+          };
+          if ( line.find( '.mm-color-L' ).attr( 'show-slider') ) {
+            btpBrand[i].used.l = true;
+          } else {
+            btpBrand[i].used.l = empty;
+          };
+        }
+      } // _btpBrandUsedFromHTML
+
       function _btpBrandCalculate() {
-        // sliders (shown by user) === points
-        // find and save points to calculate curves
-        var pts_h = [], pts_s = [], pts_l = [];
-        for ( var i=0; i < btpBrand.length; i++ ) {
-          if ( btpBrand[i].used.h !== empty ) {
-            pts_h.push( { x: btpBrand[i].proc, y: btpBrand[i].used.h} );
+        // get change of S and L from first
+        var deltaInit =  tinycolor( btpBrand[0].rgb ).toHsl();
+        var deltaS = btpBrand[0].calc.s - deltaInit.s;
+        var deltaL = btpBrand[0].calc.l - deltaInit.l;
+        // apply the same S and L change for others, if not explicitely set
+        for ( var i=1; i < btpBrand.length; i++ ) {
+          if ( btpBrand[i].used.s === empty ) {
+            btpBrand[i].calc.s += deltaS;
           };
-          if ( btpBrand[i].used.s !== empty ) {
-            pts_s.push( { x: btpBrand[i].proc, y: btpBrand[i].used.s} );
+          if ( btpBrand[i].used.l === empty ) {
+            btpBrand[i].calc.l += deltaL;
           };
-          if ( btpBrand[i].used.l !== empty ) {
-            pts_l.push( { x: btpBrand[i].proc, y: btpBrand[i].used.l} );
-          };
-        } // for
-        // now calculate colors using found points
-        for ( var i=0; i < btpBrand.length; i++ ) {
-          // TODO popravi na pravi calc
-          btpBrand[i].calc = btpBrand[i].rgb;
         }
       } // _btpBrandCalculate
 
       function _updateBrandHTML() {
         for (var i = 0; i < btpBrand.length; i++) {
           var color_input = $( '#mm-color-edit-' + btpBrand[i].proc + ' .mm-color-view' );
-          //var color_hsl = tinycolor( btpBrand[i].used ).toHsl();
           var color_hsl = tinycolor( btpBrand[i].calc ).toHsl();
           var color_back = tinycolor( color_hsl ).toHslString();
           var color_txt = tinycolor.mostReadable( color_hsl, ['#000', '#fff'] ).toHslString();
@@ -676,7 +706,7 @@
         $( '.mm-menu-top' ).on( 'click', function(ev) {
           ev.preventDefault();
           $( '.mm-menu-top+div' ).hide();
-          $( this ).next().show();
+          $(this).next().show();
         });
 
         // reset colors to default

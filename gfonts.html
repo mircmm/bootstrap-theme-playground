@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>gfonts</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap.colorpickersliders.css" rel="stylesheet">
+    <!-- <link href="css/bootstrap-theme.css" rel="stylesheet"> -->
+    <link href="css/popupmenu.css" rel="stylesheet">
+
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/webfont/1.5.10/webfont.js"></script>
+    <script src="js/gfonts.js"></script>
+    
+    <style>
+      #mm-load-json,
+      #mm-update-font,
+      #mm-update-example,
+      .mm-family {
+        background-color: #ccc;
+        cursor: pointer;
+      }
+      #mm-display-example {
+        font-size: 48px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <noscript>
+      <p>Sorry, this page requires Java Script ...</p>
+    </noscript>
+
+    <div id="mm-content">
+    
+      <span id="mm-load-json">Load JSON</span>
+      <br><br>
+
+      <span>choose google font: </span>
+      <div id="mm-choose-font">
+        <!-- <span class="mm-family" mm-tag="1"> Family </span><span class="mm-example"> Example </span><br> -->
+      </div> 
+      <br><br>
+
+      <!--
+      <span>google font: </span>
+      <select id="mm-enter-font" name="font">
+      </select>
+      <span id="mm-update-font">Update Font</span>
+      <br><br>
+      -->
+      
+      <span>enter example text: </span>
+      <input id="mm-enter-example">
+      <span id="mm-update-example">Update Text</span>
+      <br><br>
+      
+      <span>font family: </span>
+      <div id="mm-display-font"></div>
+      <span>example text: </span>
+      <div id="mm-display-example"></div>
+
+    </div> <!-- mm-content -->
+
+
+
+
+  </body>
+</html>
