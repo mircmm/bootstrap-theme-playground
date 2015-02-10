@@ -15,12 +15,15 @@
     <script src="js/bootstrap.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/webfont/1.5.10/webfont.js"></script>
     <script src="js/gfonts.js"></script>
-    
+
     <style>
       #mm-load-json,
       #mm-update-font,
       #mm-update-example,
-      .mm-family {
+      #mm-prev-10,
+      #mm-next-10,
+      #mm-choose-font .mm-family,
+      #mm-choose-filter .mm-filter {
         background-color: #ccc;
         cursor: pointer;
       }
@@ -36,33 +39,31 @@
     </noscript>
 
     <div id="mm-content">
-    
-      <span id="mm-load-json">Load JSON</span>
+
+      <span>enter example text: </span>
+      <input id="mm-enter-example">
+      <span id="mm-update-example">Update Text</span>
+      <br><br>
+
+      <span id="mm-prev-10">prev 10</span>&nbsp;&nbsp;
+      <span id="mm-next-10">next 10</span>&nbsp;&nbsp;
+      <span>choose font family filter: </span>
+      <div id="mm-choose-filter">
+      </div>
+      <span>selected: </span>
+      <span id="mm-display-filter"> </span>
       <br><br>
 
       <span>choose google font: </span>
       <div id="mm-choose-font">
         <!-- <span class="mm-family" mm-tag="1"> Family </span><span class="mm-example"> Example </span><br> -->
-      </div> 
+      </div>
+      <span>selected font family: </span>
+      <span id="mm-display-font"> </span>
       <br><br>
 
-      <!--
-      <span>google font: </span>
-      <select id="mm-enter-font" name="font">
-      </select>
-      <span id="mm-update-font">Update Font</span>
-      <br><br>
-      -->
-      
-      <span>enter example text: </span>
-      <input id="mm-enter-example">
-      <span id="mm-update-example">Update Text</span>
-      <br><br>
-      
-      <span>font family: </span>
-      <div id="mm-display-font"></div>
       <span>example text: </span>
-      <div id="mm-display-example"></div>
+      <div id="mm-display-example"> </div>
 
     </div> <!-- mm-content -->
 
