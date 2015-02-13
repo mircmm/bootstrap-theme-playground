@@ -17,18 +17,19 @@
     <script src="js/gfonts.js"></script>
 
     <style>
-      #mm-load-json,
-      #mm-update-font,
-      #mm-update-example,
-      #mm-prev-10,
-      #mm-next-10,
-      #mm-choose-font .mm-family,
-      #mm-choose-filter .mm-filter {
+      #mm-font-category-select .mm-font-category,
+
+      #mm-font-family-select .mm-font-family,
+      #mm-font-family-prev,
+      #mm-font-family-next,
+
+      #mm-font-example-size-minus,
+      #mm-font-example-size-plus,
+      #mm-font-example-update,
+      krneki
+      {
         background-color: #ccc;
         cursor: pointer;
-      }
-      #mm-display-example {
-        font-size: 48px;
       }
     </style>
   </head>
@@ -40,34 +41,34 @@
 
     <div id="mm-content">
 
-      <span>enter example text: </span>
-      <input id="mm-enter-example">
-      <span id="mm-update-example">Update Text</span>
+
+      <span>choose category:&nbsp;</span>
+      <span id="mm-font-category-select"> </span>
+      <span>selected:&nbsp;</span>
+      <span id="mm-font-category-display"> </span>
       <br><br>
 
-      <span id="mm-prev-10">prev 10</span>&nbsp;&nbsp;
-      <span id="mm-next-10">next 10</span>&nbsp;&nbsp;
-      <span>choose font family filter: </span>
-      <div id="mm-choose-filter">
-      </div>
-      <span>selected: </span>
-      <span id="mm-display-filter"> </span>
-      <br><br>
-
-      <span>choose google font: </span>
-      <div id="mm-choose-font">
+      <span id="mm-font-family-prev">prev</span>&nbsp;&nbsp;
+      <span id="mm-font-family-next">next</span>&nbsp;&nbsp;
+      <br>
+      <span>choose family:&nbsp;</span>
+      <div id="mm-font-family-select">
         <!-- <span class="mm-family" mm-tag="1"> Family </span><span class="mm-example"> Example </span><br> -->
       </div>
-      <span>selected font family: </span>
-      <span id="mm-display-font"> </span>
+      <span>selected:&nbsp;</span>
+      <span id="mm-font-family-display"> </span>
       <br><br>
 
-      <span>example text: </span>
-      <div id="mm-display-example"> </div>
+      <span>example:&nbsp;</span>
+      <input id="mm-font-example-text" size="50">
+      <span>size:&nbsp;</span>
+      <span id="mm-font-example-size-minus">&nbsp;-&nbsp;</span>
+      <input id="mm-font-example-size"  size="6" disabled>
+      <span id="mm-font-example-size-plus">&nbsp;+&nbsp;</span>
+      <span id="mm-font-example-update">Update</span>
+      <div id="mm-font-example-display"> </div>
 
     </div> <!-- mm-content -->
-
-
 
 
   </body>

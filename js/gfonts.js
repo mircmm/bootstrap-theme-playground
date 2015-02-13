@@ -1,102 +1,157 @@
-// TODO: background za size
-
 
 (function($) {
   'use strict';
 
   $.fn.gfonts = function() {
 
-// ----- init -----
-
     var googleAPI = 'AIzaSyDyJtbKog963UG494tay5ydfU-AWhVbZUg';
-    var googleFontsURL = 'https://www.googleapis.com/webfonts/v1/webfonts?key='+googleAPI;
-    var allFonts;
-    var firstItem = 0;
-    var countOfItems = 10;
+    var googleFontsURL = 'https://www.googleapis.com/webfonts/v1/webfonts?sort=style&key='+googleAPI;
 
-    var exampleText = 'abc&#269;s&#353;z&#382; ABC&#268;S&#352;Z&#381; 1234567890';
-    $( '#mm-display-example' ).html( exampleText );
-    exampleText = $( '#mm-display-example' ).html();
-    $( '#mm-enter-example' ).val( exampleText );
+    var fontCategoryFilters = [ 'all', 'sans-serif', 'serif', 'display', 'handwriting', 'monospace' ];
+    var fontCategorySelected = 0;
 
-    var categoryFilters = [ 'all', 'sans-serif', 'serif', 'display', 'handwriting', 'monospace' ];
-    var selectedCategoryFilter = 0;
-    var element = $( '#mm-choose-filter' );
-    for ( var i = 0; i < categoryFilters.length; i++ ) {
-      var opt = $( '<span class="mm-filter" mm-filter-index="' + i + '">' + categoryFilters[i] + '</span>' );
-      element.append( opt ).append( '&nbsp;&nbsp;' );
-    }
-    $( '#mm-display-filter' ).text( categoryFilters[selectedCategoryFilter] );
+    var fontFamilyListInit = [
+      { kind: false, family: '"Helvetica Neue", Helvetica, Arial', category: 'sans-serif'},
+      { kind: false, family: 'Georgia, "Times New Roman", Times', category: 'serif'},
+      { kind: false, family: 'Menlo, Monaco, Consolas, "Courier New"', category: 'monospace'} ];
+    var fontFamilyList;
+    var fontFamilyListSelected = 0;
+    var fontFamilyFirstDisplayed = 0;
+    var fontFamilyCountDisplayed = 10;
+    var fontFamilyDisplayedSize = 24;
 
-    $.getJSON( googleFontsURL, function(result) {
-      allFonts = result;
-      generateSelectFont( firstItem, countOfItems  );
-    });
+    var fontExampleTextInit = 'abc&#269;s&#353;z&#382; ABC&#268;S&#352;Z&#381; 1234567890';
+    $( '#mm-font-example-display' ).html( fontExampleTextInit );
+    var fontExampleText = $( '#mm-font-example-display' ).html();
+    var fontExampleSize = 48;
+
+
+    _fontsInit();
+
 
 // ----- functions -----
 
-    function generateSelectFont( first, count ) {
-      var element = $( '#mm-choose-font' );
-      element.empty();
-      for ( var i = first, c = 0; i <= allFonts.items.length && c < count; i++ ) {
-        var item = allFonts.items[i];
-        if ( selectedCategoryFilter === 0 || categoryFilters[selectedCategoryFilter] === item.category ) {
-          var opt = $( '<span class="mm-family" mm-font-index="' + i + '">' + item.family + '</span> <span class="mm-example">' + exampleText + '</span><br>' );
-          element.append( opt );
-          c++;
+    function _fontsInit() {
+      $.getJSON( googleFontsURL, function(result) {
+        // load fonts list from google
+        fontFamilyList = [].concat( fontFamilyListInit, result.items );
+        // display category
+        var element = $( '#mm-font-category-select' );
+        for ( var i = 0; i < fontCategoryFilters.length; i++ ) {
+          var opt = $(
+            '<span class="mm-font-category" mm-font-category-index="' + i + '">' +
+            fontCategoryFilters[i] + '</span>'
+          );
+          element.append( opt ).append( '&nbsp;&nbsp;' );
         }
+        $( '#mm-font-category-display' ).text( fontCategoryFilters[fontCategorySelected] );
+        // display family and example
+        _updateFontsCategory( fontCategorySelected );
+        _updateFontsFamily( fontFamilyListSelected );
+        _updateFontsExample( fontExampleText, fontExampleSize );
+      });
+    } // fontsInit
+
+
+    function _familyAndFallback( item ) {
+      var res;
+      if ( item.kind ) {
+        res =  '"' + item.family + '", ' + item.category;
+      } else {
+        res =  item.family + ', ' + item.category;
       }
+      return res;
     }
+
+    function _displayFontsFamilySelect( first, count ) {
+      var element = $( '#mm-font-family-select' );
+      element.empty();
+      for ( var i = first, c = 0; i <= fontFamilyList.length && c < count; i++ ) {
+        var item = fontFamilyList[i];
+        if ( item.kind ) WebFont.load({ google: { families: [item.family]} });
+        var df = $( '<span class="mm-font-family" mm-font-family-index="' + i + '">' + item.family + '</span>' );
+        element.append( df );
+        df = $( '<span class="mm-font-family-example">&nbsp;&nbsp;' + fontExampleText + '</span><br>' );
+        element.append( df );
+        df.css({ 'font-family': _familyAndFallback(item), 'font-size': fontFamilyDisplayedSize });
+        c++;
+      }
+    } // _displayFontsFamilySelect
+
+    // TODO: ko izberes kategory, mora pokazat in izbirat samo iz te kategorije
+    function _updateFontsCategory( index ) {
+      fontCategorySelected = index;
+      $( '#mm-font-category-display' ).text( fontCategoryFilters[fontCategorySelected] );
+      _displayFontsFamilySelect( fontFamilyFirstDisplayed, fontFamilyCountDisplayed );
+    } // _updateFontsCategory
+
+    function _updateFontsFamily( index ) {
+      fontFamilyListSelected = index;
+      var item = fontFamilyList[index];
+      $( '#mm-font-example-display' ).css( 'font-family', _familyAndFallback(item) );
+      $( '#mm-font-family-display' ).text( ' (' + index + '/' + fontFamilyList.length + ') ' + _familyAndFallback(item) );
+    } // _updateFontsFamily
+
+    function _updateFontsExample( text, size ) {
+      fontExampleText = text;
+      fontExampleSize = size;
+      if ( fontExampleSize < 8 ) { fontExampleSize = 8; }
+      if ( fontExampleSize > 80 ) { fontExampleSize = 80; }
+      $( '#mm-font-example-text' ).val( fontExampleText );
+      $( '#mm-font-example-size' ).val( fontExampleSize );
+      $( '#mm-font-example-display' ).html( fontExampleText ).css( 'font-size', fontExampleSize );
+    } // _updateFontsExample
+
 
 
 // ----- events -----
 
-    $( '#mm-choose-filter' ).on( 'click', '.mm-filter', function(ev) {
+    // category
+    $( '#mm-font-category-select' ).on( 'click', '.mm-font-category', function(ev) {
       ev.preventDefault();
-      var clicked = $(this);
-      selectedCategoryFilter = parseInt( clicked.attr( 'mm-filter-index' ) );
-      $( '#mm-display-filter' ).text( categoryFilters[selectedCategoryFilter] );
-      firstItem = 0;
-      generateSelectFont( firstItem, countOfItems  );
+      fontFamilyListSelected = 0;
+      fontFamilyFirstDisplayed = 0;
+      _updateFontsCategory( parseInt( $(this).attr( 'mm-font-category-index' ) ) );
     });
 
-    $( '#mm-prev-10' ).on( 'click', function(ev) {
+    // family
+    $( '#mm-font-family-prev' ).on( 'click', function(ev) {
       ev.preventDefault();
-      firstItem -= 10;
-      if ( firstItem < 0 ) { firstItem = 0; };
-      generateSelectFont( firstItem, countOfItems  );
+      fontFamilyFirstDisplayed -= fontFamilyCountDisplayed;
+      if ( fontFamilyFirstDisplayed < 0 ) { fontFamilyFirstDisplayed = 0; };
+      _updateFontsCategory( fontCategorySelected );
     });
 
-    $( '#mm-next-10' ).on( 'click', function(ev) {
+    $( '#mm-font-family-next' ).on( 'click', function(ev) {
       ev.preventDefault();
-      firstItem += 10; // tole ni prav, preskocit bi moral glede na selected category
-      generateSelectFont( firstItem, countOfItems );
+      fontFamilyFirstDisplayed += fontFamilyCountDisplayed;
+      _updateFontsCategory( fontCategorySelected );
     });
 
-    $( '#mm-choose-font' ).on( 'click', '.mm-family', function(ev) {
+    $( '#mm-font-family-select' ).on( 'click', '.mm-font-family', function(ev) {
       ev.preventDefault();
-      var clicked = $(this);
-      var i = parseInt( clicked.attr( 'mm-font-index' ) );
-      var item = allFonts.items[i];
-      WebFont.load({
-        google: { families: [item.family]}
-      });
-      var familyAndFallback = '"' + item.family + '",' + item.category;
-      $( '#mm-display-example' ).css( 'font-family', familyAndFallback );
-      familyAndFallback = ' (' + i + '/' + allFonts.items.length + ') ' + familyAndFallback;
-      $( '#mm-display-font' ).text( familyAndFallback );
+      _updateFontsFamily( parseInt( $(this).attr( 'mm-font-family-index' ) ) );
     });
 
-    $( '#mm-update-example' ).on( 'click', function(ev) {
+    // example
+    $( '#mm-font-example-update' ).on( 'click', function(ev) {
       ev.preventDefault();
-      var txt = $( '#mm-enter-example' ).val();
-      $( '#mm-display-example' ).text( txt );
+      _updateFontsExample( $('#mm-font-example-text').val(), fontExampleSize );
+    });
+
+    $( '#mm-font-example-size-minus' ).on( 'click', function(ev) {
+      ev.preventDefault();
+      _updateFontsExample( fontExampleText, fontExampleSize - 4 );
+    });
+
+    $( '#mm-font-example-size-plus' ).on( 'click', function(ev) {
+      ev.preventDefault();
+      _updateFontsExample( fontExampleText, fontExampleSize + 4 );
     });
 
   }; // gfonts
 
 })(jQuery);
-
 
 
 // ----- main -----------------------------------------------------------------
