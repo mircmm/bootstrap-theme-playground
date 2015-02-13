@@ -22,6 +22,8 @@
       #mm-font-family-select .mm-font-family,
       #mm-font-family-prev,
       #mm-font-family-next,
+      #mm-font-family-count-minus,
+      #mm-font-family-count-plus,
 
       #mm-font-example-size-minus,
       #mm-font-example-size-plus,
@@ -48,22 +50,30 @@
       <span id="mm-font-category-display"> </span>
       <br><br>
 
-      <span id="mm-font-family-prev">prev</span>&nbsp;&nbsp;
-      <span id="mm-font-family-next">next</span>&nbsp;&nbsp;
+      <span>displayed:&nbsp;</span>
+      <span id="mm-font-family-first-last"> </span>
       <br>
-      <span>choose family:&nbsp;</span>
+
+      <span id="mm-font-family-prev">prev</span>&nbsp;
+      <span id="mm-font-family-count-minus">&nbsp;-&nbsp;</span>
+      <input id="mm-font-family-count" size="4" disabled>
+      <span id="mm-font-family-count-plus">&nbsp;+&nbsp;</span>
+      <span id="mm-font-family-next">next</span>&nbsp;
+      <span> families or select family</span>
+
       <div id="mm-font-family-select">
         <!-- <span class="mm-family" mm-tag="1"> Family </span><span class="mm-example"> Example </span><br> -->
       </div>
-      <span>selected:&nbsp;</span>
-      <span id="mm-font-family-display"> </span>
-      <br><br>
+      <br>
 
+      <span>&nbsp;selected:&nbsp;</span>
+      <span id="mm-font-family-display"> </span>
+      <br>
       <span>example:&nbsp;</span>
       <input id="mm-font-example-text" size="50">
       <span>size:&nbsp;</span>
       <span id="mm-font-example-size-minus">&nbsp;-&nbsp;</span>
-      <input id="mm-font-example-size"  size="6" disabled>
+      <input id="mm-font-example-size" size="4" disabled>
       <span id="mm-font-example-size-plus">&nbsp;+&nbsp;</span>
       <span id="mm-font-example-update">Update</span>
       <div id="mm-font-example-display"> </div>

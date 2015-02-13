@@ -3,29 +3,12 @@ pocisti kodo, samo + v vsaki vrstici
 
 
 
-menu Brand
-==========
-
-skupni lightness in saturation, na enak nacin kot pri colors
-
 
 
 menu Typography
 ===============
 
 // ----- font -----------------------------------------------------------------
-
-poglej si:
-https://developers.google.com/fonts/docs/getting_started
-https://github.com/typekit/webfontloader
-
-
-@font-family-sans-serif:  "Helvetica Neue", Helvetica, Arial, sans-serif;
-@font-family-serif:       Georgia, "Times New Roman", Times, serif;
-@font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace;
-
-@font-family-base:        @font-family-sans-serif;
-choose sans-serif or serif
 
 TO DO
 izberi ta 2 fonta iz Google fonts
@@ -36,6 +19,13 @@ izberi ta 2 fonta iz Google fonts
 
 
 
+poglej:
+  .data()
+  http://learn.jquery.com/using-jquery-core/data-methods/
+
+poglej:
+  jquery UI tabs
+  http://jqueryui.com/tabs/#default
 
 
 
