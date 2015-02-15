@@ -1,6 +1,4 @@
-get mail HTML
-pocisti kodo, samo + v vsaki vrstici
-
+preveri max in min lightness in saturation
 
 
 

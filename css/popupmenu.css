@@ -416,7 +416,36 @@
   margin: 6px 3px 0 3px;
   padding: 3px;
 }
-#mm-choose-font-menu-container #mm-font-category-select .mm-font-category,
+#mm-choose-font-menu-container .mm-font-line {
+  display: flex;
+  margin: 0;
+  padding: 3px 0 0 3px;
+}
+#mm-choose-font-menu-container .mm-font-line .mm-font-category {
+  display: block;
+  height: 30px;
+  width: 90px;
+  padding: 6px;
+  color: #ffffff;
+  background-color: #555566;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+  height: 24px;
+  margin: 0 3px 3px 0;
+  padding: 0;
+  cursor: pointer;
+}
+#mm-choose-font-menu-container .mm-font-line .mm-font-category:hover {
+  background-color: #86869b;
+}
+#mm-choose-font-menu-container .mm-font-line .mm-font-category[selected-category] {
+  background-color: #ffffff;
+  color: #000000;
+}
+#mm-choose-font-menu-container .mm-font-line .mm-font-category[selected-category]:hover {
+  background-color: #cccccc;
+}
 #mm-choose-font-menu-container #mm-font-family-select .mm-font-family-goto,
 #mm-choose-font-menu-container #mm-font-family-select .mm-font-family-count,
 #mm-choose-font-menu-container #mm-font-family-select .mm-font-family,

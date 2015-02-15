@@ -314,7 +314,6 @@
   }
 
   .mm-typo-line {
-  //float: right;
     display: flex;
     margin: @mm-separate;
     padding: @mm-separate;
@@ -386,7 +385,38 @@
   margin: 2 * @mm-separate  @mm-separate  0  @mm-separate;
   padding: @mm-separate;
 
-  #mm-font-category-select .mm-font-category,
+  .mm-font-line {
+    display: flex;
+    margin: 0;
+    padding: @mm-separate 0 0 @mm-separate;
+
+    .mm-font-category {
+      .mm-button-mixin( 90px );
+      height: @mm-height - 2 * @mm-separate;
+      margin: 0 @mm-separate @mm-separate 0;
+      padding: 0;
+      cursor: pointer;
+
+      &[selected-category] {
+        background-color: @mm-color-text;
+        color: @mm-color-text-selected;
+      }
+
+      &[selected-category]:hover {
+        background-color: darken(@mm-color-text, 20%);
+      }
+
+    }
+  } // .mm-typo-line
+
+
+
+
+
+
+
+
+//  #mm-font-category-select .mm-font-category,
   #mm-font-family-select .mm-font-family-goto,
   #mm-font-family-select .mm-font-family-count,
   #mm-font-family-select .mm-font-family,

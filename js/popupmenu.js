@@ -4,7 +4,7 @@ PopupMenu = function(options) {
 
   var
     title = 'Bootstrap Theme Playground',
-    version = '0.6.3',
+    version = '0.6.4',
     settings,
     // default color (use whenever there is no user choosen value))
     btpDefaultH = 180,
@@ -89,8 +89,10 @@ PopupMenu = function(options) {
     // mark which font to change ('#mm-typo-font-code' or '#mm-typo-font-size')
     btpFontToChange = '',
     // chose font
-    googleAPI = 'AIzaSyDyJtbKog963UG494tay5ydfU-AWhVbZUg',
-    googleFontsURL = 'https://www.googleapis.com/webfonts/v1/webfonts?sort=popularity&key=' + googleAPI,
+// TODO: zbrisi naslednji 2 vrstici preden das v javnost !!!!
+//    googleAPI = 'AIzaSyDyJtbKog963UG494tay5ydfU-AWhVbZUg',
+//    googleFontsURL = 'https://www.googleapis.com/webfonts/v1/webfonts?sort=popularity&key=' + googleAPI,
+    googleFontsURL = 'all-google-fonts.json',
     // category
     fontCategoryFilters = [ 'all', 'sans-serif', 'serif', 'display', 'handwriting', 'monospace' ],
     fontCategoryIndexes = [ [], [], [], [], [], [] ],
@@ -719,12 +721,12 @@ PopupMenu = function(options) {
 
   function _btpChooseFontInit() {
     // category
-    var fc = $( '<div id="mm-font-category-select"> </div>' ).appendTo('#mm-choose-font-menu-container');
+    var fc = $( '<div id="mm-font-category-select" class="mm-font-line"> </div>' ).appendTo('#mm-choose-font-menu-container');
     for ( var i = 0; i < fontCategoryFilters.length; i++ ) {
       fc.append( $( '<span class="mm-font-category">' + fontCategoryFilters[i] + '</span>' ).data( 'inx', i ) );
     }
-    fc.append( $( '<span id="mm-font-category-display"> </span>' ) );
-    fc.append( $( '<p>' ) );
+    //fc.append( $( '<span id="mm-font-category-display"> </span>' ) );
+    //fc.append( $( '<p>' ) );
     // family
     var ff = $( '<div id="mm-font-family-select"> </div>' ).appendTo('#mm-choose-font-menu-container');
     ff.append( $( '<span id="mm-font-family-first-last"> </span>' ) );
@@ -753,7 +755,10 @@ PopupMenu = function(options) {
   } // _btpChooseFontInit
 
   function _displayFontsCategory() {
-    $( '#mm-font-category-display' ).text( 'selected: ' + fontCategoryFilters[fontCategorySelected] );
+    var fca = $( '#mm-font-category-select' );
+    fca.find( '.mm-font-category' ).removeAttr( 'selected-category' );
+    fca.find( '.mm-font-category:eq("' + fontCategorySelected + '")' ).attr( 'selected-category', true );
+    //$( '#mm-font-category-display' ).text( 'selected: ' + fontCategoryFilters[fontCategorySelected] );
   } // _displayFontsCategory
 
   function _familyAndFallback( item ) {
@@ -992,8 +997,9 @@ PopupMenu = function(options) {
       ev.preventDefault();
       $( '.mm-menu-down' ).hide();
       $( '#mm-menu-fonts-down' ).show();
-      // TODO font[btpFontToChange] = fontFamilyList[fontFamilyListSelected]
-      // TODO refresh display
+      $( '#'+btpFontToChange + ' input' ).val( _familyAndFallback( fontFamilyList[fontFamilyListSelected] ) );
+      _btpFontsUsedFromHTML();
+      _updateFontsHTML();
     });
 
     // dont use choosen font
