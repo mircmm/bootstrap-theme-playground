@@ -22,10 +22,13 @@ izberi ta 2 fonta iz Google fonts
 poglej:
   .data()
   http://learn.jquery.com/using-jquery-core/data-methods/
+# narejeno za fonts, naredi še drugje !!!
+
+
 
 poglej:
   jquery UI tabs
   http://jqueryui.com/tabs/#default
-
+# preveri in morda naredi tako cel popup
 
 
