@@ -15,7 +15,8 @@ izberi ta 2 fonta iz Google fonts
 @font-family-base:
 @font-family-monospace:
 
-
+remove googleAPI, choose some google fonts and create local json file
+load them from local server
 
 
 

@@ -66,8 +66,6 @@
   border: 3px solid;
   padding: 3px 6px;
   z-index: 1100;
-}
-.mm-help-popup:hover {
   cursor: pointer;
 }
 /* ----------------------------------------------------------------------------
@@ -134,6 +132,21 @@
 .mm-long-button:hover {
   background-color: #86869b;
 }
+.mm-midi-button {
+  display: block;
+  height: 30px;
+  width: 80px;
+  padding: 6px;
+  color: #ffffff;
+  background-color: #555566;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.mm-midi-button:hover {
+  background-color: #86869b;
+}
 .mm-button-minus,
 .mm-button-plus {
   display: block;
@@ -158,32 +171,14 @@
 .mm-button-plus:hover {
   background-color: #86869b;
 }
-.mm-button-right {
-  float: right;
-}
 /* ----------------------------------------------------------------------------
  * drop down menus
  * ---------------------------------------------------------------------------- */
-#mm-menu-file-down {
-  position: absolute;
-  left: 0;
-  top: 33px;
-  width: 567px;
-  color: #ffffff;
-  background-color: #333344;
-  display: none;
-}
-#mm-menu-file-down .mm-down-title {
-  color: #333344;
-  background-color: #cccccc;
-  border: 3px solid #333344;
-  font-weight: bolder;
-}
-#mm-menu-file-down .mm-long-button {
-  margin-top: 3px;
-}
+#mm-menu-file-down,
 #mm-menu-color-down,
-#mm-menu-brand-down {
+#mm-menu-brand-down,
+#mm-menu-fonts-down,
+#mm-menu-choose-font-down {
   position: absolute;
   left: 0;
   top: 33px;
@@ -192,33 +187,21 @@
   background-color: #333344;
   display: none;
 }
+#mm-menu-file-down .mm-down-title,
 #mm-menu-color-down .mm-down-title,
-#mm-menu-brand-down .mm-down-title {
+#mm-menu-brand-down .mm-down-title,
+#mm-menu-fonts-down .mm-down-title,
+#mm-menu-choose-font-down .mm-down-title {
   color: #333344;
   background-color: #cccccc;
   border: 3px solid #333344;
   font-weight: bolder;
 }
+#mm-menu-file-down .mm-long-button,
 #mm-menu-color-down .mm-long-button,
-#mm-menu-brand-down .mm-long-button {
-  margin-top: 3px;
-}
-#mm-menu-fonts-down {
-  position: absolute;
-  left: 0;
-  top: 33px;
-  width: 567px;
-  color: #ffffff;
-  background-color: #333344;
-  display: none;
-}
-#mm-menu-fonts-down .mm-down-title {
-  color: #333344;
-  background-color: #cccccc;
-  border: 3px solid #333344;
-  font-weight: bolder;
-}
-#mm-menu-fonts-down .mm-long-button {
+#mm-menu-brand-down .mm-long-button,
+#mm-menu-fonts-down .mm-long-button,
+#mm-menu-choose-font-down .mm-long-button {
   margin-top: 3px;
 }
 /* ----------------------------------------------------------------------------
@@ -396,18 +379,52 @@
   color: #000000;
   text-align: center;
 }
+#mm-typography-menu-container .mm-typo-line .mm-midi-button {
+  font-weight: bolder;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+}
 #mm-typography-menu-container #mm-typo-three {
   margin: 0;
   padding: 0;
 }
 #mm-typography-menu-container #mm-typo-font-base input,
-#mm-typography-menu-container #mm-typo-font-code input,
+#mm-typography-menu-container #mm-typo-font-code input {
+  width: 385px;
+  text-align: left;
+}
+#mm-typography-menu-container #mm-typo-font-base input:hover,
+#mm-typography-menu-container #mm-typo-font-code input:hover {
+  background-color: #cccccc;
+  cursor: pointer;
+}
 #mm-typography-menu-container #mm-typo-example input {
   width: 465px;
   text-align: left;
 }
 #mm-typography-menu-container #mm-typo-border-radius span {
   width: 116px;
+}
+/* ----------------------------------------------------------------------------
+ * choose font
+ * ---------------------------------------------------------------------------- */
+#mm-choose-font-menu-container {
+  color: #ffffff;
+  background-color: #333344;
+  font-weight: normal;
+  margin: 6px 3px 0 3px;
+  padding: 3px;
+}
+#mm-choose-font-menu-container #mm-font-category-select .mm-font-category,
+#mm-choose-font-menu-container #mm-font-family-select .mm-font-family-goto,
+#mm-choose-font-menu-container #mm-font-family-select .mm-font-family-count,
+#mm-choose-font-menu-container #mm-font-family-select .mm-font-family,
+#mm-choose-font-menu-container #mm-font-example .mm-font-example-size,
+#mm-choose-font-menu-container #mm-font-example-update {
+  margin: 3px;
+  padding: 3px;
+  cursor: pointer;
 }
 /* ----------------------------------------------------------------------------
  * page default
