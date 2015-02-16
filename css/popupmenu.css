@@ -421,6 +421,11 @@
   margin: 0;
   padding: 3px 0 0 3px;
 }
+#mm-choose-font-menu-container .mm-font-line span {
+  width: 75px;
+  text-align: right;
+  margin-right: 3px;
+}
 #mm-choose-font-menu-container .mm-font-line .mm-font-category {
   display: block;
   height: 30px;
@@ -446,14 +451,100 @@
 #mm-choose-font-menu-container .mm-font-line .mm-font-category[selected-category]:hover {
   background-color: #cccccc;
 }
-#mm-choose-font-menu-container #mm-font-family-select .mm-font-family-goto,
-#mm-choose-font-menu-container #mm-font-family-select .mm-font-family-count,
-#mm-choose-font-menu-container #mm-font-family-select .mm-font-family,
-#mm-choose-font-menu-container #mm-font-example .mm-font-example-size,
-#mm-choose-font-menu-container #mm-font-example-update {
-  margin: 3px;
-  padding: 3px;
+#mm-choose-font-menu-container .mm-font-line #mm-font-family-display,
+#mm-choose-font-menu-container .mm-font-line #mm-font-example-text,
+#mm-choose-font-menu-container .mm-font-line #mm-font-family-count-display,
+#mm-choose-font-menu-container .mm-font-line #mm-font-example-size-display,
+#mm-choose-font-menu-container .mm-font-line #mm-font-family-first-last {
+  height: 24px;
+  margin: 0 3px 3px 0;
+  border: 0;
+  padding: 0;
+  text-align: center;
+  background-color: #ffffff;
+  color: #000000;
+}
+#mm-choose-font-menu-container .mm-font-line #mm-font-family-display {
+  width: 304px;
+}
+#mm-choose-font-menu-container .mm-font-line #mm-font-family-first-last {
+  width: 212px;
+}
+#mm-choose-font-menu-container .mm-font-line #mm-font-example-text {
+  padding: 0 3px;
+  width: 470px;
+}
+#mm-choose-font-menu-container .mm-font-line .mm-font-family-goto {
+  display: block;
+  height: 30px;
+  width: 60px;
+  padding: 6px;
+  color: #ffffff;
+  background-color: #555566;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+  height: 24px;
+  margin: 0 3px 3px 0;
+  padding: 0;
   cursor: pointer;
+}
+#mm-choose-font-menu-container .mm-font-line .mm-font-family-goto:hover {
+  background-color: #86869b;
+}
+#mm-choose-font-menu-container .mm-font-line .mm-font-family-count,
+#mm-choose-font-menu-container .mm-font-line .mm-font-example-size {
+  display: block;
+  height: 30px;
+  width: 18px;
+  padding: 6px;
+  color: #ffffff;
+  background-color: #555566;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+  height: 24px;
+  margin: 0 3px 3px 0;
+  padding: 0;
+  cursor: pointer;
+}
+#mm-choose-font-menu-container .mm-font-line .mm-font-family-count:hover,
+#mm-choose-font-menu-container .mm-font-line .mm-font-example-size:hover {
+  background-color: #86869b;
+}
+#mm-choose-font-menu-container #mm-font-example-display {
+  line-height: 1.2;
+  text-align: left;
+  padding: 3px;
+}
+#mm-choose-font-menu-container #mm-font-family-list .mm-font-family {
+  display: block;
+  height: 30px;
+  width: 120px;
+  padding: 6px;
+  color: #ffffff;
+  background-color: #555566;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+  height: 24px;
+  margin: 0 3px 3px 0;
+  padding: 0 3px;
+  cursor: pointer;
+}
+#mm-choose-font-menu-container #mm-font-family-list .mm-font-family:hover {
+  background-color: #86869b;
+}
+#mm-choose-font-menu-container #mm-font-family-list .mm-font-family[selected-category] {
+  background-color: #ffffff;
+  color: #000000;
+}
+#mm-choose-font-menu-container #mm-font-family-list .mm-font-family[selected-category]:hover {
+  background-color: #cccccc;
+}
+#mm-choose-font-menu-container #mm-font-family-list .mm-font-family-example {
+  width: 500px;
+  text-align: left;
 }
 /* ----------------------------------------------------------------------------
  * page default

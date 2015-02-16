@@ -119,7 +119,7 @@ PopupMenu = function(options) {
     fontExampleTextShort = 'abcde ABCDE 67890',
     fontExampleTextInit = 'abcde fghij klmno pqrst uvwxyz ABCDE FGHIJ KLMNO PQRST UVWXYZ 12345 67890',
     fontExampleText,
-    fontExampleSize = 48,
+    fontExampleSize = 36,
 
 
     // bootstrap color descriptions for _descriptionPopup
@@ -720,36 +720,39 @@ PopupMenu = function(options) {
   }
 
   function _btpChooseFontInit() {
+    var el;
     // category
-    var fc = $( '<div id="mm-font-category-select" class="mm-font-line"> </div>' ).appendTo('#mm-choose-font-menu-container');
+    el = $( '<div id="mm-font-category-select" class="mm-font-line"> </div>' ).appendTo('#mm-choose-font-menu-container');
     for ( var i = 0; i < fontCategoryFilters.length; i++ ) {
-      fc.append( $( '<span class="mm-font-category">' + fontCategoryFilters[i] + '</span>' ).data( 'inx', i ) );
+      el.append( $( '<div class="mm-font-category">' + fontCategoryFilters[i] + '</div>' ).data( 'inx', i ) );
     }
-    //fc.append( $( '<span id="mm-font-category-display"> </span>' ) );
-    //fc.append( $( '<p>' ) );
     // family
-    var ff = $( '<div id="mm-font-family-select"> </div>' ).appendTo('#mm-choose-font-menu-container');
-    ff.append( $( '<span id="mm-font-family-first-last"> </span>' ) );
-    ff.append( $( '<span class="mm-font-family-goto">first</span>' ).data( 'goto', -9999 ) );
-    ff.append( $( '<span class="mm-font-family-goto">prev</span>' ).data( 'goto', -1 ) );
-    ff.append( $( '<span class="mm-font-family-count">&nbsp;-&nbsp;</span>' ).data( 'count', -2 ) );
-    ff.append( $( '<input id="mm-font-family-count-display" size="4" disabled>' ) );
-    ff.append( $( '<span class="mm-font-family-count">&nbsp;+&nbsp;</span>' ).data( 'count', +2 ) );
-    ff.append( $( '<span class="mm-font-family-goto">next</span>' ).data( 'goto', +1 ) );
-    ff.append( $( '<span class="mm-font-family-goto">last</span>' ).data( 'goto', +9999 ) );
-    ff.append( $( '<div id="mm-font-family-list"> </div>' ) );
-    ff.append( $( '<p>' ) );
-    // example
-    var fe = $( '<div id="mm-font-example"> </div>' ).appendTo('#mm-choose-font-menu-container');
-    fe.append( $( '<span>example: </span><input id="mm-font-example-text" size="60"><br>' ) );
-    fe.append( $( '<span>selected:</span>' ) );
-    fe.append( $( '<span id="mm-font-family-display"> </span>' ) );
-    fe.append( $( '<span> size:</span>' ) );
-    fe.append( $( '<span class="mm-font-example-size">&nbsp;-&nbsp;</span>' ).data( 'size', -4 ) );
-    fe.append( $( '<input id="mm-font-example-size-display" size="4" disabled>' ) );
-    fe.append( $( '<span class="mm-font-example-size">&nbsp;+&nbsp;</span>' ).data( 'size', +4 ) );
-    fe.append( $( '<span id="mm-font-example-update">Update</span>' ) );
-    fe.append( $( '<div id="mm-font-example-display"> </div>' ) );
+    el = $( '<div id="mm-font-family-select" class="mm-font-line"> </div>' ).appendTo('#mm-choose-font-menu-container');
+    el.append( $( '<span id="mm-font-family-first-last"> </span>' ) );
+    el.append( $( '<div class="mm-font-family-goto">first</div>' ).data( 'goto', -9999 ) );
+    el.append( $( '<div class="mm-font-family-goto">prev</div>' ).data( 'goto', -1 ) );
+    el.append( $( '<div class="mm-font-family-count">&nbsp;-&nbsp;</div>' ).data( 'count', -2 ) );
+    el.append( $( '<input id="mm-font-family-count-display" size="4" disabled>' ) );
+    el.append( $( '<div class="mm-font-family-count">&nbsp;+&nbsp;</div>' ).data( 'count', +2 ) );
+    el.append( $( '<div class="mm-font-family-goto">next</div>' ).data( 'goto', +1 ) );
+    el.append( $( '<div class="mm-font-family-goto">last</div>' ).data( 'goto', +9999 ) );
+    // family list
+    el = $( '<div id="mm-font-family-list"> </div>' ).appendTo('#mm-choose-font-menu-container');
+    // example input
+    el = $( '<div id="mm-font-example" class="mm-font-line"> </div>' ).appendTo('#mm-choose-font-menu-container');
+    el.append( $( '<span>Example: </span>' ) );
+    el.append( $( '<input id="mm-font-example-text" size="60"><br>' ) );
+    // example info and size
+    el = $( '<div id="mm-font-info-size" class="mm-font-line"> </div>' ).appendTo('#mm-choose-font-menu-container');
+    el.append( $( '<span>Selected: </span>' ) );
+    el.append( $( '<span id="mm-font-family-display"> </span>' ) );
+    el.append( $( '<span>Size: </span>' ) );
+    el.append( $( '<div class="mm-font-example-size">&nbsp;-&nbsp;</div>' ).data( 'size', -4 ) );
+    el.append( $( '<input id="mm-font-example-size-display" size="4" disabled>' ) );
+    el.append( $( '<div class="mm-font-example-size">&nbsp;+&nbsp;</div>' ).data( 'size', +4 ) );
+    //el.append( $( '<div id="mm-font-example-update">Update</div>' ) );
+    // example display
+    el = ( $( '<div id="mm-font-example-display"> </div>' ) ).appendTo('#mm-choose-font-menu-container');
     $( '#mm-font-example-display' ).html( fontExampleTextInit );
     fontExampleText = $( '#mm-font-example-display' ).html();
   } // _btpChooseFontInit
@@ -780,10 +783,11 @@ PopupMenu = function(options) {
       var inxf = fontCategoryIndexes[fontCategorySelected][i];
       var item = fontFamilyList[inxf];
       if ( item.kind ) WebFont.load({ google: { families: [item.family]} });
-      var df = $( '<span class="mm-font-family">' + item.family + '</span>' ).data( 'inxf', inxf );
-      element.append( df );
-      df = $( '<span class="mm-font-family-example">' + fontExampleTextShort + '</span><br>' );
-      element.append( df );
+      //
+//      var dl = ( $( '<div class="mm-font-line"> </div>' ) ).appendTo( element );
+      var dl = ( $( '<div class="mm-font-line"> </div>' ) ).appendTo( element );
+      $( '<span class="mm-font-family">' + item.family + '</span>' ).data( 'inxf', inxf ).appendTo( dl );
+      var df = $( '<span class="mm-font-family-example">' + fontExampleTextShort + '</span>' ).appendTo( dl );
       df.css({ 'font-family': _familyAndFallback(item), 'font-size': fontFamilyDisplayedSize });
       c++;
     }
@@ -1013,9 +1017,9 @@ PopupMenu = function(options) {
     $( '#mm-font-category-select' ).on( 'click', '.mm-font-category', _updateFontsCategory );
     $( '#mm-font-family-select' ).on( 'click', '.mm-font-family-count', _updateFontsFamilyCount );
     $( '#mm-font-family-select' ).on( 'click', '.mm-font-family-goto', _updateFontsFamilyGoto );
-    $( '#mm-font-family-select' ).on( 'click', '.mm-font-family', _updateFontsFamily );
+    $( '#mm-font-family-list' ).on( 'click', '.mm-font-family', _updateFontsFamily );
     $( '#mm-font-example-update' ).on( 'click', _updateFontsExample );
-    $( '#mm-font-example' ).on( 'click', '.mm-font-example-size', _updateFontsExampleSize );
+    $( '#mm-font-info-size' ).on( 'click', '.mm-font-example-size', _updateFontsExampleSize );
 
     // show info about color (popup)
     $( '.mm-color-view' ).on( 'click', function(ev) {
