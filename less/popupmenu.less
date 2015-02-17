@@ -350,7 +350,7 @@
   #mm-typo-font-base,
   #mm-typo-font-code {
     input {
-      width: @mm-width-typo-input-font - @mm-width-midi-button;
+      width: @mm-width-typo-input-font;
       text-align: left;
       &:hover {
         background-color: darken(@mm-color-text, 20%);
@@ -413,6 +413,7 @@
       }
     }
 
+    select,
     #mm-font-family-display,
     #mm-font-example-text,
     #mm-font-family-count-display,
@@ -427,6 +428,12 @@
       color: @mm-color-text-selected;
     }
 
+    select,
+    #mm-font-example-text {
+      padding: 0 @mm-separate;
+      width: 470px;
+    }
+
     #mm-font-family-display {
       width: 304px;
     }
@@ -434,10 +441,7 @@
     #mm-font-family-first-last {
       width: 212px;
     }
-    #mm-font-example-text {
-      padding: 0 @mm-separate;
-      width: 470px;
-    }
+
 
     .mm-font-family-goto {
       .mm-button-mixin( 60px );

@@ -391,7 +391,7 @@
 }
 #mm-typography-menu-container #mm-typo-font-base input,
 #mm-typography-menu-container #mm-typo-font-code input {
-  width: 385px;
+  width: 465px;
   text-align: left;
 }
 #mm-typography-menu-container #mm-typo-font-base input:hover,
@@ -451,6 +451,7 @@
 #mm-choose-font-menu-container .mm-font-line .mm-font-category[selected-category]:hover {
   background-color: #cccccc;
 }
+#mm-choose-font-menu-container .mm-font-line select,
 #mm-choose-font-menu-container .mm-font-line #mm-font-family-display,
 #mm-choose-font-menu-container .mm-font-line #mm-font-example-text,
 #mm-choose-font-menu-container .mm-font-line #mm-font-family-count-display,
@@ -464,15 +465,16 @@
   background-color: #ffffff;
   color: #000000;
 }
+#mm-choose-font-menu-container .mm-font-line select,
+#mm-choose-font-menu-container .mm-font-line #mm-font-example-text {
+  padding: 0 3px;
+  width: 470px;
+}
 #mm-choose-font-menu-container .mm-font-line #mm-font-family-display {
   width: 304px;
 }
 #mm-choose-font-menu-container .mm-font-line #mm-font-family-first-last {
   width: 212px;
-}
-#mm-choose-font-menu-container .mm-font-line #mm-font-example-text {
-  padding: 0 3px;
-  width: 470px;
 }
 #mm-choose-font-menu-container .mm-font-line .mm-font-family-goto {
   display: block;

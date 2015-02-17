@@ -89,26 +89,26 @@ PopupMenu = function(options) {
     // mark which font to change ('#mm-typo-font-code' or '#mm-typo-font-size')
     btpFontToChange = '',
     // chose font
-// TODO: zbrisi naslednji 2 vrstici preden das v javnost !!!!
-//    googleAPI = 'AIzaSyDyJtbKog963UG494tay5ydfU-AWhVbZUg',
-//    googleFontsURL = 'https://www.googleapis.com/webfonts/v1/webfonts?sort=popularity&key=' + googleAPI,
     googleFontsURL = 'all-google-fonts.json',
     // category
     fontCategoryFilters = [ 'all', 'sans-serif', 'serif', 'display', 'handwriting', 'monospace' ],
     fontCategoryIndexes = [ [], [], [], [], [], [] ],
     fontCategorySelected = 0,
+    // subset
+    fontSubsetFilters = [ 'all' ],
+    fontSelectedSelected = 0,
     // family
     fontFamilyListInit = [
-      { kind: false, family: 'Helvetica Neue', category: 'sans-serif'},
-      { kind: false, family: 'Helvetica', category: 'sans-serif'},
-      { kind: false, family: 'Arial', category: 'sans-serif'},
-      { kind: false, family: 'Georgia', category: 'serif'},
-      { kind: false, family: 'Times New Roman', category: 'serif'},
-      { kind: false, family: 'Times', category: 'serif'},
-      { kind: false, family: 'Menlo', category: 'monospace'},
-      { kind: false, family: 'Monaco', category: 'monospace'},
-      { kind: false, family: 'Consolas', category: 'monospace'},
-      { kind: false, family: 'Courier New', category: 'monospace'}
+      { kind: false, family: 'Helvetica Neue',  category: 'sans-serif', subsets: [ 'latin', 'latin-ext'] },
+      { kind: false, family: 'Helvetica',       category: 'sans-serif', subsets: [ 'latin', 'latin-ext'] },
+      { kind: false, family: 'Arial',           category: 'sans-serif', subsets: [ 'latin', 'latin-ext'] },
+      { kind: false, family: 'Georgia',         category: 'serif',      subsets: [ 'latin', 'latin-ext'] },
+      { kind: false, family: 'Times New Roman', category: 'serif',      subsets: [ 'latin', 'latin-ext'] },
+      { kind: false, family: 'Times',           category: 'serif',      subsets: [ 'latin', 'latin-ext'] },
+      { kind: false, family: 'Menlo',           category: 'monospace',  subsets: [ 'latin', 'latin-ext'] },
+      { kind: false, family: 'Monaco',          category: 'monospace',  subsets: [ 'latin', 'latin-ext'] },
+      { kind: false, family: 'Consolas',        category: 'monospace',  subsets: [ 'latin', 'latin-ext'] },
+      { kind: false, family: 'Courier New',     category: 'monospace',  subsets: [ 'latin', 'latin-ext'] }
     ],
     fontFamilyList = fontFamilyListInit,
     fontFamilyDisplayedSize = 24,
@@ -560,12 +560,10 @@ PopupMenu = function(options) {
           '<div class="mm-typo-line" id="mm-typo-font-base">' +
             '<span>Base Font:</span>' +
             '<input type="text" readonly>' +
-            '<div class="mm-midi-button mm-button-base">Change</div>' +
           '</div>' +
           '<div class="mm-typo-line" id="mm-typo-font-code">' +
             '<span>Code Font:</span>' +
             '<input type="text" readonly>' +
-            '<div class="mm-midi-button mm-button-code">Change</div>' +
           '</div>' +
           '<div class="mm-typo-line" id="mm-typo-three">' +
             '<div class="mm-typo-line" id="mm-typo-font-size">' +
@@ -697,6 +695,22 @@ PopupMenu = function(options) {
           }
         }
       }
+      // init subsets
+      for ( var inxf = 0; inxf < fontFamilyList.length; inxf++ ) {
+        var itemSubsets = fontFamilyList[inxf].subsets;
+        for ( var s = 0; s < itemSubsets.length; s++ ) {
+          if ( fontSubsetFilters.indexOf( itemSubsets[s] ) === -1 ) {
+            fontSubsetFilters.push( itemSubsets[s] );
+          }
+        }
+      }
+      // create subset select
+      $('<span>Subset:</span>').appendTo('#mm-font-subset-select');
+      var el = $('<select name="font-subset"></select>').appendTo('#mm-font-subset-select');
+      for ( var s = 0; s < fontSubsetFilters.length; s++ ) {
+        el.append( '<option value="' + s + '">' + fontSubsetFilters[s] + '</option>' );
+      }
+      // display it
       _displayFontsCategory();
       _displayFontsFamily();
       _displayFontsExample();
@@ -721,6 +735,8 @@ PopupMenu = function(options) {
 
   function _btpChooseFontInit() {
     var el;
+    // subset
+    el = $( '<div id="mm-font-subset-select" class="mm-font-line"> </div>' ).appendTo('#mm-choose-font-menu-container');
     // category
     el = $( '<div id="mm-font-category-select" class="mm-font-line"> </div>' ).appendTo('#mm-choose-font-menu-container');
     for ( var i = 0; i < fontCategoryFilters.length; i++ ) {
@@ -741,7 +757,7 @@ PopupMenu = function(options) {
     // example input
     el = $( '<div id="mm-font-example" class="mm-font-line"> </div>' ).appendTo('#mm-choose-font-menu-container');
     el.append( $( '<span>Example: </span>' ) );
-    el.append( $( '<input id="mm-font-example-text" size="60"><br>' ) );
+    el.append( $( '<input id="mm-font-example-text" size="60">' ) );
     // example info and size
     el = $( '<div id="mm-font-info-size" class="mm-font-line"> </div>' ).appendTo('#mm-choose-font-menu-container');
     el.append( $( '<span>Selected: </span>' ) );
@@ -985,8 +1001,15 @@ PopupMenu = function(options) {
       _updateFontsHTML();
     });
 
+    // example text changed
+    $( '#mm-typo-example input' ).on( 'keyup', function(ev) {
+      ev.preventDefault();
+      btpTypography[5].used = $(this).val();
+      _updateFontsHTML();
+    });
+
     // show choose font
-    $( '#mm-typography-menu-container' ).on( 'click', 'input, .mm-midi-button', function(ev) {
+    $( '#mm-typo-font-base, #mm-typo-font-code' ).on( 'click', 'input', function(ev) {
       ev.preventDefault();
       btpFontToChange = $(this).parent().attr('id');
       $( '.mm-menu-down' ).hide();
@@ -1018,7 +1041,7 @@ PopupMenu = function(options) {
     $( '#mm-font-family-select' ).on( 'click', '.mm-font-family-count', _updateFontsFamilyCount );
     $( '#mm-font-family-select' ).on( 'click', '.mm-font-family-goto', _updateFontsFamilyGoto );
     $( '#mm-font-family-list' ).on( 'click', '.mm-font-family', _updateFontsFamily );
-    $( '#mm-font-example-update' ).on( 'click', _updateFontsExample );
+    $( '#mm-font-example-text' ).on( 'keyup', _updateFontsExample );
     $( '#mm-font-info-size' ).on( 'click', '.mm-font-example-size', _updateFontsExampleSize );
 
     // show info about color (popup)
