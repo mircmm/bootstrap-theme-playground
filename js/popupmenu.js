@@ -4,7 +4,7 @@ PopupMenu = function(options) {
 
   var
     title = 'Bootstrap Theme Playground',
-    version = '0.6.4',
+    version = '0.6.14',
     settings,
     // default color (use whenever there is no user choosen value))
     btpDefaultH = 180,
@@ -92,11 +92,12 @@ PopupMenu = function(options) {
     googleFontsURL = 'all-google-fonts.json',
     // category
     fontCategoryFilters = [ 'all', 'sans-serif', 'serif', 'display', 'handwriting', 'monospace' ],
-    fontCategoryIndexes = [ [], [], [], [], [], [] ],
     fontCategorySelected = 0,
     // subset
     fontSubsetFilters = [ 'all' ],
-    fontSelectedSelected = 0,
+    fontSubsetSelected = 0,
+    // filtered indexes to fontFamilyList
+    fontFamilyListFiltered = [],
     // family
     fontFamilyListInit = [
       { kind: false, family: 'Helvetica Neue',  category: 'sans-serif', subsets: [ 'latin', 'latin-ext'] },
@@ -687,14 +688,7 @@ PopupMenu = function(options) {
       // load fonts list from google
       fontFamilyList = [].concat( fontFamilyListInit, result.items );
       // init category indexes
-      for ( var inxf = 0; inxf < fontFamilyList.length; inxf++ ) {
-        fontCategoryIndexes[0].push( inxf );
-        for ( var inxc = 1; inxc < fontCategoryFilters.length; inxc++ ) {
-          if ( fontFamilyList[inxf].category === fontCategoryFilters[inxc] ) {
-            fontCategoryIndexes[inxc].push( inxf );
-          }
-        }
-      }
+      // TODO: zdaj je init, naredi iz JSONa
       // init subsets
       for ( var inxf = 0; inxf < fontFamilyList.length; inxf++ ) {
         var itemSubsets = fontFamilyList[inxf].subsets;
@@ -717,6 +711,19 @@ PopupMenu = function(options) {
     });
   } // _loadGoogleFonts
 
+  function _calcFontFilter() {
+    // calc font filter indexes
+    fontFamilyListFiltered = [];
+    for ( var inxf = 0; inxf < fontFamilyList.length; inxf++ ) {
+      if ( fontCategorySelected === 0 || fontFamilyList[inxf].category === fontCategoryFilters[fontCategorySelected] ) {
+        if ( fontSubsetSelected === 0 || fontFamilyList[inxf].subsets.indexOf( fontSubsetFilters[fontSubsetSelected] ) !== -1 ) {
+          fontFamilyListFiltered.push( inxf );
+        }
+      }
+    }
+  } // _calcFontFilter
+
+
   function _createChooseFontHTML() {
     var result =
       // title
@@ -735,7 +742,7 @@ PopupMenu = function(options) {
 
   function _btpChooseFontInit() {
     var el;
-    // subset
+    // subsets
     el = $( '<div id="mm-font-subset-select" class="mm-font-line"> </div>' ).appendTo('#mm-choose-font-menu-container');
     // category
     el = $( '<div id="mm-font-category-select" class="mm-font-line"> </div>' ).appendTo('#mm-choose-font-menu-container');
@@ -789,18 +796,17 @@ PopupMenu = function(options) {
     var first = fontFamilyFirstDisplayed;
     var count = fontFamilyCountDisplayed;
     $( '#mm-font-family-first-last' ).text(
-      'displayed: (' + (first+1) + '-' + (first+count) + '/' + fontCategoryIndexes[fontCategorySelected].length + ')'
+      'displayed: (' + (first+1) + '-' + (first+count) + '/' + fontFamilyListFiltered.length + ')'
       );
     $( '#mm-font-family-count-display' ).val( count );
     // list families
     var element = $( '#mm-font-family-list' );
     element.empty();
-    for ( var i = first, c = 0; i <= fontCategoryIndexes[fontCategorySelected].length && c < count; i++ ) {
-      var inxf = fontCategoryIndexes[fontCategorySelected][i];
+    for ( var i = first, c = 0; i <= fontFamilyListFiltered.length && c < count; i++ ) {
+      var inxf = fontFamilyListFiltered[i];
       var item = fontFamilyList[inxf];
       if ( item.kind ) WebFont.load({ google: { families: [item.family]} });
       //
-//      var dl = ( $( '<div class="mm-font-line"> </div>' ) ).appendTo( element );
       var dl = ( $( '<div class="mm-font-line"> </div>' ) ).appendTo( element );
       $( '<span class="mm-font-family">' + item.family + '</span>' ).data( 'inxf', inxf ).appendTo( dl );
       var df = $( '<span class="mm-font-family-example">' + fontExampleTextShort + '</span>' ).appendTo( dl );
@@ -819,10 +825,20 @@ PopupMenu = function(options) {
   } // _displayFontsExample
 
 // ----- event handlers -----
+  function _updateFontsSubsets() {
+    fontSubsetSelected = parseInt( $(this).val() );
+    fontFamilyListSelected = 0;
+    fontFamilyFirstDisplayed = 0;
+    _calcFontFilter();
+    _displayFontsCategory();
+    _displayFontsFamily();
+  } // _updateFontsSubsets
+
   function _updateFontsCategory() {
     fontCategorySelected = $(this).data('inx');
     fontFamilyListSelected = 0;
     fontFamilyFirstDisplayed = 0;
+    _calcFontFilter();
     _displayFontsCategory();
     _displayFontsFamily();
   } // _updateFontsCategory
@@ -832,7 +848,7 @@ PopupMenu = function(options) {
     if ( fontFamilyFirstDisplayed < 0 ) {
       fontFamilyFirstDisplayed = 0;
     }
-    var maxFirst = fontCategoryIndexes[fontCategorySelected].length - fontFamilyCountDisplayed;
+    var maxFirst = fontFamilyListFiltered.length - fontFamilyCountDisplayed;
     if ( fontFamilyFirstDisplayed > maxFirst ) {
       fontFamilyFirstDisplayed = maxFirst;
     }
@@ -1037,6 +1053,7 @@ PopupMenu = function(options) {
     });
 
     // choose font
+    $( '#mm-font-subset-select' ).on( 'change', 'select', _updateFontsSubsets );
     $( '#mm-font-category-select' ).on( 'click', '.mm-font-category', _updateFontsCategory );
     $( '#mm-font-family-select' ).on( 'click', '.mm-font-family-count', _updateFontsFamilyCount );
     $( '#mm-font-family-select' ).on( 'click', '.mm-font-family-goto', _updateFontsFamilyGoto );
