@@ -2,54 +2,6 @@
 var PopupMenu = function(options) {
 'use strict';
 
-
-  var FontFamilyBB = Backbone.Model.extend({
-    defaults: {
-      family: '',
-      category: '',
-      subsets: [],
-      kind: false
-    },
-
-  });
-
-  var FontFamilyViewBB = Backbone.View.extend({
-    render: function(){
-    },
-
-  });
-
-  var FontFamilyListBB = Backbone.Collection.extend({
-    model: FontFamilyBB,
-
-  });
-
-  var FontFamilyListViewBB = Backbone.View.extend({
-    render: function(){
-    },
-
-  });
-
-  var ff1 = new FontFamilyBB({ kind: false, family: 'Times', category: 'serif', subsets: [ 'latin', 'latin-ext'] });
-  var ff2 = new FontFamilyBB({ kind: false, family: 'Helvetica Neue',  category: 'sans-serif', subsets: [ 'latin', 'latin-ext'] });
-  var ffv1 = new FontFamilyViewBB({ el: $("#mmtest"), model: ff1 });
-  var ffv1 = new FontFamilyViewBB({ el: $("#mmtest"), model: ff2 });
-
-  var ffl = new FontFamilyListBB();
-
-  var fflv = new FontFamilyListViewBB();
-  ffl.add(ff1);
-  ffl.add(ff2);
-  ffl.length;
-
-
-
-
-
-
-/* ----------------------------------------------------------------------------
- * start of old popupmenu
- * ---------------------------------------------------------------------------- */
   var
     title = 'Bootstrap Theme Playground',
     version = '0.7.01',
@@ -1117,15 +1069,90 @@ var PopupMenu = function(options) {
 
   } // _bindEvents
 
-  /* ----------------------------------------------------------------------------
-   * main
-   * ---------------------------------------------------------------------------- */
+
+/* ----------------------------------------------------------------------------
+ * start of backbone refactor
+ * ---------------------------------------------------------------------------- */
+
+  var FontFamilyBB = Backbone.Model.extend({
+    defaults: {
+      family: '',
+      category: '',
+      subsets: [],
+      kind: false
+    },
+
+  });
+
+  var FontFamilyListBB = Backbone.Collection.extend({
+    //
+    model: FontFamilyBB,
+    fontCategoryFilters: [],
+    fontSubsetFilters: [],
+    //
+    initFonts: function( fontFamilyList ){
+      this.reset( fontFamilyList );
+      this.fontCategoryFilters = fontFamilyList.reduce(
+        function(res, ff){ return _.union( res, [ff.category] ); }, ['all']
+      );
+      this.fontSubsetFilters = fontFamilyList.reduce(
+        function(res, ff){ return _.union( res, ff.subsets ); }, ['all']
+      );
+    },
+    //
+    initialize: function(){
+      this.initFonts( fontFamilyListInit );
+    },
+  });
+
+
+  var FontFamilyViewBB = Backbone.View.extend({
+    render: function(){
+    },
+  });
+
+
+  var FontFamilyListViewBB = Backbone.View.extend({
+    id: 'ffl-id',
+    className: 'ffl-class',
+
+    defaults: {
+      fontCategorySelected: 0,
+      fontSubsetSelected: 0,
+      fontFamilyListFiltered: [],
+    },
+
+    render: function(){
+      this.$el.html( 'lalala' );
+    },
+  });
+
+
+  var ffl = new FontFamilyListBB();
+
+  var fflv = new FontFamilyListViewBB({ collection: ffl });
+
+  var a,b,c;
+  a = fflv.el;
+  b = fflv.$el.html();
+  c = fflv.$el;
+
+  fflv.render();
+  a = fflv.el;
+  b = fflv.$el.html();
+  c = fflv.$el;
+
+  //fflv.$el.appendTo( '#mm-test' );
+
+
+  var konec = 0;
+/* ----------------------------------------------------------------------------
+ * main
+ * ---------------------------------------------------------------------------- */
   $(document).ready( function() {
     _showPopover();
     _bindEvents();
   });
 
 }(); // PopupMenu
-
-
 
