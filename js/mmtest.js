@@ -1082,34 +1082,51 @@ var PopupMenu = function(options) {
       kind: false
     },
 
-  });
+  }); // FontFamilyBB
 
   var FontFamilyListBB = Backbone.Collection.extend({
     //
     model: FontFamilyBB,
-    fontCategoryFilters: [],
-    fontSubsetFilters: [],
-    //
-    initFonts: function( fontFamilyList ){
-      this.reset( fontFamilyList );
-      this.fontCategoryFilters = fontFamilyList.reduce(
-        function(res, ff){ return _.union( res, [ff.category] ); }, ['all']
-      );
-      this.fontSubsetFilters = fontFamilyList.reduce(
-        function(res, ff){ return _.union( res, ff.subsets ); }, ['all']
-      );
-    },
+    categoryFilters: [],
+    categorySelected: 0,
+    subsetFilters: [],
+    subsetSelected: 0,
+    filtered: [],
     //
     initialize: function(){
       this.initFonts( fontFamilyListInit );
     },
-  });
+    //
+    initFonts: function( fontFamilyList ){
+      this.reset( fontFamilyList );
+      this.categoryFilters = fontFamilyList.reduce(
+        function(res, ff){ return _.union( res, [ff.category] ); }, ['all']
+      );
+      this.subsetFilters = fontFamilyList.reduce(
+        function(res, ff){ return _.union( res, ff.subsets ); }, ['all']
+      );
+      this.filterFonts();
+    },
+    //
+    filterFonts: function(){
+      this.filtered = [];
+      this.each( function(element, index){
+        if ( this.categorySelected === 0 || element.category === this.categoryFilters[this.categorySelected] ) {
+          if ( this.subsetSelected === 0 || element.subsets.indexOf( this.subsetFilters[this.subsetSelected] ) !== -1 ) {
+            this.filtered.push(index);
+          }
+        }
+      }, this); // each function
+    },
+
+
+  }); // FontFamilyListBB
 
 
   var FontFamilyViewBB = Backbone.View.extend({
     render: function(){
     },
-  });
+  }); // FontFamilyViewBB
 
 
   var FontFamilyListViewBB = Backbone.View.extend({
@@ -1117,41 +1134,52 @@ var PopupMenu = function(options) {
     className: 'ffl-class',
 
     defaults: {
-      fontCategorySelected: 0,
-      fontSubsetSelected: 0,
-      fontFamilyListFiltered: [],
+      // pagination
+      firstDisplayed: 0,
+      countDisplayed: 4,
+      listText: 'abcde ABCDE 67890',
+      listSize: 24,
+      // example
+      selected: 0,
+      selectedText: 'abcde fghij klmno pqrst uvwxyz ABCDE FGHIJ KLMNO PQRST UVWXYZ 12345 67890',
+      selectedSize: 36,
     },
 
     render: function(){
       this.$el.html( 'lalala' );
     },
-  });
+  }); // FontFamilyListViewBB
 
 
-  var ffl = new FontFamilyListBB();
+  var _test = function() {
+    var ffl = new FontFamilyListBB();
 
-  var fflv = new FontFamilyListViewBB({ collection: ffl });
+    var fflv = new FontFamilyListViewBB({ collection: ffl });
 
-  var a,b,c;
-  a = fflv.el;
-  b = fflv.$el.html();
-  c = fflv.$el;
+    var a,b,c;
+    a = fflv.el;
+    b = fflv.$el.html();
+    c = fflv.$el;
 
-  fflv.render();
-  a = fflv.el;
-  b = fflv.$el.html();
-  c = fflv.$el;
+    fflv.render();
+    a = fflv.el;
+    b = fflv.$el.html();
+    c = fflv.$el;
 
-  //fflv.$el.appendTo( '#mm-test' );
+    fflv.$el.appendTo( '#mm-test' );
+    //$( '#mm-test' ).append(c);
 
+    var konec = 0;
+  };
 
-  var konec = 0;
 /* ----------------------------------------------------------------------------
  * main
  * ---------------------------------------------------------------------------- */
   $(document).ready( function() {
     _showPopover();
     _bindEvents();
+
+    _test();
   });
 
 }(); // PopupMenu
