@@ -1081,7 +1081,6 @@ var PopupMenu = function(options) {
       subsets: [],
       kind: false
     },
-
   }); // FontFamilyBB
 
   var FontFamilyListBB = Backbone.Collection.extend({
@@ -1092,10 +1091,14 @@ var PopupMenu = function(options) {
     subsetFilters: [],
     subsetSelected: 0,
     filtered: [],
+
     //
     initialize: function(){
       this.initFonts( fontFamilyListInit );
+      this.on( 'change:categorySelected', this.filterFonts );
+      this.on( 'change:subsetSelected', this.filterFonts );
     },
+
     //
     initFonts: function( fontFamilyList ){
       this.reset( fontFamilyList );
@@ -1107,6 +1110,7 @@ var PopupMenu = function(options) {
       );
       this.filterFonts();
     },
+
     //
     filterFonts: function(){
       this.filtered = [];
@@ -1116,7 +1120,13 @@ var PopupMenu = function(options) {
             this.filtered.push(index);
           }
         }
-      }, this); // each function
+      }, this); // each function, this context
+    },
+
+    onePage: function(first, count){
+      // vrni filtrirane od first do first+count
+      // TODO
+      return this;
     },
 
 
@@ -1124,51 +1134,49 @@ var PopupMenu = function(options) {
 
 
   var FontFamilyViewBB = Backbone.View.extend({
+    text: 'abcde ABCDE 67890',
+    size: 24,
+
+    //
+    template: _.template(
+      '<span><%= family %></span> <span><%= text %></span>'
+    ),
+
+    //
     render: function(){
+      var tp = { family: this.model.get('family'), text: this.text, size: this.size };
+      this.$el.html( this.template( tp ) );
     },
   }); // FontFamilyViewBB
 
 
   var FontFamilyListViewBB = Backbone.View.extend({
-    id: 'ffl-id',
-    className: 'ffl-class',
+    // pagination
+    first: 0,
+    count: 4,
+    // example
+    selected: 0,
+    selectedText: 'abcde fghij klmno pqrst uvwxyz ABCDE FGHIJ KLMNO PQRST UVWXYZ 12345 67890',
+    selectedSize: 36,
 
-    defaults: {
-      // pagination
-      firstDisplayed: 0,
-      countDisplayed: 4,
-      listText: 'abcde ABCDE 67890',
-      listSize: 24,
-      // example
-      selected: 0,
-      selectedText: 'abcde fghij klmno pqrst uvwxyz ABCDE FGHIJ KLMNO PQRST UVWXYZ 12345 67890',
-      selectedSize: 36,
+    renderOne: function(element){
+      var elementView = new FontFamilyViewBB({ model: element });
+      elementView.render();
+      this.$el.append( elementView.el );
     },
 
     render: function(){
-      this.$el.html( 'lalala' );
+      this.collection.onePage( this.first, this.count )
+      .each( this.renderOne, this ); // render each with this context
     },
   }); // FontFamilyListViewBB
 
 
   var _test = function() {
     var ffl = new FontFamilyListBB();
-
     var fflv = new FontFamilyListViewBB({ collection: ffl });
-
-    var a,b,c;
-    a = fflv.el;
-    b = fflv.$el.html();
-    c = fflv.$el;
-
     fflv.render();
-    a = fflv.el;
-    b = fflv.$el.html();
-    c = fflv.$el;
-
     fflv.$el.appendTo( '#mm-test' );
-    //$( '#mm-test' ).append(c);
-
     var konec = 0;
   };
 
