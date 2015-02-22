@@ -1,0 +1,129 @@
+// colors
+@color-text: #fff;
+@color-text-selected: #000;
+@color-background: #334;
+@color-background-button: #556;
+
+// base sizes
+@base-height: 30px;
+@base-width: 30px;
+@base-separate: 3px;
+
+// sizes
+@width-all: 24 * @base-width;
+
+
+/* ----------------------------------------------------------------------------
+ * mixins
+ * ---------------------------------------------------------------------------- */
+.button-mixin(@wf) {
+  display: block;
+  height: @base-height;
+  width: @base-width * @wf;
+
+  font-style: "Helvetica", sans-serif;
+  font-size: @base-height - 5 * @base-separate;
+  line-height: @base-height - 2 * @base-separate;
+  font-weight: bold;
+  text-align: center;
+
+  margin: 0 @base-separate 0 0;
+  border: 0;
+  padding: @base-separate;
+
+  color: @color-text;
+  background-color: @color-background-button;
+
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: lighten(@color-background-button, 20%);
+  }
+}
+
+.label-mixin(@wf) {
+  display: block;
+  height: @base-height;
+  width: @base-width * @wf;
+
+  font-style: "Helvetica", sans-serif;
+  font-size: @base-height - 5 * @base-separate;
+  line-height: @base-height - 2 * @base-separate;
+  font-weight: normal;
+  text-align: right;
+
+  margin: 0 @base-separate 0 0;
+  border: 0;
+  padding: @base-separate @base-separate*2;
+}
+
+/* ----------------------------------------------------------------------------
+ * fonts
+ * ---------------------------------------------------------------------------- */
+#choose-font-container {
+  width: @width-all;
+  color: @color-text;
+  background-color: @color-background;
+
+  font-style: "Helvetica", sans-serif;
+  font-size: @base-height - 5 * @base-separate;
+  line-height: @base-height - 2 * @base-separate;
+  font-weight: normal;
+
+  margin: 2 * @base-separate  @base-separate  0  @base-separate;
+  padding: @base-separate;
+
+  .select-line {
+    display: flex;
+    margin: @base-separate;
+    .label {
+      .label-mixin(6);
+    }
+    select {
+      height: @base-height;
+      width: @base-width * 12;
+      color: @color-text;
+      background-color: @color-background-button;
+      border: 1px solid;
+      border-radius: 0;
+      cursor: pointer;
+    }
+  }
+
+  .font-line {
+    display: flex;
+    margin: @base-separate;
+    .family {
+      .button-mixin(6);
+    }
+    .example {
+      font-size: @base-height - 2 * @base-separate;
+      line-height: @base-height;
+      padding: 0 @base-separate*2;
+    }
+  }
+
+  .paginator-line {
+    display: flex;
+    margin: @base-separate;
+    .label {
+      .label-mixin(6);
+    }
+    .button {
+      .button-mixin(3);
+    }
+    .label-pp {
+      .label-mixin(4);
+      width: auto;
+    }
+    .button-pp {
+      .button-mixin(0.5);
+    }
+  }
+
+} // #choose-font-container
+

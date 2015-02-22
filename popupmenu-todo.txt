@@ -1,16 +1,17 @@
 poglej kako ima Mlacom narejene filtre:
 http://www.mlacom.si/racunalniska-oprema/ohisja-pc
 
-backbone tutorial:
-http://backbonetutorials.com/
 
-backbone koristno:
-http://ricostacruz.com/backbone-patterns/
-
-
+narejeno (mmtest.js) backbone za font selection:
+filtri, font family list, pagination
 
 TODO:
-naredi z backbone.js
+example font 36px
+
+edit short exmple
+edit long example
+( za oba: urejanje tam kjer je prikazan )
+
 
 
 

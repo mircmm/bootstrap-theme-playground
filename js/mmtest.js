@@ -1083,8 +1083,24 @@ var PopupMenu = function(options) {
     },
   }); // FontFamilyBB
 
+
+  var FontFamilyViewBB = Backbone.View.extend({
+    className: 'font-line',
+    text: 'abcde ABCDE 67890',
+
+    template: _.template(
+      '<span class="family"> <%= family %> </span>' +
+      '<span class="example" style="font-family: <%= family %>"> <%= text %> </span>'
+    ),
+
+    render: function(){
+      var tp = { family: this.model.get('family'), text: this.text };
+      this.$el.html( this.template( tp ) );
+    },
+  }); // FontFamilyViewBB
+
+
   var FontFamilyListBB = Backbone.Collection.extend({
-    //
     model: FontFamilyBB,
     categoryFilters: [],
     categorySelected: 0,
@@ -1092,31 +1108,28 @@ var PopupMenu = function(options) {
     subsetSelected: 0,
     filtered: [],
 
-    //
     initialize: function(){
       this.initFonts( fontFamilyListInit );
-      this.on( 'change:categorySelected', this.filterFonts );
-      this.on( 'change:subsetSelected', this.filterFonts );
     },
 
-    //
     initFonts: function( fontFamilyList ){
       this.reset( fontFamilyList );
       this.categoryFilters = fontFamilyList.reduce(
-        function(res, ff){ return _.union( res, [ff.category] ); }, ['all']
+        function(result, element){ return _.union( result, [element.category] ); }, ['all']
       );
       this.subsetFilters = fontFamilyList.reduce(
-        function(res, ff){ return _.union( res, ff.subsets ); }, ['all']
+        function(result, element){ return _.union( result, element.subsets ); }, ['all']
       );
       this.filterFonts();
     },
 
-    //
     filterFonts: function(){
       this.filtered = [];
       this.each( function(element, index){
-        if ( this.categorySelected === 0 || element.category === this.categoryFilters[this.categorySelected] ) {
-          if ( this.subsetSelected === 0 || element.subsets.indexOf( this.subsetFilters[this.subsetSelected] ) !== -1 ) {
+        if ( this.categorySelected === 0 ||
+              element.attributes.category === this.categoryFilters[this.categorySelected] ) {
+          if ( this.subsetSelected === 0 ||
+                element.attributes.subsets.indexOf( this.subsetFilters[this.subsetSelected] ) !== -1 ) {
             this.filtered.push(index);
           }
         }
@@ -1124,33 +1137,19 @@ var PopupMenu = function(options) {
     },
 
     onePage: function(first, count){
-      // vrni filtrirane od first do first+count
-      // TODO
-      return this;
+      var page = new Backbone.Collection({ model: FontFamilyBB });
+      page.reset();
+      for ( var i = first; i < first+count; i++ ) {
+        page.add( this.at( this.filtered[i] ), {silent:true} );
+      }
+      return page;
     },
-
 
   }); // FontFamilyListBB
 
 
-  var FontFamilyViewBB = Backbone.View.extend({
-    text: 'abcde ABCDE 67890',
-    size: 24,
-
-    //
-    template: _.template(
-      '<span><%= family %></span> <span><%= text %></span>'
-    ),
-
-    //
-    render: function(){
-      var tp = { family: this.model.get('family'), text: this.text, size: this.size };
-      this.$el.html( this.template( tp ) );
-    },
-  }); // FontFamilyViewBB
-
-
   var FontFamilyListViewBB = Backbone.View.extend({
+    id: 'choose-font-container',
     // pagination
     first: 0,
     count: 4,
@@ -1159,15 +1158,98 @@ var PopupMenu = function(options) {
     selectedText: 'abcde fghij klmno pqrst uvwxyz ABCDE FGHIJ KLMNO PQRST UVWXYZ 12345 67890',
     selectedSize: 36,
 
-    renderOne: function(element){
+    events: {
+      'change .select-line .Category': 'selectCategory',
+      'change .select-line .Subset': 'selectSubset',
+      'click .paginator-line .button': 'selectPage',
+      'click .paginator-line .button-pp': 'selectPageSize',
+    },
+
+    initialize: function(){
+    },
+
+    // event handlers
+    selectCategory: function(ev){
+      var value = parseInt( $(ev.target).val() );
+      this.collection.categorySelected = value;
+      this.collection.filterFonts();
+      this.first = 0;
+      this.render();
+    },
+
+    selectSubset: function(ev){
+      var value = parseInt( $(ev.target).val() );
+      this.collection.subsetSelected = value;
+      this.collection.filterFonts();
+      this.first = 0;
+      this.render();
+    },
+
+    selectPage: function(ev){
+      var value = $(ev.target).data('goto');
+      this.first += value * this.count;
+      var maxFirst = this.collection.filtered.length - this.count;
+      if( this.first > maxFirst) this.first = maxFirst;
+      if( this.first < 0 ) this.first = 0;
+      this.render();
+    },
+
+    selectPageSize: function(ev){
+      var value = $(ev.target).data('perpage');
+      this.count += value;
+      if( this.count > 20) this.count = 20;
+      if( this.count < 4 ) this.count = 4;
+      this.render();
+    },
+
+    // render paginator
+    templatePaginator: _.template(
+      '<div class="paginator-line">' +
+      '<span class="label"> <%= displayed %> </span>' +
+      '<span class="button" data-goto="-9999"> First </span>' +
+      '<span class="button" data-goto="-1"> Prev </span>' +
+      '<span class="button" data-goto="1"> Next </span>' +
+      '<span class="button" data-goto="9999"> Last </span>' +
+      '<span class="label-pp"> <%= perPage %> </span>' +
+      '<span class="button-pp" data-perpage="-2"> - </span>' +
+      '<span class="button-pp" data-perpage="2"> + </span>' +
+      '</div>'
+    ),
+    renderPaginator: function(){
+      var length = this.collection.filtered.length;
+      var displayed = 'Displayed: ' + (this.first+1) + ' to ' + (this.first+this.count) + ' of ' + length;
+      var perPage = 'PerPage: ' + this.count;
+      var html = this.templatePaginator({ displayed: displayed, perPage: perPage });
+      this.$el.append( html );
+    },
+
+    // render selector
+    templateSelect: _.template(
+      '<div class="select-line">' +
+      '<span class="label"> <%= name %> </span>' +
+      '<select class=<%= name %> >' +
+      '<% for( var i = 0; i < values.length; ++i ) print( "<option value=" + i + ((i==selected)?" selected>":" >") + values[i]+ "</option>" ); %>' +
+      '</select></div>'
+    ),
+    renderSelect: function(name, values, selected){
+      var html = this.templateSelect({ name: name, values: values, selected: selected });
+      this.$el.append( html );
+    },
+
+    // render font example line
+    renderLine: function(element){
       var elementView = new FontFamilyViewBB({ model: element });
       elementView.render();
       this.$el.append( elementView.el );
     },
 
+    // render all
     render: function(){
-      this.collection.onePage( this.first, this.count )
-      .each( this.renderOne, this ); // render each with this context
+      this.$el.empty();
+      this.renderSelect( 'Category', this.collection.categoryFilters, this.collection.categorySelected );
+      this.renderSelect( 'Subset', this.collection.subsetFilters, this.collection.subsetSelected );
+      this.collection.onePage( this.first, this.count ).each( this.renderLine, this ); // render each with this context
+      this.renderPaginator();
     },
   }); // FontFamilyListViewBB
 

@@ -1,0 +1,149 @@
+/* ----------------------------------------------------------------------------
+ * mixins
+ * ---------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------
+ * fonts
+ * ---------------------------------------------------------------------------- */
+#choose-font-container {
+  width: 720px;
+  color: #ffffff;
+  background-color: #333344;
+  font-style: "Helvetica", sans-serif;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: normal;
+  margin: 6px 3px 0 3px;
+  padding: 3px;
+}
+#choose-font-container .select-line {
+  display: flex;
+  margin: 3px;
+}
+#choose-font-container .select-line .label {
+  display: block;
+  height: 30px;
+  width: 180px;
+  font-style: "Helvetica", sans-serif;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: normal;
+  text-align: right;
+  margin: 0 3px 0 0;
+  border: 0;
+  padding: 3px 6px;
+}
+#choose-font-container .select-line select {
+  height: 30px;
+  width: 360px;
+  color: #ffffff;
+  background-color: #555566;
+  border: 1px solid;
+  border-radius: 0;
+  cursor: pointer;
+}
+#choose-font-container .font-line {
+  display: flex;
+  margin: 3px;
+}
+#choose-font-container .font-line .family {
+  display: block;
+  height: 30px;
+  width: 180px;
+  font-style: "Helvetica", sans-serif;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin: 0 3px 0 0;
+  border: 0;
+  padding: 3px;
+  color: #ffffff;
+  background-color: #555566;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+#choose-font-container .font-line .family:hover {
+  background-color: #86869b;
+}
+#choose-font-container .font-line .example {
+  font-size: 24px;
+  line-height: 30px;
+  padding: 0 6px;
+}
+#choose-font-container .paginator-line {
+  display: flex;
+  margin: 3px;
+}
+#choose-font-container .paginator-line .label {
+  display: block;
+  height: 30px;
+  width: 180px;
+  font-style: "Helvetica", sans-serif;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: normal;
+  text-align: right;
+  margin: 0 3px 0 0;
+  border: 0;
+  padding: 3px 6px;
+}
+#choose-font-container .paginator-line .button {
+  display: block;
+  height: 30px;
+  width: 90px;
+  font-style: "Helvetica", sans-serif;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin: 0 3px 0 0;
+  border: 0;
+  padding: 3px;
+  color: #ffffff;
+  background-color: #555566;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+#choose-font-container .paginator-line .button:hover {
+  background-color: #86869b;
+}
+#choose-font-container .paginator-line .label-pp {
+  display: block;
+  height: 30px;
+  width: 120px;
+  font-style: "Helvetica", sans-serif;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: normal;
+  text-align: right;
+  margin: 0 3px 0 0;
+  border: 0;
+  padding: 3px 6px;
+  width: auto;
+}
+#choose-font-container .paginator-line .button-pp {
+  display: block;
+  height: 30px;
+  width: 15px;
+  font-style: "Helvetica", sans-serif;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin: 0 3px 0 0;
+  border: 0;
+  padding: 3px;
+  color: #ffffff;
+  background-color: #555566;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+#choose-font-container .paginator-line .button-pp:hover {
+  background-color: #86869b;
+}
