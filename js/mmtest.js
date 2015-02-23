@@ -4,7 +4,7 @@ var PopupMenu = function(options) {
 
   var
     title = 'Bootstrap Theme Playground',
-    version = '0.7.01',
+    version = '0.7.02',
     // default color (use whenever there is no user choosen value))
     btpDefaultH = 180,
     btpDefaultS = 0.6,
@@ -545,7 +545,6 @@ var PopupMenu = function(options) {
  * ---------------------------------------------------------------------------- */
   function _createFontsHTML() {
     var result =
-//      '<div id="mm-fonts-menu-container">' +
         // title
         '<div class="mm-down-title">Tipography</div>' +
         // container
@@ -589,7 +588,6 @@ var PopupMenu = function(options) {
           '<div class="mm-large"> <span> </span> </div>' +
           '<div class="mm-code"> <span> </span> </div>' +
         '</div>' + // container
-//      '</div>' + // fonts-menu
       // menu buttons
       '<ul>' +
         '<li><span class="mm-long-button" id="mm-menu-fonts-defaults">Defaults</span></li>' +
@@ -1074,6 +1072,11 @@ var PopupMenu = function(options) {
  * start of backbone refactor
  * ---------------------------------------------------------------------------- */
 
+
+/* ----------------------------------------------------------------------------
+ * choose font
+ * ---------------------------------------------------------------------------- */
+
   var FontFamilyBB = Backbone.Model.extend({
     defaults: {
       family: '',
@@ -1083,23 +1086,7 @@ var PopupMenu = function(options) {
     },
   }); // FontFamilyBB
 
-
-  var FontFamilyViewBB = Backbone.View.extend({
-    className: 'font-line',
-    text: 'abcde ABCDE 67890',
-
-    template: _.template(
-      '<span class="family"> <%= family %> </span>' +
-      '<span class="example" style="font-family: <%= family %>"> <%= text %> </span>'
-    ),
-
-    render: function(){
-      var tp = { family: this.model.get('family'), text: this.text };
-      this.$el.html( this.template( tp ) );
-    },
-  }); // FontFamilyViewBB
-
-
+  //
   var FontFamilyListBB = Backbone.Collection.extend({
     model: FontFamilyBB,
     categoryFilters: [],
@@ -1147,28 +1134,31 @@ var PopupMenu = function(options) {
 
   }); // FontFamilyListBB
 
-
+  //
   var FontFamilyListViewBB = Backbone.View.extend({
+    title: 'Choose Font',
     id: 'choose-font-container',
     // pagination
     first: 0,
-    count: 4,
-    // example
+    count: 6,
     selected: 0,
-    selectedText: 'abcde fghij klmno pqrst uvwxyz ABCDE FGHIJ KLMNO PQRST UVWXYZ 12345 67890',
-    selectedSize: 36,
+    //
+    familyLineText: 'abcde ABCDE 67890',
+    exampleText: 'abc def ghi jkl mno pqr stu vw xyz ABC DEF GHI JKL MNO PQR STU VWX YZ 123 456 7890',
+    exampleTextSize: 36,
 
     events: {
       'change .select-line .Category': 'selectCategory',
       'change .select-line .Subset': 'selectSubset',
+      'click .family-line .family': 'selectFamily',
+      'keyup .family-line .example': 'selectFamilyLineText',
       'click .paginator-line .button': 'selectPage',
       'click .paginator-line .button-pp': 'selectPageSize',
+      'click .example-description-line .button-fs': 'selectFontSize',
+      'keyup .example-line .edit': 'selectExampleText',
     },
 
-    initialize: function(){
-    },
-
-    // event handlers
+    // ----- event handlers ---------------------------------------------------
     selectCategory: function(ev){
       var value = parseInt( $(ev.target).val() );
       this.collection.categorySelected = value;
@@ -1183,6 +1173,19 @@ var PopupMenu = function(options) {
       this.collection.filterFonts();
       this.first = 0;
       this.render();
+    },
+
+    selectFamily: function(ev){
+      var value = $(ev.target).data('index');
+      this.selected = this.first + value;
+      this.render();
+    },
+
+    selectFamilyLineText: function(ev){
+      var value = $(ev.target).html();
+      this.familyLineText = value;
+      // update other lines, current line must be excluded to preserve cursor position
+      $('#choose-font-container .family-line .example').not(ev.target).html(value);
     },
 
     selectPage: function(ev){
@@ -1200,6 +1203,60 @@ var PopupMenu = function(options) {
       if( this.count > 20) this.count = 20;
       if( this.count < 4 ) this.count = 4;
       this.render();
+    },
+
+    selectFontSize: function(ev){
+      var value = $(ev.target).data('fontsize');
+      this.exampleTextSize += value;
+      if( this.exampleTextSize > 60) this.exampleTextSize = 60;
+      if( this.exampleTextSize < 6 ) this.exampleTextSize = 6;
+      this.render();
+    },
+
+    selectExampleText: function(ev){
+      var value = $(ev.target).html();
+      this.exampleText = value;
+    },
+
+
+    // ----- render functions -------------------------------------------------
+
+    // render title
+    templateTitle: _.template(
+      '<div class="title-line">' +
+      '<span class="title"> <%= text %> </span>' +
+      '</div>'
+    ),
+    renderTitle: function(){
+      var html = this.templateTitle({ text: this.title });
+      this.$el.append( html );
+    },
+
+    // render selector
+    templateSelect: _.template(
+      '<div class="select-line">' +
+      '<span class="label"> <%= name %> </span>' +
+      '<select class=<%= name %> >' +
+      '<% for( var i = 0; i < values.length; ++i ) print( "<option value=" + i + ((i==selected)?" selected>":" >") + values[i]+ "</option>" ); %>' +
+      '</select>' +
+      '</div>'
+    ),
+    renderSelect: function(name, values, selected){
+      var html = this.templateSelect({ name: name, values: values, selected: selected });
+      this.$el.append( html );
+    },
+
+    // render font family select line
+    templateFamilyLine: _.template(
+      '<div class="family-line">' +
+      '<span class="family" data-index= <%= index %> > <%= family %> </span>' +
+      '<span class="example" contenteditable="true" style="font-family: <%= family %>"> <%= text %> </span>' +
+      '</div>'
+    ),
+    renderFamilyLine: function(element, index){
+      var family = element.get('family');
+      var html = this.templateFamilyLine({ family: family, index: index, text: this.familyLineText });
+      this.$el.append( html );
     },
 
     // render paginator
@@ -1223,36 +1280,42 @@ var PopupMenu = function(options) {
       this.$el.append( html );
     },
 
-    // render selector
-    templateSelect: _.template(
-      '<div class="select-line">' +
-      '<span class="label"> <%= name %> </span>' +
-      '<select class=<%= name %> >' +
-      '<% for( var i = 0; i < values.length; ++i ) print( "<option value=" + i + ((i==selected)?" selected>":" >") + values[i]+ "</option>" ); %>' +
-      '</select></div>'
+    // render example description
+    templateExample: _.template(
+      '<div class="example-description-line">' +
+      '<span class="label"> Example of Selected Font: </span>' +
+      '<span class="label-sel"> <%= font %> </span>' +
+      '<span class="label-fs"> Size: <%= fontSize %>px </span>' +
+      '<span class="button-fs" data-fontsize="-6"> - </span>' +
+      '<span class="button-fs" data-fontsize="6"> + </span>' +
+      '</div>' +
+      '<div class="example-line">' +
+      '<span class="edit" contenteditable="true" style="font-size: <%= fontSize %>px; font-family: <%= font %>"> <%= text %> </span>' +
+      '</div>'
     ),
-    renderSelect: function(name, values, selected){
-      var html = this.templateSelect({ name: name, values: values, selected: selected });
+    renderExample: function(){
+      var index = this.collection.filtered[ this.selected ];
+      var font = this.collection.at( index ).get( 'family' );
+      var html = this.templateExample({ font: font, fontSize: this.exampleTextSize, text: this.exampleText });
       this.$el.append( html );
-    },
-
-    // render font example line
-    renderLine: function(element){
-      var elementView = new FontFamilyViewBB({ model: element });
-      elementView.render();
-      this.$el.append( elementView.el );
     },
 
     // render all
     render: function(){
       this.$el.empty();
+      this.renderTitle();
       this.renderSelect( 'Category', this.collection.categoryFilters, this.collection.categorySelected );
       this.renderSelect( 'Subset', this.collection.subsetFilters, this.collection.subsetSelected );
-      this.collection.onePage( this.first, this.count ).each( this.renderLine, this ); // render each with this context
+      this.collection.onePage( this.first, this.count ).each( this.renderFamilyLine, this ); // render each with this context
       this.renderPaginator();
+      this.renderExample();
     },
   }); // FontFamilyListViewBB
 
+
+/* ----------------------------------------------------------------------------
+ * main
+ * ---------------------------------------------------------------------------- */
 
   var _test = function() {
     var ffl = new FontFamilyListBB();
@@ -1262,9 +1325,6 @@ var PopupMenu = function(options) {
     var konec = 0;
   };
 
-/* ----------------------------------------------------------------------------
- * main
- * ---------------------------------------------------------------------------- */
   $(document).ready( function() {
     _showPopover();
     _bindEvents();

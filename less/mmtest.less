@@ -1,8 +1,9 @@
 // colors
 @color-text: #fff;
-@color-text-selected: #000;
 @color-background: #334;
 @color-background-button: #556;
+@color-text-inverse: #000;
+@color-background-inverse: #ccd;
 
 // base sizes
 @base-height: 30px;
@@ -16,14 +17,33 @@
 /* ----------------------------------------------------------------------------
  * mixins
  * ---------------------------------------------------------------------------- */
+
+.title-mixin() {
+  height: @base-height;
+  width: @width-all - 2*@base-separate;
+
+  font-style: "Helvetica", sans-serif;
+  font-size: @base-height - 4*@base-separate;
+  line-height: @base-height - 2*@base-separate;
+  font-weight: bold;
+  text-align: center;
+
+  margin: @base-separate;
+  border: 0;
+  padding: @base-separate;
+
+  color: @color-text-inverse;
+  background-color: @color-background-inverse;
+}
+
 .button-mixin(@wf) {
   display: block;
   height: @base-height;
-  width: @base-width * @wf;
+  width: @base-width * @wf - @base-separate;
 
   font-style: "Helvetica", sans-serif;
-  font-size: @base-height - 5 * @base-separate;
-  line-height: @base-height - 2 * @base-separate;
+  font-size: @base-height - 5*@base-separate;
+  line-height: @base-height - 2*@base-separate;
   font-weight: bold;
   text-align: center;
 
@@ -45,10 +65,24 @@
   }
 }
 
+.select-mixin(@wf) {
+  height: @base-height;
+  width: @base-width * @wf - @base-separate;
+  color: @color-text;
+  background-color: @color-background-button;
+  border: 1px solid;
+  border-radius: 0;
+  cursor: pointer;
+
+  &:hover {
+    background-color: lighten(@color-background-button, 20%);
+  }
+}
+
 .label-mixin(@wf) {
   display: block;
   height: @base-height;
-  width: @base-width * @wf;
+  width: @base-width * @wf - @base-separate;
 
   font-style: "Helvetica", sans-serif;
   font-size: @base-height - 5 * @base-separate;
@@ -61,6 +95,12 @@
   padding: @base-separate @base-separate*2;
 }
 
+.edit-mixin() {
+  border:none;
+  outline:none;
+}
+
+
 /* ----------------------------------------------------------------------------
  * fonts
  * ---------------------------------------------------------------------------- */
@@ -70,46 +110,48 @@
   background-color: @color-background;
 
   font-style: "Helvetica", sans-serif;
-  font-size: @base-height - 5 * @base-separate;
-  line-height: @base-height - 2 * @base-separate;
+  font-size: @base-height - 5*@base-separate;
+  line-height: @base-height - 2*@base-separate;
   font-weight: normal;
 
-  margin: 2 * @base-separate  @base-separate  0  @base-separate;
-  padding: @base-separate;
+  margin: 0;
+  padding: @base-separate 0;
+
+  .title-line {
+    .title-mixin();
+  }
 
   .select-line {
     display: flex;
     margin: @base-separate;
+
     .label {
       .label-mixin(6);
     }
     select {
-      height: @base-height;
-      width: @base-width * 12;
-      color: @color-text;
-      background-color: @color-background-button;
-      border: 1px solid;
-      border-radius: 0;
-      cursor: pointer;
+      .select-mixin(12);
     }
   }
 
-  .font-line {
+  .family-line {
     display: flex;
     margin: @base-separate;
+
     .family {
       .button-mixin(6);
     }
     .example {
-      font-size: @base-height - 2 * @base-separate;
+      .edit-mixin();
+      font-size: @base-height - 2*@base-separate;
       line-height: @base-height;
-      padding: 0 @base-separate*2;
+      padding: 0 2*@base-separate;
     }
   }
 
   .paginator-line {
     display: flex;
     margin: @base-separate;
+
     .label {
       .label-mixin(6);
     }
@@ -118,10 +160,39 @@
     }
     .label-pp {
       .label-mixin(4);
-      width: auto;
     }
     .button-pp {
-      .button-mixin(0.5);
+      .button-mixin(0.7);
+    }
+  }
+
+  .example-description-line {
+    display: flex;
+    margin: @base-separate;
+
+    .label {
+      .label-mixin(6);
+    }
+    .label-sel {
+      .label-mixin(12);
+      text-align: left;
+      font-weight: bold;
+    }
+    .label-fs {
+      .label-mixin(4);
+    }
+    .button-fs {
+      .button-mixin(0.7);
+    }
+  }
+
+  .example-line {
+    margin: 0;
+    padding: 0 2*@base-separate;
+    line-height: 1.2;
+
+    .edit {
+      .edit-mixin();
     }
   }
 

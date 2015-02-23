@@ -3,14 +3,13 @@ http://www.mlacom.si/racunalniska-oprema/ohisja-pc
 
 
 narejeno (mmtest.js) backbone za font selection:
-filtri, font family list, pagination
+title, filtri, font family list, pagination, example
 
 TODO:
-example font 36px
 
-edit short exmple
-edit long example
-( za oba: urejanje tam kjer je prikazan )
+load fontov iz googla
+
+add font URL
 
 
 
