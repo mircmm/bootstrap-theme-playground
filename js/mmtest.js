@@ -111,6 +111,8 @@ var PopupMenu = function(options) {
       { kind: false, family: 'Courier New',     category: 'monospace',  subsets: [ 'latin', 'latin-ext'] }
     ],
     fontFamilyList = fontFamilyListInit,
+    fontFamilyListEvent = {},
+    //
     fontFamilyDisplayedSize = 24,
     fontFamilyListSelected = 0,
     fontFamilyFirstDisplayed = 0,
@@ -1096,10 +1098,20 @@ var PopupMenu = function(options) {
     filtered: [],
 
     initialize: function(){
-      this.initFonts( fontFamilyListInit );
+      this.initFilters();
     },
 
-    initFonts: function( fontFamilyList ){
+    loadGoogleFonts: function() {
+      $.getJSON( googleFontsURL, function(result, status) {
+        if( status === 'success' ) {
+          fontFamilyList = [].concat( fontFamilyListInit, result.items );
+          fontFamilyListEvent.trigger( 'filters' );
+        }
+      });
+    },
+
+    //initFilters: function( fontFamilyList ){
+    initFilters: function(){
       this.reset( fontFamilyList );
       this.categoryFilters = fontFamilyList.reduce(
         function(result, element){ return _.union( result, [element.category] ); }, ['all']
@@ -1156,6 +1168,10 @@ var PopupMenu = function(options) {
       'click .paginator-line .button-pp': 'selectPageSize',
       'click .example-description-line .button-fs': 'selectFontSize',
       'keyup .example-line .edit': 'selectExampleText',
+    },
+
+    initialize: function() {
+      //this.collection.on( 'change', this.render, this );
     },
 
     // ----- event handlers ---------------------------------------------------
@@ -1218,6 +1234,10 @@ var PopupMenu = function(options) {
       this.exampleText = value;
     },
 
+    reloadCollectionAndRender: function(ev){
+      this.collection.initFilters();
+      this.render();
+    },
 
     // ----- render functions -------------------------------------------------
 
@@ -1254,7 +1274,9 @@ var PopupMenu = function(options) {
       '</div>'
     ),
     renderFamilyLine: function(element, index){
+      var kind = element.get('kind');
       var family = element.get('family');
+      if ( kind ) WebFont.load({ google: { families: [family] }});
       var html = this.templateFamilyLine({ family: family, index: index, text: this.familyLineText });
       this.$el.append( html );
     },
@@ -1274,7 +1296,7 @@ var PopupMenu = function(options) {
     ),
     renderPaginator: function(){
       var length = this.collection.filtered.length;
-      var displayed = 'Displayed: ' + (this.first+1) + ' to ' + (this.first+this.count) + ' of ' + length;
+      var displayed = 'Font: ' + (this.first+1) + ' to ' + (this.first+this.count) + ' of ' + length;
       var perPage = 'PerPage: ' + this.count;
       var html = this.templatePaginator({ displayed: displayed, perPage: perPage });
       this.$el.append( html );
@@ -1318,10 +1340,17 @@ var PopupMenu = function(options) {
  * ---------------------------------------------------------------------------- */
 
   var _test = function() {
+
     var ffl = new FontFamilyListBB();
     var fflv = new FontFamilyListViewBB({ collection: ffl });
+
+    _.extend(fontFamilyListEvent, Backbone.Events);
+    fontFamilyListEvent.on( 'filters', fflv.reloadCollectionAndRender, fflv );
+    ffl.loadGoogleFonts();
+
     fflv.render();
     fflv.$el.appendTo( '#mm-test' );
+
     var konec = 0;
   };
 
