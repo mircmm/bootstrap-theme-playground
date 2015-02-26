@@ -111,7 +111,6 @@ var PopupMenu = function(options) {
       { kind: false, family: 'Courier New',     category: 'monospace',  subsets: [ 'latin', 'latin-ext'] }
     ],
     fontFamilyList = fontFamilyListInit,
-    fontFamilyListEvent = {},
     //
     fontFamilyDisplayedSize = 24,
     fontFamilyListSelected = 0,
@@ -1101,16 +1100,6 @@ var PopupMenu = function(options) {
       this.initFilters();
     },
 
-    loadGoogleFonts: function() {
-      $.getJSON( googleFontsURL, function(result, status) {
-        if( status === 'success' ) {
-          fontFamilyList = [].concat( fontFamilyListInit, result.items );
-          fontFamilyListEvent.trigger( 'filters' );
-        }
-      });
-    },
-
-    //initFilters: function( fontFamilyList ){
     initFilters: function(){
       this.reset( fontFamilyList );
       this.categoryFilters = fontFamilyList.reduce(
@@ -1152,13 +1141,17 @@ var PopupMenu = function(options) {
     id: 'choose-font-container',
     // pagination
     first: 0,
-    count: 6,
+    count: 8,
     selected: 0,
     //
     familyLineText: 'abcde ABCDE 67890',
     exampleText: 'abc def ghi jkl mno pqr stu vw xyz ABC DEF GHI JKL MNO PQR STU VWX YZ 123 456 7890',
     exampleTextSize: 36,
 
+    initialize: function() {
+    },
+
+    // ----- event handlers ---------------------------------------------------
     events: {
       'change .select-line .Category': 'selectCategory',
       'change .select-line .Subset': 'selectSubset',
@@ -1166,15 +1159,10 @@ var PopupMenu = function(options) {
       'keyup .family-line .example': 'selectFamilyLineText',
       'click .paginator-line .button': 'selectPage',
       'click .paginator-line .button-pp': 'selectPageSize',
-      'click .example-description-line .button-fs': 'selectFontSize',
+      'click .example-line .button-fs': 'selectFontSize',
       'keyup .example-line .edit': 'selectExampleText',
     },
 
-    initialize: function() {
-      //this.collection.on( 'change', this.render, this );
-    },
-
-    // ----- event handlers ---------------------------------------------------
     selectCategory: function(ev){
       var value = parseInt( $(ev.target).val() );
       this.collection.categorySelected = value;
@@ -1234,13 +1222,7 @@ var PopupMenu = function(options) {
       this.exampleText = value;
     },
 
-    reloadCollectionAndRender: function(ev){
-      this.collection.initFilters();
-      this.render();
-    },
-
     // ----- render functions -------------------------------------------------
-
     // render title
     templateTitle: _.template(
       '<div class="title-line">' +
@@ -1304,21 +1286,22 @@ var PopupMenu = function(options) {
 
     // render example description
     templateExample: _.template(
-      '<div class="example-description-line">' +
-      '<span class="label"> Example of Selected Font: </span>' +
+      '<div class=<%= className %> >' +
+      '<span class="label"> Selected Font: </span>' +
       '<span class="label-sel"> <%= font %> </span>' +
       '<span class="label-fs"> Size: <%= fontSize %>px </span>' +
       '<span class="button-fs" data-fontsize="-6"> - </span>' +
       '<span class="button-fs" data-fontsize="6"> + </span>' +
       '</div>' +
-      '<div class="example-line">' +
+      '<div class=<%= className %> >' +
       '<span class="edit" contenteditable="true" style="font-size: <%= fontSize %>px; font-family: <%= font %>"> <%= text %> </span>' +
       '</div>'
     ),
     renderExample: function(){
+      var className = 'example-line';
       var index = this.collection.filtered[ this.selected ];
       var font = this.collection.at( index ).get( 'family' );
-      var html = this.templateExample({ font: font, fontSize: this.exampleTextSize, text: this.exampleText });
+      var html = this.templateExample({ className: className, font: font, fontSize: this.exampleTextSize, text: this.exampleText });
       this.$el.append( html );
     },
 
@@ -1344,12 +1327,14 @@ var PopupMenu = function(options) {
     var ffl = new FontFamilyListBB();
     var fflv = new FontFamilyListViewBB({ collection: ffl });
 
-    _.extend(fontFamilyListEvent, Backbone.Events);
-    fontFamilyListEvent.on( 'filters', fflv.reloadCollectionAndRender, fflv );
-    ffl.loadGoogleFonts();
-
-    fflv.render();
-    fflv.$el.appendTo( '#mm-test' );
+    $.getJSON( googleFontsURL, function(result, status) {
+      if( status === 'success' ) {
+        fontFamilyList = [].concat( fontFamilyListInit, result.items );
+        fflv.collection.initFilters();
+        fflv.render();
+        fflv.$el.appendTo( '#mm-test' );
+      }
+    });
 
     var konec = 0;
   };

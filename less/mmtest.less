@@ -166,7 +166,7 @@
     }
   }
 
-  .example-description-line {
+  .example-line {
     display: flex;
     margin: @base-separate;
 
@@ -184,15 +184,10 @@
     .button-fs {
       .button-mixin(0.7);
     }
-  }
-
-  .example-line {
-    margin: 0;
-    padding: 0 2*@base-separate;
-    line-height: 1.2;
-
     .edit {
       .edit-mixin();
+      padding: 0 2*@base-separate;
+      line-height: 1.2;
     }
   }
 

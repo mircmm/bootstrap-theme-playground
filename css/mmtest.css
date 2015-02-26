@@ -165,11 +165,11 @@
 #choose-font-container .paginator-line .button-pp:hover {
   background-color: #86869b;
 }
-#choose-font-container .example-description-line {
+#choose-font-container .example-line {
   display: flex;
   margin: 3px;
 }
-#choose-font-container .example-description-line .label {
+#choose-font-container .example-line .label {
   display: block;
   height: 30px;
   width: 177px;
@@ -182,7 +182,7 @@
   border: 0;
   padding: 3px 6px;
 }
-#choose-font-container .example-description-line .label-sel {
+#choose-font-container .example-line .label-sel {
   display: block;
   height: 30px;
   width: 357px;
@@ -197,7 +197,7 @@
   text-align: left;
   font-weight: bold;
 }
-#choose-font-container .example-description-line .label-fs {
+#choose-font-container .example-line .label-fs {
   display: block;
   height: 30px;
   width: 117px;
@@ -210,7 +210,7 @@
   border: 0;
   padding: 3px 6px;
 }
-#choose-font-container .example-description-line .button-fs {
+#choose-font-container .example-line .button-fs {
   display: block;
   height: 30px;
   width: 18px;
@@ -229,15 +229,12 @@
   white-space: nowrap;
   cursor: pointer;
 }
-#choose-font-container .example-description-line .button-fs:hover {
+#choose-font-container .example-line .button-fs:hover {
   background-color: #86869b;
-}
-#choose-font-container .example-line {
-  margin: 0;
-  padding: 0 6px;
-  line-height: 1.2;
 }
 #choose-font-container .example-line .edit {
   border: none;
   outline: none;
+  padding: 0 6px;
+  line-height: 1.2;
 }
