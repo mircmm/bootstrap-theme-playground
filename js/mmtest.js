@@ -122,7 +122,6 @@ var PopupMenu = function(options) {
     fontExampleText,
     fontExampleSize = 36,
 
-
     // bootstrap color descriptions for _descriptionPopup
     btpDescription = {
       // colors
@@ -1147,6 +1146,12 @@ var PopupMenu = function(options) {
     familyLineText: 'abcde ABCDE 67890',
     exampleText: 'abc def ghi jkl mno pqr stu vw xyz ABC DEF GHI JKL MNO PQR STU VWX YZ 123 456 7890',
     exampleTextSize: 36,
+    exampleBold: false,
+    exampleItalic: false,
+
+//    efectFilters: [ 'normal', 'bold', 'italic', 'bold-italic', 'anaglyph', 'emboss',
+//                    'fire', 'fire-animation', 'neon', 'outline', 'shadow-multiple', '3d', '3d-float' ],
+//    efectSelected: 0,
 
     initialize: function() {
     },
@@ -1159,8 +1164,10 @@ var PopupMenu = function(options) {
       'keyup .family-line .example': 'selectFamilyLineText',
       'click .paginator-line .button': 'selectPage',
       'click .paginator-line .button-pp': 'selectPageSize',
+      'click .example-line .button-bold': 'selectFontBold',
+      'click .example-line .button-italic': 'selectFontItalic',
       'click .example-line .button-fs': 'selectFontSize',
-      'keyup .example-line .edit': 'selectExampleText',
+      'keyup .example-line #example-edit': 'selectExampleText',
     },
 
     selectCategory: function(ev){
@@ -1215,6 +1222,57 @@ var PopupMenu = function(options) {
       if( this.exampleTextSize > 60) this.exampleTextSize = 60;
       if( this.exampleTextSize < 6 ) this.exampleTextSize = 6;
       this.render();
+    },
+
+    selectFontBold: function(ev){
+      var button = $(ev.target);
+      var example = $( '#example-edit');
+      this.exampleBold = !this.exampleBold;
+      if ( this.exampleBold ) {
+        button.attr( 'clicked', true);
+        example.css( 'font-weight', 'bold' );
+      } else {
+        button.attr( 'clicked', false);
+        example.css( 'font-weight', 'normal' );
+      }
+    },
+
+    selectFontItalic: function(ev){
+      var button = $(ev.target);
+      var example = $( '#example-edit');
+      this.exampleItalic = !this.exampleItalic;
+      if ( this.exampleItalic ) {
+        button.attr( 'clicked', true);
+        example.css( 'font-style', 'italic' );
+      } else {
+        button.attr( 'clicked', false);
+        example.css( 'font-style', 'normal' );
+      }
+    },
+
+    selectExampleEfect: function(ev){
+      var value = parseInt( $(ev.target).val() );
+      this.efectSelected = value;
+      var example = $( '#example-edit');
+
+      var index = this.collection.filtered[ this.selected ];
+      var fontFamily = this.collection.at( index ).get( 'family' );  // css: font-family
+
+      var fontWeight = 'normal'; // css: font-weight
+      if ( this.efectSelected === 1 || this.efectSelected === 3 ) fontWeight = 'bold';
+      var fontStyle = 'normal';  // css: font-style
+      if ( this.efectSelected === 2 || this.efectSelected === 3 ) fontStyle = 'italic';
+      example.css({ 'font-family': fontFamily, 'font-style': fontStyle, 'font-weight': fontWeight });
+      example.removeClass();
+
+      if ( this.efectSelected > 3 ) {
+        var kind = this.collection.at( index ).get( 'kind' );
+        if ( kind ) {
+          var fontEffect = 'font-effect-' + this.efectFilters[this.efectSelected]; // class:
+          WebFont.load({ google: { families: [fontFamily], effect: [fontEffect] }});
+          example.addClass( fontEffect );
+        }
+      }
     },
 
     selectExampleText: function(ev){
@@ -1286,22 +1344,23 @@ var PopupMenu = function(options) {
 
     // render example description
     templateExample: _.template(
-      '<div class=<%= className %> >' +
-      '<span class="label"> Selected Font: </span>' +
-      '<span class="label-sel"> <%= font %> </span>' +
-      '<span class="label-fs"> Size: <%= fontSize %>px </span>' +
-      '<span class="button-fs" data-fontsize="-6"> - </span>' +
-      '<span class="button-fs" data-fontsize="6"> + </span>' +
+      '<div class="example-line">' +
+        '<span class="label"> Preview Selected: </span>' +
+        '<span class="label-sel"> <%= font %> </span>' +
+        '<span class="button-bold" style="font-weight: bolder"> B </span>' +
+        '<span class="button-italic" style="font-style: italic"> I </span>' +
+        '<span class="label-fs"> Size: <%= fontSize %>px </span>' +
+        '<span class="button-fs" data-fontsize="-6"> - </span>' +
+        '<span class="button-fs" data-fontsize="6"> + </span>' +
       '</div>' +
-      '<div class=<%= className %> >' +
-      '<span class="edit" contenteditable="true" style="font-size: <%= fontSize %>px; font-family: <%= font %>"> <%= text %> </span>' +
+      '<div class="example-line">' +
+        '<span id="example-edit" contenteditable="true" style="font-size: <%= fontSize %>px; font-family: <%= font %>"> <%= text %> </span>' +
       '</div>'
     ),
     renderExample: function(){
-      var className = 'example-line';
       var index = this.collection.filtered[ this.selected ];
       var font = this.collection.at( index ).get( 'family' );
-      var html = this.templateExample({ className: className, font: font, fontSize: this.exampleTextSize, text: this.exampleText });
+      var html = this.templateExample({ font: font, fontSize: this.exampleTextSize, text: this.exampleText });
       this.$el.append( html );
     },
 
@@ -1326,13 +1385,14 @@ var PopupMenu = function(options) {
 
     var ffl = new FontFamilyListBB();
     var fflv = new FontFamilyListViewBB({ collection: ffl });
+    fflv.render();
+    fflv.$el.appendTo( '#mm-test' );
 
     $.getJSON( googleFontsURL, function(result, status) {
       if( status === 'success' ) {
         fontFamilyList = [].concat( fontFamilyListInit, result.items );
         fflv.collection.initFilters();
         fflv.render();
-        fflv.$el.appendTo( '#mm-test' );
       }
     });
 

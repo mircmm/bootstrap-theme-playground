@@ -55,9 +55,6 @@
   border-radius: 0;
   cursor: pointer;
 }
-#choose-font-container .select-line select:hover {
-  background-color: #86869b;
-}
 #choose-font-container .family-line {
   display: flex;
   margin: 3px;
@@ -83,6 +80,10 @@
 }
 #choose-font-container .family-line .family:hover {
   background-color: #86869b;
+}
+#choose-font-container .family-line .family[clicked=true] {
+  color: #000000;
+  background-color: #ccccdd;
 }
 #choose-font-container .family-line .example {
   border: none;
@@ -130,6 +131,10 @@
 #choose-font-container .paginator-line .button:hover {
   background-color: #86869b;
 }
+#choose-font-container .paginator-line .button[clicked=true] {
+  color: #000000;
+  background-color: #ccccdd;
+}
 #choose-font-container .paginator-line .label-pp {
   display: block;
   height: 30px;
@@ -165,6 +170,10 @@
 #choose-font-container .paginator-line .button-pp:hover {
   background-color: #86869b;
 }
+#choose-font-container .paginator-line .button-pp[clicked=true] {
+  color: #000000;
+  background-color: #ccccdd;
+}
 #choose-font-container .example-line {
   display: flex;
   margin: 3px;
@@ -185,7 +194,7 @@
 #choose-font-container .example-line .label-sel {
   display: block;
   height: 30px;
-  width: 357px;
+  width: 267px;
   font-style: "Helvetica", sans-serif;
   font-size: 15px;
   line-height: 24px;
@@ -196,6 +205,35 @@
   padding: 3px 6px;
   text-align: left;
   font-weight: bold;
+}
+#choose-font-container .example-line .button-bold,
+#choose-font-container .example-line .button-italic {
+  display: block;
+  height: 30px;
+  width: 42px;
+  font-style: "Helvetica", sans-serif;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin: 0 3px 0 0;
+  border: 0;
+  padding: 3px;
+  color: #ffffff;
+  background-color: #555566;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+#choose-font-container .example-line .button-bold:hover,
+#choose-font-container .example-line .button-italic:hover {
+  background-color: #86869b;
+}
+#choose-font-container .example-line .button-bold[clicked=true],
+#choose-font-container .example-line .button-italic[clicked=true] {
+  color: #000000;
+  background-color: #ccccdd;
 }
 #choose-font-container .example-line .label-fs {
   display: block;
@@ -232,7 +270,11 @@
 #choose-font-container .example-line .button-fs:hover {
   background-color: #86869b;
 }
-#choose-font-container .example-line .edit {
+#choose-font-container .example-line .button-fs[clicked=true] {
+  color: #000000;
+  background-color: #ccccdd;
+}
+#choose-font-container .example-line #example-edit {
   border: none;
   outline: none;
   padding: 0 6px;

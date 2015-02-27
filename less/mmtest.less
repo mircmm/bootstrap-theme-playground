@@ -63,6 +63,11 @@
   &:hover {
     background-color: lighten(@color-background-button, 20%);
   }
+
+  &[clicked=true] {
+    color: @color-text-inverse;
+    background-color: @color-background-inverse;
+  }
 }
 
 .select-mixin(@wf) {
@@ -73,10 +78,6 @@
   border: 1px solid;
   border-radius: 0;
   cursor: pointer;
-
-  &:hover {
-    background-color: lighten(@color-background-button, 20%);
-  }
 }
 
 .label-mixin(@wf) {
@@ -174,9 +175,13 @@
       .label-mixin(6);
     }
     .label-sel {
-      .label-mixin(12);
+      .label-mixin(9);
       text-align: left;
       font-weight: bold;
+    }
+    .button-bold,
+    .button-italic {
+      .button-mixin(1.5);
     }
     .label-fs {
       .label-mixin(4);
@@ -184,7 +189,7 @@
     .button-fs {
       .button-mixin(0.7);
     }
-    .edit {
+    #example-edit {
       .edit-mixin();
       padding: 0 2*@base-separate;
       line-height: 1.2;
