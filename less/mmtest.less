@@ -11,16 +11,30 @@
 @base-separate: 3px;
 
 // sizes
-@width-all: 24 * @base-width;
+@width-all: 24*@base-width;
 
 
 /* ----------------------------------------------------------------------------
  * mixins
  * ---------------------------------------------------------------------------- */
 
+.container-mixin() {
+  width: @width-all;
+  color: @color-text;
+  background-color: @color-background;
+
+  font-style: "Helvetica", sans-serif;
+  font-size: @base-height - 5*@base-separate;
+  line-height: @base-height - 2*@base-separate;
+  font-weight: normal;
+
+  margin: 0;
+  padding: @base-separate 0;
+}
+
 .title-mixin() {
   height: @base-height;
-  width: @width-all - 2*@base-separate;
+  width: @width-all - 3*@base-separate;
 
   font-style: "Helvetica", sans-serif;
   font-size: @base-height - 4*@base-separate;
@@ -103,20 +117,126 @@
 
 
 /* ----------------------------------------------------------------------------
- * fonts
+ * main title
+ * ---------------------------------------------------------------------------- */
+#main-title-container {
+  .container-mixin();
+
+  .title-line {
+    display: flex;
+    margin: @base-separate;
+    .label {
+      .label-mixin(12);
+      font-weight: bold;
+    }
+    .version {
+      .label-mixin(11);
+      text-align: left;
+    }
+    .help {
+      .button-mixin(1);
+    }
+  }
+}
+
+
+/* ----------------------------------------------------------------------------
+ * main menu
+ * ---------------------------------------------------------------------------- */
+#main-menu-container {
+  .container-mixin();
+
+  .menu-line {
+    display: flex;
+    margin: @base-separate;
+    .menu-button{
+      .button-mixin(6);
+    }
+  }
+}
+
+
+/* ----------------------------------------------------------------------------
+ * file menu
+ * ---------------------------------------------------------------------------- */
+#file-menu-container {
+  .container-mixin();
+
+  .buttons-line {
+    display: flex;
+    margin: @base-separate;
+    .button{
+      .button-mixin(6);
+    }
+  }
+}
+
+
+/* ----------------------------------------------------------------------------
+ * choose base color
+ * ---------------------------------------------------------------------------- */
+#base-menu-container {
+  .container-mixin();
+
+  .title-line {
+    .title-mixin();
+  }
+
+  .buttons-line {
+    display: flex;
+    margin: @base-separate;
+    .button{
+      .button-mixin(6);
+    }
+  }
+}
+
+
+/* ----------------------------------------------------------------------------
+ * choose brand color
+ * ---------------------------------------------------------------------------- */
+#brand-menu-container {
+  .container-mixin();
+
+  .title-line {
+    .title-mixin();
+  }
+
+  .buttons-line {
+    display: flex;
+    margin: @base-separate;
+    .button{
+      .button-mixin(6);
+    }
+  }
+}
+
+
+/* ----------------------------------------------------------------------------
+ * choose typography
+ * ---------------------------------------------------------------------------- */
+#typo-menu-container {
+  .container-mixin();
+
+  .title-line {
+    .title-mixin();
+  }
+
+  .buttons-line {
+    display: flex;
+    margin: @base-separate;
+    .button{
+      .button-mixin(6);
+    }
+  }
+}
+
+
+/* ----------------------------------------------------------------------------
+ * choose font
  * ---------------------------------------------------------------------------- */
 #choose-font-container {
-  width: @width-all;
-  color: @color-text;
-  background-color: @color-background;
-
-  font-style: "Helvetica", sans-serif;
-  font-size: @base-height - 5*@base-separate;
-  line-height: @base-height - 2*@base-separate;
-  font-weight: normal;
-
-  margin: 0;
-  padding: @base-separate 0;
+  .container-mixin();
 
   .title-line {
     .title-mixin();
@@ -196,5 +316,12 @@
     }
   }
 
+  .buttons-line {
+    display: flex;
+    margin: @base-separate;
+    .button {
+      .button-mixin(6);
+    }
+  }
 } // #choose-font-container
 

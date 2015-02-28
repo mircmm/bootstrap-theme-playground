@@ -4,7 +4,7 @@ var PopupMenu = function(options) {
 
   var
     title = 'Bootstrap Theme Playground',
-    version = '0.7.02',
+    version = '0.1.02.28',
     // default color (use whenever there is no user choosen value))
     btpDefaultH = 180,
     btpDefaultS = 0.6,
@@ -1074,9 +1074,181 @@ var PopupMenu = function(options) {
 
 
 /* ----------------------------------------------------------------------------
- * choose font
+ * main title
+ * ---------------------------------------------------------------------------- */
+  var MainTitleViewBB = Backbone.View.extend({
+    id: 'main-title-container',
+
+    // render title
+    templateTitle: _.template(
+      '<div class="title-line">' +
+        '<span class="label" id="menu-drag"> <%= title %> </span>' +
+        '<span class="version"> (ver. <%= version %> ) </span>' +
+        '<span class="help"> &nbsp;?&nbsp; </span>' +
+      '</div>'
+    ),
+
+    // render
+    render: function() {
+      this.$el.empty();
+      var html = this.templateTitle({ title: title, version: version });
+      this.$el.append( html );
+    },
+  });
+
+
+/* ----------------------------------------------------------------------------
+ * main menu
+ * ---------------------------------------------------------------------------- */
+  var MainMenuViewBB = Backbone.View.extend({
+    id: 'main-menu-container',
+
+    events: {
+      'click #menu-file': 'selectFile',
+      'click #menu-color': 'selectColor',
+      'click #menu-brand': 'selectBrand',
+      'click #menu-typo': 'selectTypo',
+    },
+
+    selectFile: function(ev){
+      this.$el.hide();
+      $('#file-menu-container').show();
+    },
+
+    selectColor: function(ev){
+      this.$el.hide();
+      //file menu .show();
+    },
+
+    selectBrand: function(ev){
+      this.$el.hide();
+      //file menu .show();
+    },
+
+    selectTypo: function(ev){
+      this.$el.hide();
+      $('#typo-menu-container').show();
+      // TODO, zgrnji show ven, show typography   typo-menu-container
+    },
+
+    // menu
+    templateMenu: _.template(
+      '<div class="menu-line">' +
+        '<span class="menu-button" id="menu-file">File</span>' +
+        '<span class="menu-button" id="menu-color">Base Colors</span>' +
+        '<span class="menu-button" id="menu-brand">Brand Colors</span>' +
+        '<span class="menu-button" id="menu-typo">Typography</span>' +
+      '</div>'
+    ),
+
+    // render
+    render: function() {
+      this.$el.empty();
+      var html = this.templateMenu();
+      this.$el.append( html );
+    },
+  });
+
+
+/* ----------------------------------------------------------------------------
+ * file menu
+ * ---------------------------------------------------------------------------- */
+  var FileMenuViewBB = Backbone.View.extend({
+    id: 'file-menu-container',
+
+    events: {
+      'click .buttons-line .cancel': 'selectCancel',
+    },
+
+    selectCancel: function(ev){
+      this.$el.hide();
+      $('#main-menu-container').show();
+    },
+
+    // menu
+    templateButtons: _.template(
+      '<div class="buttons-line">' +
+        '<span class="button cancel">Cancel</span>' +
+      '</div>'
+    ),
+
+    // render
+    render: function() {
+      this.$el.empty();
+      var html = this.templateButtons();
+      this.$el.append( html );
+    },
+  });
+
+
+/* ----------------------------------------------------------------------------
+ * choose base color
  * ---------------------------------------------------------------------------- */
 
+
+/* ----------------------------------------------------------------------------
+ * choose brand color
+ * ---------------------------------------------------------------------------- */
+
+
+/* ----------------------------------------------------------------------------
+ * choose typography
+ * ---------------------------------------------------------------------------- */
+  var TypographyViewBB = Backbone.View.extend({
+    title: 'Typography',
+    id: 'typo-menu-container',
+
+    events: {
+      'click .buttons-line .defaults': 'selectDefaults',
+      'click .buttons-line .done': 'selectDone',
+    },
+
+    selectDefaults: function(ev){
+    },
+
+    selectDone: function(ev){
+      this.$el.hide();
+      $('#main-menu-container').show();
+    },
+
+    // TODO
+
+    // render title
+    templateTitle: _.template(
+      '<div class="title-line">' +
+        '<span class="title"> <%= text %> </span>' +
+      '</div>'
+    ),
+    renderTitle: function(){
+      var html = this.templateTitle({ text: this.title });
+      this.$el.append( html );
+    },
+
+    // TODO
+
+    // buttons
+    templateButtons: _.template(
+      '<div class="buttons-line">' +
+        '<span class="button defaults">Defaults</span>' +
+        '<span class="button done">Close</span>' +
+      '</div>'
+    ),
+    renderButtons: function(){
+      var html = this.templateButtons();
+      this.$el.append( html );
+    },
+
+    // render all
+    render: function(){
+      this.$el.empty();
+      this.renderTitle();
+      this.renderButtons();
+    },
+  });
+
+/* ----------------------------------------------------------------------------
+ * choose font
+ * ---------------------------------------------------------------------------- */
   var FontFamilyBB = Backbone.Model.extend({
     defaults: {
       family: '',
@@ -1149,10 +1321,6 @@ var PopupMenu = function(options) {
     exampleBold: false,
     exampleItalic: false,
 
-//    efectFilters: [ 'normal', 'bold', 'italic', 'bold-italic', 'anaglyph', 'emboss',
-//                    'fire', 'fire-animation', 'neon', 'outline', 'shadow-multiple', '3d', '3d-float' ],
-//    efectSelected: 0,
-
     initialize: function() {
     },
 
@@ -1168,6 +1336,8 @@ var PopupMenu = function(options) {
       'click .example-line .button-italic': 'selectFontItalic',
       'click .example-line .button-fs': 'selectFontSize',
       'keyup .example-line #example-edit': 'selectExampleText',
+      'click .buttons-line .use': 'selectUse',
+      'click .buttons-line .cancel': 'selectCancel',
     },
 
     selectCategory: function(ev){
@@ -1250,34 +1420,21 @@ var PopupMenu = function(options) {
       }
     },
 
-    selectExampleEfect: function(ev){
-      var value = parseInt( $(ev.target).val() );
-      this.efectSelected = value;
-      var example = $( '#example-edit');
-
-      var index = this.collection.filtered[ this.selected ];
-      var fontFamily = this.collection.at( index ).get( 'family' );  // css: font-family
-
-      var fontWeight = 'normal'; // css: font-weight
-      if ( this.efectSelected === 1 || this.efectSelected === 3 ) fontWeight = 'bold';
-      var fontStyle = 'normal';  // css: font-style
-      if ( this.efectSelected === 2 || this.efectSelected === 3 ) fontStyle = 'italic';
-      example.css({ 'font-family': fontFamily, 'font-style': fontStyle, 'font-weight': fontWeight });
-      example.removeClass();
-
-      if ( this.efectSelected > 3 ) {
-        var kind = this.collection.at( index ).get( 'kind' );
-        if ( kind ) {
-          var fontEffect = 'font-effect-' + this.efectFilters[this.efectSelected]; // class:
-          WebFont.load({ google: { families: [fontFamily], effect: [fontEffect] }});
-          example.addClass( fontEffect );
-        }
-      }
-    },
-
     selectExampleText: function(ev){
       var value = $(ev.target).html();
       this.exampleText = value;
+    },
+
+    selectUse: function(ev){
+      this.$el.hide();
+      $('#main-menu-container').show();
+    // TODO zgornji show ven, uporabi font in show typography
+    },
+
+    selectCancel: function(ev){
+      this.$el.hide();
+      $('#main-menu-container').show();
+      // TODO zgornji show ven, show typography
     },
 
     // ----- render functions -------------------------------------------------
@@ -1364,6 +1521,18 @@ var PopupMenu = function(options) {
       this.$el.append( html );
     },
 
+    // buttons
+    templateButtons: _.template(
+      '<div class="buttons-line">' +
+        '<span class="button use">Use</span>' +
+        '<span class="button cancel">Cancel</span>' +
+      '</div>'
+    ),
+    renderButtons: function(){
+      var html = this.templateButtons();
+      this.$el.append( html );
+    },
+
     // render all
     render: function(){
       this.$el.empty();
@@ -1373,6 +1542,7 @@ var PopupMenu = function(options) {
       this.collection.onePage( this.first, this.count ).each( this.renderFamilyLine, this ); // render each with this context
       this.renderPaginator();
       this.renderExample();
+      this.renderButtons();
     },
   }); // FontFamilyListViewBB
 
@@ -1380,19 +1550,36 @@ var PopupMenu = function(options) {
 /* ----------------------------------------------------------------------------
  * main
  * ---------------------------------------------------------------------------- */
-
   var _test = function() {
+    var btpPopupContainer = '#mm-test';
 
-    var ffl = new FontFamilyListBB();
-    var fflv = new FontFamilyListViewBB({ collection: ffl });
-    fflv.render();
-    fflv.$el.appendTo( '#mm-test' );
+    var titleView = new MainTitleViewBB();
+    titleView.render();
+    titleView.$el.appendTo( btpPopupContainer );
 
+    var menuView = new MainMenuViewBB();
+    menuView.render();
+    menuView.$el.appendTo( btpPopupContainer );
+
+    var fileView = new FileMenuViewBB();
+    fileView.render();
+    fileView.$el.hide().appendTo( btpPopupContainer );
+
+
+
+    var typoView = new TypographyViewBB();
+    typoView.render();
+    typoView.$el.hide().appendTo( btpPopupContainer );
+
+    var font = new FontFamilyListBB();
+    var fontView = new FontFamilyListViewBB({ collection: font  });
+    fontView.render();
+    fontView.$el.hide().appendTo( btpPopupContainer );
     $.getJSON( googleFontsURL, function(result, status) {
       if( status === 'success' ) {
         fontFamilyList = [].concat( fontFamilyListInit, result.items );
-        fflv.collection.initFilters();
-        fflv.render();
+        fontView.collection.initFilters();
+        fontView.render();
       }
     });
 
