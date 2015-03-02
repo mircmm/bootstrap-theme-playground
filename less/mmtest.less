@@ -278,7 +278,7 @@
       .label-mixin(4);
     }
     .label-pd {
-      .label-mixin(3);
+      .label-mixin(4);
     }
     .label-br {
       .label-mixin(4);
@@ -306,6 +306,9 @@
       width: 20*@base-width - @base-separate;
       border: solid 1px;
       margin: @base-separate;
+      span {
+        .edit-mixin();
+      }
     }
   }
 
@@ -337,11 +340,11 @@
     .line-mixin();
 
     .label {
-      .label-mixin(6);
+      .label-mixin(3);
     }
 
     select {
-      .select-mixin(12);
+      .select-mixin(9);
     }
   }
 
@@ -376,7 +379,7 @@
     }
 
     .button-pp {
-      .button-mixin(0.7);
+      .button-mixin(1);
     }
   }
 
@@ -401,7 +404,7 @@
     }
 
     .button-fs {
-      .button-mixin(0.7);
+      .button-mixin(1);
     }
 
     #example-edit {

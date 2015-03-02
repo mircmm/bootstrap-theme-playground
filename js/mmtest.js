@@ -4,7 +4,7 @@ var PopupMenu = function(options) {
 
   var
     title = 'Bootstrap Theme Playground',
-    version = '0.1.03.01',
+    version = '0.1.03.02',
     // default color (use whenever there is no user choosen value))
     btpDefaultH = 180,
     btpDefaultS = 0.6,
@@ -1285,6 +1285,7 @@ var PopupMenu = function(options) {
       'click .parameters-line .button-fs': 'selectFontSize',
       'click .parameters-line .button-pd': 'selectPadding',
       'click .parameters-line .button-br': 'selectBorderRadius',
+      'keyup .examples-line div span': 'selectExampleText',
       'click .buttons-line .defaults': 'selectDefaults',
       'click .buttons-line .done': 'selectDone',
     },
@@ -1311,6 +1312,13 @@ var PopupMenu = function(options) {
 
     selectBorderRadius: function(ev){
       this.globalModel.setBorderRadius( $(ev.target).data('bradius') );
+    },
+
+    selectExampleText: function(ev){
+      var value = $(ev.target).html();
+      this.example = value;
+      // update other lines, current line must be excluded to preserve cursor position
+      $('#typo-menu-container .examples-line div span').not(ev.target).html(value);
     },
 
     selectDefaults: function(ev){
@@ -1380,7 +1388,7 @@ var PopupMenu = function(options) {
         '<span class="label"> <%= label %>: </span>' +
         '<div style="font-family: <%= font %>; font-size: <%= fs %>px;' +
               'padding: <%= pd %>px <%= 2*pd %>px; border-radius: <%= br %>px;" >' +
-          '<span> <%= example %> </span>' +
+          '<span contenteditable="true"> <%= example %> </span>' +
         '</div>' +
       '</div>'
     ),
@@ -1498,7 +1506,6 @@ var PopupMenu = function(options) {
 
   //
   var FontFamilyListViewBB = Backbone.View.extend({
-    title: 'Choose Font',
     id: 'choose-font-container',
     // pagination
     first: 0,
@@ -1636,21 +1643,33 @@ var PopupMenu = function(options) {
       '</div>'
     ),
     renderTitle: function(){
-      var html = this.templateTitle({ text: this.title });
+      var title = 'Choose Font';
+      if ( this.globalModel.get('fontToChange') === 'base' ) title = 'Choose Base Font';
+      if ( this.globalModel.get('fontToChange') === 'code' ) title = 'Choose Code Font';
+      var html = this.templateTitle({ text: title });
       this.$el.append( html );
     },
 
     // render selector
     templateSelect: _.template(
       '<div class="select-line">' +
-      '<span class="label"> <%= name %>: </span>' +
-      '<select class=<%= name %> >' +
-      '<% for( var i = 0; i < values.length; ++i ) print( "<option value=" + i + ((i==selected)?" selected>":" >") + values[i]+ "</option>" ); %>' +
+      '<span class="label"> Category: </span>' +
+      '<select class="Category" >' +
+      '<% for( var i = 0; i < valCat.length; ++i ) print( "<option value=" + i + ((i==selCat)?" selected>":" >") + valCat[i]+ "</option>" ); %>' +
+      '</select>' +
+      '<span class="label"> Subset: </span>' +
+      '<select class="Subset" >' +
+      '<% for( var i = 0; i < valSub.length; ++i ) print( "<option value=" + i + ((i==selSub)?" selected>":" >") + valSub[i]+ "</option>" ); %>' +
       '</select>' +
       '</div>'
     ),
-    renderSelect: function(name, values, selected){
-      var html = this.templateSelect({ name: name, values: values, selected: selected });
+    renderSelect: function(){
+//    renderSelect: function(name, values, selected){
+      var valCat = this.collection.categoryFilters;
+      var selCat = this.collection.categorySelected;
+      var valSub = this.collection.subsetFilters;
+      var selSub = this.collection.subsetSelected;
+      var html = this.templateSelect({ valCat: valCat, selCat: selCat, valSub: valSub, selSub: selSub });
       this.$el.append( html );
     },
 
@@ -1728,8 +1747,7 @@ var PopupMenu = function(options) {
     render: function(){
       this.$el.empty();
       this.renderTitle();
-      this.renderSelect( 'Category', this.collection.categoryFilters, this.collection.categorySelected );
-      this.renderSelect( 'Subset', this.collection.subsetFilters, this.collection.subsetSelected );
+      this.renderSelect();
       this.collection.onePage( this.first, this.count ).each( this.renderFamilyLine, this ); // render each with this context
       this.renderPaginator();
       this.renderExample();
@@ -1773,6 +1791,7 @@ var PopupMenu = function(options) {
     var font = new FontFamilyListBB();
     var fontView = new FontFamilyListViewBB({ collection: font });
     fontView.globalModel = global;
+    global.on( 'change:fontToChange', fontView.render, fontView );
     fontView.render();
     fontView.$el.hide().appendTo( btpPopupContainer );
     $.getJSON( googleFontsURL, function(result, status) {

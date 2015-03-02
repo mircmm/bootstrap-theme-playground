@@ -387,7 +387,7 @@
 #typo-menu-container .parameters-line .label-pd {
   display: block;
   height: 30px;
-  width: 87px;
+  width: 117px;
   font-style: "Helvetica", sans-serif;
   font-size: 15px;
   line-height: 24px;
@@ -478,6 +478,10 @@
   border: solid 1px;
   margin: 3px;
 }
+#typo-menu-container .examples-line div span {
+  border: none;
+  outline: none;
+}
 #typo-menu-container .buttons-line {
   display: flex;
   margin: 3px 3px 3px 6px;
@@ -544,7 +548,7 @@
 #choose-font-container .select-line .label {
   display: block;
   height: 30px;
-  width: 177px;
+  width: 87px;
   font-style: "Helvetica", sans-serif;
   font-size: 15px;
   line-height: 24px;
@@ -556,7 +560,7 @@
 }
 #choose-font-container .select-line select {
   height: 30px;
-  width: 357px;
+  width: 267px;
   color: #ffffff;
   background-color: #555566;
   border: 1px solid;
@@ -655,7 +659,7 @@
 #choose-font-container .paginator-line .button-pp {
   display: block;
   height: 30px;
-  width: 18px;
+  width: 27px;
   font-size: 15px;
   font-weight: bold;
   text-align: center;
@@ -752,7 +756,7 @@
 #choose-font-container .example-line .button-fs {
   display: block;
   height: 30px;
-  width: 18px;
+  width: 27px;
   font-size: 15px;
   font-weight: bold;
   text-align: center;

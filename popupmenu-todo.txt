@@ -2,10 +2,11 @@ narejeno (mmtest.js)
 backbone za file (zacetek), typo, font
 
 TODO:
+typo: edit example: OK
+font: category & subset v isti vrstici: OK
+font: popravi gumbe za page in font size: OK
+typo&font: title code || base: OK
 
-typo: edit example
-
-font: popravi gumbe za page in font size
 
 font: add font from URL
 
