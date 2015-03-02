@@ -7,17 +7,19 @@
 #main-title-container {
   width: 720px;
   color: #ffffff;
-  background-color: #333344;
+  background-color: #222233;
   font-style: "Helvetica", sans-serif;
   font-size: 15px;
   line-height: 24px;
   font-weight: normal;
   margin: 0;
   padding: 3px 0;
+  padding: 3px 0 0 0;
 }
 #main-title-container .title-line {
   display: flex;
-  margin: 3px;
+  margin: 3px 3px 3px 6px;
+  margin: 3px 3px 0 6px;
 }
 #main-title-container .title-line .label {
   display: block;
@@ -51,9 +53,7 @@
   display: block;
   height: 30px;
   width: 27px;
-  font-style: "Helvetica", sans-serif;
   font-size: 15px;
-  line-height: 24px;
   font-weight: bold;
   text-align: center;
   margin: 0 3px 0 0;
@@ -79,7 +79,7 @@
 #main-menu-container {
   width: 720px;
   color: #ffffff;
-  background-color: #333344;
+  background-color: #222233;
   font-style: "Helvetica", sans-serif;
   font-size: 15px;
   line-height: 24px;
@@ -89,15 +89,13 @@
 }
 #main-menu-container .menu-line {
   display: flex;
-  margin: 3px;
+  margin: 3px 3px 3px 6px;
 }
 #main-menu-container .menu-line .menu-button {
   display: block;
   height: 30px;
   width: 177px;
-  font-style: "Helvetica", sans-serif;
   font-size: 15px;
-  line-height: 24px;
   font-weight: bold;
   text-align: center;
   margin: 0 3px 0 0;
@@ -123,7 +121,7 @@
 #file-menu-container {
   width: 720px;
   color: #ffffff;
-  background-color: #333344;
+  background-color: #222233;
   font-style: "Helvetica", sans-serif;
   font-size: 15px;
   line-height: 24px;
@@ -131,17 +129,32 @@
   margin: 0;
   padding: 3px 0;
 }
+#file-menu-container .title-line {
+  display: flex;
+  margin: 3px 3px 3px 6px;
+}
+#file-menu-container .title-line .title {
+  display: block;
+  height: 30px;
+  width: 717px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  margin: 0 3px 0 0;
+  border: 0;
+  padding: 3px;
+  color: #000000;
+  background-color: #ccccdd;
+}
 #file-menu-container .buttons-line {
   display: flex;
-  margin: 3px;
+  margin: 3px 3px 3px 6px;
 }
 #file-menu-container .buttons-line .button {
   display: block;
   height: 30px;
   width: 177px;
-  font-style: "Helvetica", sans-serif;
   font-size: 15px;
-  line-height: 24px;
   font-weight: bold;
   text-align: center;
   margin: 0 3px 0 0;
@@ -167,7 +180,7 @@
 #base-menu-container {
   width: 720px;
   color: #ffffff;
-  background-color: #333344;
+  background-color: #222233;
   font-style: "Helvetica", sans-serif;
   font-size: 15px;
   line-height: 24px;
@@ -176,14 +189,17 @@
   padding: 3px 0;
 }
 #base-menu-container .title-line {
+  display: flex;
+  margin: 3px 3px 3px 6px;
+}
+#base-menu-container .title-line .title {
+  display: block;
   height: 30px;
-  width: 711px;
-  font-style: "Helvetica", sans-serif;
+  width: 717px;
   font-size: 18px;
-  line-height: 24px;
   font-weight: bold;
   text-align: center;
-  margin: 3px;
+  margin: 0 3px 0 0;
   border: 0;
   padding: 3px;
   color: #000000;
@@ -191,15 +207,13 @@
 }
 #base-menu-container .buttons-line {
   display: flex;
-  margin: 3px;
+  margin: 3px 3px 3px 6px;
 }
 #base-menu-container .buttons-line .button {
   display: block;
   height: 30px;
   width: 177px;
-  font-style: "Helvetica", sans-serif;
   font-size: 15px;
-  line-height: 24px;
   font-weight: bold;
   text-align: center;
   margin: 0 3px 0 0;
@@ -225,7 +239,7 @@
 #brand-menu-container {
   width: 720px;
   color: #ffffff;
-  background-color: #333344;
+  background-color: #222233;
   font-style: "Helvetica", sans-serif;
   font-size: 15px;
   line-height: 24px;
@@ -234,14 +248,17 @@
   padding: 3px 0;
 }
 #brand-menu-container .title-line {
+  display: flex;
+  margin: 3px 3px 3px 6px;
+}
+#brand-menu-container .title-line .title {
+  display: block;
   height: 30px;
-  width: 711px;
-  font-style: "Helvetica", sans-serif;
+  width: 717px;
   font-size: 18px;
-  line-height: 24px;
   font-weight: bold;
   text-align: center;
-  margin: 3px;
+  margin: 0 3px 0 0;
   border: 0;
   padding: 3px;
   color: #000000;
@@ -249,15 +266,13 @@
 }
 #brand-menu-container .buttons-line {
   display: flex;
-  margin: 3px;
+  margin: 3px 3px 3px 6px;
 }
 #brand-menu-container .buttons-line .button {
   display: block;
   height: 30px;
   width: 177px;
-  font-style: "Helvetica", sans-serif;
   font-size: 15px;
-  line-height: 24px;
   font-weight: bold;
   text-align: center;
   margin: 0 3px 0 0;
@@ -283,7 +298,7 @@
 #typo-menu-container {
   width: 720px;
   color: #ffffff;
-  background-color: #333344;
+  background-color: #222233;
   font-style: "Helvetica", sans-serif;
   font-size: 15px;
   line-height: 24px;
@@ -292,30 +307,186 @@
   padding: 3px 0;
 }
 #typo-menu-container .title-line {
+  display: flex;
+  margin: 3px 3px 3px 6px;
+}
+#typo-menu-container .title-line .title {
+  display: block;
   height: 30px;
-  width: 711px;
-  font-style: "Helvetica", sans-serif;
+  width: 717px;
   font-size: 18px;
-  line-height: 24px;
   font-weight: bold;
   text-align: center;
-  margin: 3px;
+  margin: 0 3px 0 0;
   border: 0;
   padding: 3px;
   color: #000000;
   background-color: #ccccdd;
 }
+#typo-menu-container .choose-font-line {
+  display: flex;
+  margin: 3px 3px 3px 6px;
+}
+#typo-menu-container .choose-font-line .label {
+  display: block;
+  height: 30px;
+  width: 117px;
+  font-style: "Helvetica", sans-serif;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: normal;
+  text-align: right;
+  margin: 0 3px 0 0;
+  border: 0;
+  padding: 3px 6px;
+}
+#typo-menu-container .choose-font-line .button-base,
+#typo-menu-container .choose-font-line .button-code {
+  display: block;
+  height: 30px;
+  width: 237px;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+  margin: 0 3px 0 0;
+  border: 0;
+  padding: 3px;
+  color: #ffffff;
+  background-color: #555566;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+#typo-menu-container .choose-font-line .button-base:hover,
+#typo-menu-container .choose-font-line .button-code:hover {
+  background-color: #86869b;
+}
+#typo-menu-container .choose-font-line .button-base[clicked=true],
+#typo-menu-container .choose-font-line .button-code[clicked=true] {
+  color: #000000;
+  background-color: #ccccdd;
+}
+#typo-menu-container .parameters-line {
+  display: flex;
+  margin: 3px 3px 3px 6px;
+}
+#typo-menu-container .parameters-line .label-fs {
+  display: block;
+  height: 30px;
+  width: 117px;
+  font-style: "Helvetica", sans-serif;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: normal;
+  text-align: right;
+  margin: 0 3px 0 0;
+  border: 0;
+  padding: 3px 6px;
+}
+#typo-menu-container .parameters-line .label-pd {
+  display: block;
+  height: 30px;
+  width: 87px;
+  font-style: "Helvetica", sans-serif;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: normal;
+  text-align: right;
+  margin: 0 3px 0 0;
+  border: 0;
+  padding: 3px 6px;
+}
+#typo-menu-container .parameters-line .label-br {
+  display: block;
+  height: 30px;
+  width: 117px;
+  font-style: "Helvetica", sans-serif;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: normal;
+  text-align: right;
+  margin: 0 3px 0 0;
+  border: 0;
+  padding: 3px 6px;
+}
+#typo-menu-container .parameters-line .info {
+  display: block;
+  height: 30px;
+  width: 57px;
+  font-style: "Helvetica", sans-serif;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: normal;
+  text-align: right;
+  margin: 0 3px 0 0;
+  border: 0;
+  padding: 3px 6px;
+  text-align: left;
+  font-weight: bold;
+  background-color: #333344;
+}
+#typo-menu-container .parameters-line .button-fs,
+#typo-menu-container .parameters-line .button-pd,
+#typo-menu-container .parameters-line .button-br {
+  display: block;
+  height: 30px;
+  width: 27px;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+  margin: 0 3px 0 0;
+  border: 0;
+  padding: 3px;
+  color: #ffffff;
+  background-color: #555566;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+#typo-menu-container .parameters-line .button-fs:hover,
+#typo-menu-container .parameters-line .button-pd:hover,
+#typo-menu-container .parameters-line .button-br:hover {
+  background-color: #86869b;
+}
+#typo-menu-container .parameters-line .button-fs[clicked=true],
+#typo-menu-container .parameters-line .button-pd[clicked=true],
+#typo-menu-container .parameters-line .button-br[clicked=true] {
+  color: #000000;
+  background-color: #ccccdd;
+}
+#typo-menu-container .examples-line {
+  display: flex;
+  margin: 3px 3px 3px 6px;
+}
+#typo-menu-container .examples-line .label {
+  display: block;
+  height: 30px;
+  width: 117px;
+  font-style: "Helvetica", sans-serif;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: normal;
+  text-align: right;
+  margin: 0 3px 0 0;
+  border: 0;
+  padding: 3px 6px;
+}
+#typo-menu-container .examples-line div {
+  width: 597px;
+  border: solid 1px;
+  margin: 3px;
+}
 #typo-menu-container .buttons-line {
   display: flex;
-  margin: 3px;
+  margin: 3px 3px 3px 6px;
 }
 #typo-menu-container .buttons-line .button {
   display: block;
   height: 30px;
   width: 177px;
-  font-style: "Helvetica", sans-serif;
   font-size: 15px;
-  line-height: 24px;
   font-weight: bold;
   text-align: center;
   margin: 0 3px 0 0;
@@ -341,7 +512,7 @@
 #choose-font-container {
   width: 720px;
   color: #ffffff;
-  background-color: #333344;
+  background-color: #222233;
   font-style: "Helvetica", sans-serif;
   font-size: 15px;
   line-height: 24px;
@@ -350,14 +521,17 @@
   padding: 3px 0;
 }
 #choose-font-container .title-line {
+  display: flex;
+  margin: 3px 3px 3px 6px;
+}
+#choose-font-container .title-line .title {
+  display: block;
   height: 30px;
-  width: 711px;
-  font-style: "Helvetica", sans-serif;
+  width: 717px;
   font-size: 18px;
-  line-height: 24px;
   font-weight: bold;
   text-align: center;
-  margin: 3px;
+  margin: 0 3px 0 0;
   border: 0;
   padding: 3px;
   color: #000000;
@@ -365,7 +539,7 @@
 }
 #choose-font-container .select-line {
   display: flex;
-  margin: 3px;
+  margin: 3px 3px 3px 6px;
 }
 #choose-font-container .select-line .label {
   display: block;
@@ -391,15 +565,13 @@
 }
 #choose-font-container .family-line {
   display: flex;
-  margin: 3px;
+  margin: 3px 3px 3px 6px;
 }
 #choose-font-container .family-line .family {
   display: block;
   height: 30px;
   width: 177px;
-  font-style: "Helvetica", sans-serif;
   font-size: 15px;
-  line-height: 24px;
   font-weight: bold;
   text-align: center;
   margin: 0 3px 0 0;
@@ -428,7 +600,7 @@
 }
 #choose-font-container .paginator-line {
   display: flex;
-  margin: 3px;
+  margin: 3px 3px 3px 6px;
 }
 #choose-font-container .paginator-line .label {
   display: block;
@@ -447,9 +619,7 @@
   display: block;
   height: 30px;
   width: 87px;
-  font-style: "Helvetica", sans-serif;
   font-size: 15px;
-  line-height: 24px;
   font-weight: bold;
   text-align: center;
   margin: 0 3px 0 0;
@@ -486,9 +656,7 @@
   display: block;
   height: 30px;
   width: 18px;
-  font-style: "Helvetica", sans-serif;
   font-size: 15px;
-  line-height: 24px;
   font-weight: bold;
   text-align: center;
   margin: 0 3px 0 0;
@@ -510,7 +678,7 @@
 }
 #choose-font-container .example-line {
   display: flex;
-  margin: 3px;
+  margin: 3px 3px 3px 6px;
 }
 #choose-font-container .example-line .label {
   display: block;
@@ -539,15 +707,14 @@
   padding: 3px 6px;
   text-align: left;
   font-weight: bold;
+  background-color: #333344;
 }
 #choose-font-container .example-line .button-bold,
 #choose-font-container .example-line .button-italic {
   display: block;
   height: 30px;
   width: 42px;
-  font-style: "Helvetica", sans-serif;
   font-size: 15px;
-  line-height: 24px;
   font-weight: bold;
   text-align: center;
   margin: 0 3px 0 0;
@@ -586,9 +753,7 @@
   display: block;
   height: 30px;
   width: 18px;
-  font-style: "Helvetica", sans-serif;
   font-size: 15px;
-  line-height: 24px;
   font-weight: bold;
   text-align: center;
   margin: 0 3px 0 0;
@@ -616,15 +781,13 @@
 }
 #choose-font-container .buttons-line {
   display: flex;
-  margin: 3px;
+  margin: 3px 3px 3px 6px;
 }
 #choose-font-container .buttons-line .button {
   display: block;
   height: 30px;
   width: 177px;
-  font-style: "Helvetica", sans-serif;
   font-size: 15px;
-  line-height: 24px;
   font-weight: bold;
   text-align: center;
   margin: 0 3px 0 0;

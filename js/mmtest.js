@@ -4,7 +4,7 @@ var PopupMenu = function(options) {
 
   var
     title = 'Bootstrap Theme Playground',
-    version = '0.1.02.28',
+    version = '0.1.03.01',
     // default color (use whenever there is no user choosen value))
     btpDefaultH = 180,
     btpDefaultS = 0.6,
@@ -144,8 +144,6 @@ var PopupMenu = function(options) {
          'info': 'default: #5bc0de <br> bootstrap: brand info color',
       'warning': 'default: #f0ad4e <br> bootstrap: brand warning color',
        'danger': 'default: #d9534f <br> bootstrap: brand danger color',
-      // fonts
-      // TODO
       // end
       'n': 'n'
     },
@@ -234,7 +232,6 @@ var PopupMenu = function(options) {
       // title
       '<div id="mm-file-menu-container">' +
       // content
-      // TODO
       '</div>' +
       // menu buttons
       '<ul>' +
@@ -678,8 +675,6 @@ var PopupMenu = function(options) {
     $.getJSON( googleFontsURL, function(result) {
       // load fonts list from google
       fontFamilyList = [].concat( fontFamilyListInit, result.items );
-      // init category indexes
-      // TODO: zdaj je init, naredi iz JSONa
       // init subsets
       for ( var inxf = 0; inxf < fontFamilyList.length; inxf++ ) {
         var itemSubsets = fontFamilyList[inxf].subsets;
@@ -1074,6 +1069,63 @@ var PopupMenu = function(options) {
 
 
 /* ----------------------------------------------------------------------------
+ * global data model
+ * ---------------------------------------------------------------------------- */
+  var GlobalBB = Backbone.Model.extend({
+    defaults: {
+      // base color
+      // TODO
+      // brand color
+      // TODO
+      // typography
+      baseFont: 'Helvetica, sans-serif',
+      codeFont: 'Courier New, monospace',
+      fontSize: 14, // px
+      padding: 6, // px
+      borderRadius: 4, // px
+      // passing parameters from typo to font
+      fontToChange: undefined,
+    },
+
+    setFont: function( font ) {
+      if ( this.get('fontToChange') === 'base' ) this.set( 'baseFont', font );
+      if ( this.get('fontToChange') === 'code' ) this.set( 'codeFont', font );
+      this.set( 'fontToChange', undefined );
+    },
+
+    setFontSize: function( value ) {
+      value += this.get('fontSize');
+      if( value > 30) value = 30;
+      if( value < 6) value = 6;
+      this.set( 'fontSize', value );
+    },
+
+    setPadding: function( value ) {
+      value += this.get( 'padding' );
+      if( value > 30) value = 30;
+      if( value < 2) value = 2;
+      this.set( 'padding', value );
+    },
+
+    setBorderRadius: function( value ) {
+      value += this.get( 'borderRadius' );
+      if( value > 30) value = 30;
+      if( value < 0) value = 0;
+      this.set( 'borderRadius', value );
+    },
+
+    setDefaultsTypo: function() {
+      this.set( 'baseFont', this.defaults.baseFont );
+      this.set( 'codeFont', this.defaults.codeFont );
+      this.set( 'fontSize', this.defaults.fontSize );
+      this.set( 'padding', this.defaults.padding );
+      this.set( 'borderRadius', this.defaults.borderRadius );
+    },
+
+  });
+
+
+/* ----------------------------------------------------------------------------
  * main title
  * ---------------------------------------------------------------------------- */
   var MainTitleViewBB = Backbone.View.extend({
@@ -1154,6 +1206,7 @@ var PopupMenu = function(options) {
  * file menu
  * ---------------------------------------------------------------------------- */
   var FileMenuViewBB = Backbone.View.extend({
+    title: 'File',
     id: 'file-menu-container',
 
     events: {
@@ -1165,18 +1218,33 @@ var PopupMenu = function(options) {
       $('#main-menu-container').show();
     },
 
-    // menu
+    // render title
+    templateTitle: _.template(
+      '<div class="title-line">' +
+        '<span class="title"> <%= text %> </span>' +
+      '</div>'
+    ),
+    renderTitle: function(){
+      var html = this.templateTitle({ text: this.title });
+      this.$el.append( html );
+    },
+
+    // render buttons
     templateButtons: _.template(
       '<div class="buttons-line">' +
         '<span class="button cancel">Cancel</span>' +
       '</div>'
     ),
+    renderButtons: function(){
+      var html = this.templateButtons();
+      this.$el.append( html );
+    },
 
     // render
     render: function() {
       this.$el.empty();
-      var html = this.templateButtons();
-      this.$el.append( html );
+      this.renderTitle();
+      this.renderButtons();
     },
   });
 
@@ -1194,24 +1262,65 @@ var PopupMenu = function(options) {
 /* ----------------------------------------------------------------------------
  * choose typography
  * ---------------------------------------------------------------------------- */
+  var TypographyBB = Backbone.Model.extend({
+    defaults: {
+/*
+      baseFont: 'Helvetica, sans-serif',
+      codeFont: 'Courier New, monospace',
+      fontSize: 14, // px
+      padding: 6, // px
+      borderRadius: 4, // px
+*/
+      example: 'this is sample text; abcd ABCD 1480 #$%&/()[]{}@',
+    },
+  });
+
   var TypographyViewBB = Backbone.View.extend({
     title: 'Typography',
     id: 'typo-menu-container',
 
     events: {
+      'click .choose-font-line .button-base': 'selectBase',
+      'click .choose-font-line .button-code': 'selectCode',
+      'click .parameters-line .button-fs': 'selectFontSize',
+      'click .parameters-line .button-pd': 'selectPadding',
+      'click .parameters-line .button-br': 'selectBorderRadius',
       'click .buttons-line .defaults': 'selectDefaults',
       'click .buttons-line .done': 'selectDone',
     },
 
+    selectBase: function(ev){
+      this.$el.hide();
+      this.globalModel.set( 'fontToChange', 'base' );
+      $('#choose-font-container').show();
+    },
+
+    selectCode: function(ev){
+      this.$el.hide();
+      this.globalModel.set( 'fontToChange', 'code' );
+      $('#choose-font-container').show();
+    },
+
+    selectFontSize: function(ev){
+      this.globalModel.setFontSize( $(ev.target).data('fontsize') );
+    },
+
+    selectPadding: function(ev){
+      this.globalModel.setPadding( $(ev.target).data('padding') );
+    },
+
+    selectBorderRadius: function(ev){
+      this.globalModel.setBorderRadius( $(ev.target).data('bradius') );
+    },
+
     selectDefaults: function(ev){
+      this.globalModel.setDefaultsTypo();
     },
 
     selectDone: function(ev){
       this.$el.hide();
       $('#main-menu-container').show();
     },
-
-    // TODO
 
     // render title
     templateTitle: _.template(
@@ -1224,9 +1333,83 @@ var PopupMenu = function(options) {
       this.$el.append( html );
     },
 
-    // TODO
+    // render choose font
+    templateChooseFont: _.template(
+      '<div class="choose-font-line">' +
+        '<span class="label"> Base Font: </span>' +
+        '<span class="button-base"> <%= baseFont %> </span>' +
+        '<span class="label"> Code Font: </span>' +
+        '<span class="button-code"> <%= codeFont %> </span>' +
+      '</div>'
+    ),
+    renderChooseFont: function(){
+      var baseFont = this.globalModel.get('baseFont');
+      var codeFont = this.globalModel.get('codeFont');
+      var html = this.templateChooseFont({ baseFont: baseFont, codeFont: codeFont });
+      this.$el.append( html );
+    },
 
-    // buttons
+    // render parameters
+    templateParameters: _.template(
+      '<div class="parameters-line">' +
+        '<span class="label-fs"> Font Size: </span>' +
+        '<span class="info"> <%= fontSize %>px </span>' +
+        '<span class="button-fs" data-fontsize="-1"> - </span>' +
+        '<span class="button-fs" data-fontsize="1"> + </span>' +
+        '<span class="label-pd"> Padding: </span>' +
+        '<span class="info"> <%= padding %>px </span>' +
+        '<span class="button-pd" data-padding="-1"> - </span>' +
+        '<span class="button-pd" data-padding="1"> + </span>' +
+        '<span class="label-br"> Border Radius: </span>' +
+        '<span class="info"> <%= borderRadius %>px </span>' +
+        '<span class="button-br" data-bradius="-1"> - </span>' +
+        '<span class="button-br" data-bradius="1"> + </span>' +
+      '</div>'
+    ),
+    renderParameters: function(){
+      var fontSize = this.globalModel.get( 'fontSize' );
+      var padding = this.globalModel.get( 'padding' );
+      var borderRadius = this.globalModel.get( 'borderRadius' );
+      var html = this.templateParameters({ fontSize: fontSize, padding: padding, borderRadius: borderRadius });
+      this.$el.append( html );
+    },
+
+    // render examples
+    templateExamples: _.template(
+      '<div class="examples-line">' +
+        '<span class="label"> <%= label %>: </span>' +
+        '<div style="font-family: <%= font %>; font-size: <%= fs %>px;' +
+              'padding: <%= pd %>px <%= 2*pd %>px; border-radius: <%= br %>px;" >' +
+          '<span> <%= example %> </span>' +
+        '</div>' +
+      '</div>'
+    ),
+    renderExamples: function( label ){
+      var parameters = { label: label, example: this.model.get('example') };
+      if ( label === 'Code' ) {
+        _.extend( parameters, { font: this.globalModel.get('codeFont') });
+      } else {
+        _.extend( parameters, { font: this.globalModel.get('baseFont') });
+      }
+      var fs = this.globalModel.get('fontSize');
+      var pd = this.globalModel.get('padding');
+      var br = this.globalModel.get('borderRadius');
+      if ( label === 'Small' ) {
+        fs = Math.floor( fs * 0.85 );
+        pd = Math.floor( pd * 0.80 );
+        br = Math.floor( br * 0.75 );
+      }
+      if ( label === 'Large' ) {
+        fs = Math.ceil( fs * 1.25 );
+        pd = Math.ceil( pd * 1.3333 );
+        br = Math.ceil( br * 1.5 );
+      }
+      _.extend( parameters, { fs: fs, pd: pd, br: br });
+      var html = this.templateExamples( parameters );
+      this.$el.append( html );
+    },
+
+    // render buttons
     templateButtons: _.template(
       '<div class="buttons-line">' +
         '<span class="button defaults">Defaults</span>' +
@@ -1242,9 +1425,16 @@ var PopupMenu = function(options) {
     render: function(){
       this.$el.empty();
       this.renderTitle();
+      this.renderChooseFont();
+      this.renderParameters();
+      this.renderExamples( 'Small' );
+      this.renderExamples( 'Base' );
+      this.renderExamples( 'Large' );
+      this.renderExamples( 'Code' );
       this.renderButtons();
     },
   });
+
 
 /* ----------------------------------------------------------------------------
  * choose font
@@ -1314,15 +1504,14 @@ var PopupMenu = function(options) {
     first: 0,
     count: 8,
     selected: 0,
-    //
+    // example
     familyLineText: 'abcde ABCDE 67890',
-    exampleText: 'abc def ghi jkl mno pqr stu vw xyz ABC DEF GHI JKL MNO PQR STU VWX YZ 123 456 7890',
+    exampleText: 'abc def ghi jkl mno pqr stu vw xyz ABC DEF GHI JKL MNO PQR STU VW XYZ 123 456 7890',
     exampleTextSize: 36,
     exampleBold: false,
     exampleItalic: false,
-
-    initialize: function() {
-    },
+    // result
+    todoFont: undefined,
 
     // ----- event handlers ---------------------------------------------------
     events: {
@@ -1427,14 +1616,16 @@ var PopupMenu = function(options) {
 
     selectUse: function(ev){
       this.$el.hide();
-      $('#main-menu-container').show();
-    // TODO zgornji show ven, uporabi font in show typography
+      var index = this.collection.filtered[ this.selected ];
+      var font = this.collection.at( index ).get( 'family' );
+      this.globalModel.setFont( font );
+      $('#typo-menu-container').show();
     },
 
     selectCancel: function(ev){
       this.$el.hide();
-      $('#main-menu-container').show();
-      // TODO zgornji show ven, show typography
+      this.globalModel.set( 'fontToChange', undefined );
+      $('#typo-menu-container').show();
     },
 
     // ----- render functions -------------------------------------------------
@@ -1452,7 +1643,7 @@ var PopupMenu = function(options) {
     // render selector
     templateSelect: _.template(
       '<div class="select-line">' +
-      '<span class="label"> <%= name %> </span>' +
+      '<span class="label"> <%= name %>: </span>' +
       '<select class=<%= name %> >' +
       '<% for( var i = 0; i < values.length; ++i ) print( "<option value=" + i + ((i==selected)?" selected>":" >") + values[i]+ "</option>" ); %>' +
       '</select>' +
@@ -1553,6 +1744,9 @@ var PopupMenu = function(options) {
   var _test = function() {
     var btpPopupContainer = '#mm-test';
 
+    // common model, used by all views
+    var global = new GlobalBB();
+
     var titleView = new MainTitleViewBB();
     titleView.render();
     titleView.$el.appendTo( btpPopupContainer );
@@ -1562,17 +1756,23 @@ var PopupMenu = function(options) {
     menuView.$el.appendTo( btpPopupContainer );
 
     var fileView = new FileMenuViewBB();
+    fileView.globalModel = global;
     fileView.render();
     fileView.$el.hide().appendTo( btpPopupContainer );
 
+    // TODO base color, brand color
 
-
-    var typoView = new TypographyViewBB();
+    var typo = new TypographyBB();
+    var typoView = new TypographyViewBB({ model: typo });
+    typoView.globalModel = global;
+    global.on( 'change:baseFont change:codeFont change:fontSize change:padding change:borderRadius',
+      typoView.render, typoView );
     typoView.render();
     typoView.$el.hide().appendTo( btpPopupContainer );
 
     var font = new FontFamilyListBB();
-    var fontView = new FontFamilyListViewBB({ collection: font  });
+    var fontView = new FontFamilyListViewBB({ collection: font });
+    fontView.globalModel = global;
     fontView.render();
     fontView.$el.hide().appendTo( btpPopupContainer );
     $.getJSON( googleFontsURL, function(result, status) {

@@ -1,15 +1,15 @@
-poglej kako ima Mlacom narejene filtre:
-http://www.mlacom.si/racunalniska-oprema/ohisja-pc
-
-
-narejeno (mmtest.js) backbone za font selection:
-title, filtri, font family list, pagination, example
+narejeno (mmtest.js)
+backbone za file (zacetek), typo, font
 
 TODO:
 
-load fontov iz googla
+typo: edit example
 
-add font URL
+font: popravi gumbe za page in font size
+
+font: add font from URL
+
+backbone za base and brand color
 
 
 
