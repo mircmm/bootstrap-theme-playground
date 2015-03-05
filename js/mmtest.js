@@ -4,7 +4,7 @@ var PopupMenu = function(options) {
 
   var
     title = 'Bootstrap Theme Playground',
-    version = '0.1.03.02',
+    version = '0.1.03.05',
     // default color (use whenever there is no user choosen value))
     btpDefaultH = 180,
     btpDefaultS = 0.6,
@@ -1064,7 +1064,11 @@ var PopupMenu = function(options) {
 
 
 /* ----------------------------------------------------------------------------
- * start of backbone refactor
+ * ----------------------------------------------------------------------------
+ * ----------------------------------------------------------------------------
+ * start of backbone refactor  TODO
+ * ----------------------------------------------------------------------------
+ * ----------------------------------------------------------------------------
  * ---------------------------------------------------------------------------- */
 
 
@@ -1169,18 +1173,17 @@ var PopupMenu = function(options) {
 
     selectColor: function(ev){
       this.$el.hide();
-      //file menu .show();
+      $('#base-menu-container').show();
     },
 
     selectBrand: function(ev){
       this.$el.hide();
-      //file menu .show();
+      $('#brand-menu-container').show();
     },
 
     selectTypo: function(ev){
       this.$el.hide();
       $('#typo-menu-container').show();
-      // TODO, zgrnji show ven, show typography   typo-menu-container
     },
 
     // menu
@@ -1250,13 +1253,166 @@ var PopupMenu = function(options) {
 
 
 /* ----------------------------------------------------------------------------
+ * choose one color, used for base and brand color
+ * ---------------------------------------------------------------------------- */
+  var ColorBB = Backbone.Model.extend({
+    defaults: {
+      label: 'Label',
+      showH: true,
+      showS: true,
+      showL: true,
+      tiny: tinycolor('#ccc'),
+    },
+  });
+
+  var ColorViewBB = Backbone.View.extend({
+    class: 'one-color',
+
+
+    // ---------- render functions --------------------------------------------
+    // render title
+    templateLabel: _.template(
+      '<div class="label-line">' +
+        '<span class="label"> <%= label %> </span>' +
+      '</div>'
+    ),
+    renderLabel: function(){
+      var html = this.templateLabel({ label: this.model.get('label') });
+      this.$el.append( html );
+    },
+
+    // render all
+    render: function(){
+      this.$el.empty();
+      this.renderLabel();
+      return this;
+    },
+  });
+
+
+/* ----------------------------------------------------------------------------
  * choose base color
  * ---------------------------------------------------------------------------- */
+  var BaseColorBB = Backbone.Collection.extend({
+    // standard backbone model
+    model: ColorBB,
+
+  });
+
+  var BaseColorViewBB = Backbone.View.extend({
+    title: 'Base Colors',
+    id: 'base-menu-container',
+
+    // ---------- event handlers ----------------------------------------------
+    events: {
+      'click .buttons-line .close': 'selectClose',
+    },
+
+    selectClose: function(ev){
+      this.$el.hide();
+      $('#main-menu-container').show();
+    },
+
+    // ---------- render functions --------------------------------------------
+    // render title
+    templateTitle: _.template(
+      '<div class="title-line">' +
+        '<span class="title"> <%= text %> </span>' +
+      '</div>'
+    ),
+    renderTitle: function(){
+      var html = this.templateTitle({ text: this.title });
+      this.$el.append( html );
+    },
+
+    renderCollection: function(){
+      this.collection.forEach( function( color ) {
+        var colorView = new ColorViewBB({ model: color });
+        var html = colorView.render().el;
+        this.$el.append( html );
+      }, this );
+    },
+
+    // render buttons
+    templateButtons: _.template(
+      '<div class="buttons-line">' +
+        '<span class="button defaults">Defaults</span>' +
+        '<span class="button update">Update</span>' +
+        '<span class="button close">Close</span>' +
+      '</div>'
+    ),
+    renderButtons: function(){
+      var html = this.templateButtons();
+      this.$el.append( html );
+    },
+
+    // render all
+    render: function(){
+      this.$el.empty();
+      this.renderTitle();
+      this.renderCollection();
+      this.renderButtons();
+    },
+  });
 
 
 /* ----------------------------------------------------------------------------
  * choose brand color
  * ---------------------------------------------------------------------------- */
+  var BrandColorBB = Backbone.Collection.extend({
+    // standard backbone model
+    model: ColorBB,
+
+  });
+
+  var BrandColorViewBB = Backbone.View.extend({
+    title: 'Brand Colors',
+    id: 'brand-menu-container',
+
+    // ---------- event handlers ----------------------------------------------
+    events: {
+      'click .buttons-line .close': 'selectClose',
+    },
+
+    selectClose: function(ev){
+      this.$el.hide();
+      $('#main-menu-container').show();
+    },
+
+    // ---------- render functions --------------------------------------------
+    // render title
+    templateTitle: _.template(
+      '<div class="title-line">' +
+        '<span class="title"> <%= text %> </span>' +
+      '</div>'
+    ),
+    renderTitle: function(){
+      var html = this.templateTitle({ text: this.title });
+      this.$el.append( html );
+    },
+
+
+    // render buttons
+    templateButtons: _.template(
+      '<div class="buttons-line">' +
+        '<span class="button defaults">Defaults</span>' +
+        '<span class="button update">Update</span>' +
+        '<span class="button close">Close</span>' +
+      '</div>'
+    ),
+    renderButtons: function(){
+      var html = this.templateButtons();
+      this.$el.append( html );
+    },
+
+    // render all
+    render: function(){
+      this.$el.empty();
+      this.renderTitle();
+
+      this.renderButtons();
+    },
+  });
 
 
 /* ----------------------------------------------------------------------------
@@ -1264,13 +1420,6 @@ var PopupMenu = function(options) {
  * ---------------------------------------------------------------------------- */
   var TypographyBB = Backbone.Model.extend({
     defaults: {
-/*
-      baseFont: 'Helvetica, sans-serif',
-      codeFont: 'Courier New, monospace',
-      fontSize: 14, // px
-      padding: 6, // px
-      borderRadius: 4, // px
-*/
       example: 'this is sample text; abcd ABCD 1480 #$%&/()[]{}@',
     },
   });
@@ -1279,6 +1428,7 @@ var PopupMenu = function(options) {
     title: 'Typography',
     id: 'typo-menu-container',
 
+    // ---------- event handlers ----------------------------------------------
     events: {
       'click .choose-font-line .button-base': 'selectBase',
       'click .choose-font-line .button-code': 'selectCode',
@@ -1287,7 +1437,7 @@ var PopupMenu = function(options) {
       'click .parameters-line .button-br': 'selectBorderRadius',
       'keyup .examples-line div span': 'selectExampleText',
       'click .buttons-line .defaults': 'selectDefaults',
-      'click .buttons-line .done': 'selectDone',
+      'click .buttons-line .close': 'selectClose',
     },
 
     selectBase: function(ev){
@@ -1325,11 +1475,12 @@ var PopupMenu = function(options) {
       this.globalModel.setDefaultsTypo();
     },
 
-    selectDone: function(ev){
+    selectClose: function(ev){
       this.$el.hide();
       $('#main-menu-container').show();
     },
 
+    // ---------- render functions --------------------------------------------
     // render title
     templateTitle: _.template(
       '<div class="title-line">' +
@@ -1421,7 +1572,7 @@ var PopupMenu = function(options) {
     templateButtons: _.template(
       '<div class="buttons-line">' +
         '<span class="button defaults">Defaults</span>' +
-        '<span class="button done">Close</span>' +
+        '<span class="button close">Close</span>' +
       '</div>'
     ),
     renderButtons: function(){
@@ -1458,7 +1609,9 @@ var PopupMenu = function(options) {
 
   //
   var FontFamilyListBB = Backbone.Collection.extend({
+    // standard backbone model
     model: FontFamilyBB,
+    // for this view
     categoryFilters: [],
     categorySelected: 0,
     subsetFilters: [],
@@ -1520,7 +1673,7 @@ var PopupMenu = function(options) {
     // result
     todoFont: undefined,
 
-    // ----- event handlers ---------------------------------------------------
+    // ---------- event handlers ----------------------------------------------
     events: {
       'change .select-line .Category': 'selectCategory',
       'change .select-line .Subset': 'selectSubset',
@@ -1635,8 +1788,8 @@ var PopupMenu = function(options) {
       $('#typo-menu-container').show();
     },
 
-    // ----- render functions -------------------------------------------------
-    // render title
+    // ---------- render functions --------------------------------------------
+    // title
     templateTitle: _.template(
       '<div class="title-line">' +
       '<span class="title"> <%= text %> </span>' +
@@ -1650,7 +1803,7 @@ var PopupMenu = function(options) {
       this.$el.append( html );
     },
 
-    // render selector
+    // selector
     templateSelect: _.template(
       '<div class="select-line">' +
       '<span class="label"> Category: </span>' +
@@ -1673,7 +1826,7 @@ var PopupMenu = function(options) {
       this.$el.append( html );
     },
 
-    // render font family select line
+    // font family select line
     templateFamilyLine: _.template(
       '<div class="family-line">' +
       '<span class="family" data-index= <%= index %> > <%= family %> </span>' +
@@ -1688,7 +1841,7 @@ var PopupMenu = function(options) {
       this.$el.append( html );
     },
 
-    // render paginator
+    // paginator
     templatePaginator: _.template(
       '<div class="paginator-line">' +
       '<span class="label"> <%= displayed %> </span>' +
@@ -1709,7 +1862,7 @@ var PopupMenu = function(options) {
       this.$el.append( html );
     },
 
-    // render example description
+    // example description
     templateExample: _.template(
       '<div class="example-line">' +
         '<span class="label"> Preview Selected: </span>' +
@@ -1759,7 +1912,7 @@ var PopupMenu = function(options) {
 /* ----------------------------------------------------------------------------
  * main
  * ---------------------------------------------------------------------------- */
-  var _test = function() {
+  var _main = function() {
     var btpPopupContainer = '#mm-test';
 
     // common model, used by all views
@@ -1778,7 +1931,27 @@ var PopupMenu = function(options) {
     fileView.render();
     fileView.$el.hide().appendTo( btpPopupContainer );
 
-    // TODO base color, brand color
+    var base = new BaseColorBB();
+    // le za test
+    var c1 = new ColorBB({ label: 'Ena', tiny: tinycolor('#36c') });
+    base.add(c1);
+    var c2 = new ColorBB({ label: 'Dva', tiny: tinycolor('#93c') });
+    base.add(c2);
+    var c3 = new ColorBB({ label: 'Tri', tiny: tinycolor('#963') });
+    base.add(c3);
+    // konec le za test
+    var baseView = new BaseColorViewBB({ collection: base });
+    baseView.globalModel = global;
+    baseView.render();
+    baseView.$el.hide().appendTo( btpPopupContainer );
+    // TODO
+
+    var brand = new BrandColorBB();
+    var brandView = new BrandColorViewBB({ collection: brand });
+    brandView.globalModel = global;
+    brandView.render();
+    brandView.$el.hide().appendTo( btpPopupContainer );
+    // TODO
 
     var typo = new TypographyBB();
     var typoView = new TypographyViewBB({ model: typo });
@@ -1802,14 +1975,14 @@ var PopupMenu = function(options) {
       }
     });
 
-    var konec = 0;
+    var konec = 0;  // potem zbrisi, to je le za debugger
   };
 
   $(document).ready( function() {
     _showPopover();
     _bindEvents();
 
-    _test();
+    _main();
   });
 
 }(); // PopupMenu
