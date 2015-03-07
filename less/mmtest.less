@@ -88,6 +88,10 @@
     color: @color-text-inverse;
     background-color: @color-background-inverse;
   }
+
+  &[clicked=true]:hover {
+    background-color: darken(@color-background-inverse, 20%);
+  }
 }
 
 .select-mixin(@wf) {
@@ -123,6 +127,43 @@
   background-color: @color-background-info;
 }
 
+.color-view-mixin(@wf) {
+  .label-mixin(@wf);
+  text-align: center;
+}
+
+.cp-container-mixin(@wf,@wb) {
+  width: @wf*@base-width - 2*@wb*@base-width;
+//  padding: @base-separate;
+  padding: 0 @base-separate;
+  margin: 0px @wb*@base-width - 2*@base-separate;
+
+  .cp-slider {
+//    height: @base-height - 2*@base-separate;
+    height: @base-height;
+    margin: 0;
+  }
+
+  .cp-sliderbutton {
+    .button-mixin(@wb);
+//    height: @base-height - 2*@base-separate;
+    height: @base-height;
+    line-height: @base-height - 5*@base-separate;
+    margin: 0;
+    border: 1px solid;
+    padding: @base-separate;
+  }
+
+  .cp-sliderbutton-minus {
+    left: -@wb*@base-width + @base-separate;
+  }
+
+  .cp-sliderbutton-plus {
+    left: @wb*@base-width - @base-separate;
+  }
+}
+
+// used in editable examples
 .edit-mixin() {
   border:none;
   outline:none;
@@ -193,6 +234,34 @@
     .button{
       .button-mixin(6);
     }
+  }
+}
+
+
+
+/* ----------------------------------------------------------------------------
+ * one color line, common for base and brand
+ * ---------------------------------------------------------------------------- */
+.color-line {
+//  .container-mixin();
+  .line-mixin();
+
+  .label {
+    .label-mixin(4);
+  }
+
+  .buttonH,
+  .buttonS,
+  .buttonL {
+    .button-mixin(0.666);
+  }
+
+  .color-view {
+    .color-view-mixin(6);
+  }
+
+  .cp-container {
+    .cp-container-mixin(12,0.8);
   }
 }
 

@@ -4,7 +4,7 @@ var PopupMenu = function(options) {
 
   var
     title = 'Bootstrap Theme Playground',
-    version = '0.1.03.05',
+    version = '0.1.03.07',
     // default color (use whenever there is no user choosen value))
     btpDefaultH = 180,
     btpDefaultS = 0.6,
@@ -1266,25 +1266,77 @@ var PopupMenu = function(options) {
   });
 
   var ColorViewBB = Backbone.View.extend({
-    class: 'one-color',
+    className: 'color-line',
+
+    // ---------- event handlers ----------------------------------------------
+    events: {
+      'click .buttonH': 'selectButtonH',
+      'click .buttonS': 'selectButtonS',
+      'click .buttonL': 'selectButtonL',
+    },
+
+    // TODO: on color-view change  update model tiny
+
+    selectButtonH: function(ev){
+      this.model.set( 'showH', !this.model.get('showH') );
+      this.render();
+    },
+
+    selectButtonS: function(ev){
+      this.model.set( 'showS', !this.model.get('showS') );
+      this.render();
+    },
+
+    selectButtonL: function(ev){
+      this.model.set( 'showL', !this.model.get('showL') );
+      this.render();
+    },
 
 
     // ---------- render functions --------------------------------------------
-    // render title
-    templateLabel: _.template(
-      '<div class="label-line">' +
-        '<span class="label"> <%= label %> </span>' +
-      '</div>'
+    // template
+    template: _.template(
+      '<span class="label"> <%= label %> </span>' +
+      '<span class="buttonH" clicked= <%= showH %> > H </span>' +
+      '<span class="buttonS" clicked= <%= showS %> > S </span>' +
+      '<span class="buttonL" clicked= <%= showL %> > L </span>' +
+      '<input class="color-view" type="text" readonly data-color-format="hsl">'
     ),
-    renderLabel: function(){
-      var html = this.templateLabel({ label: this.model.get('label') });
-      this.$el.append( html );
+
+    updateColor: function() {
+      var input = this.$( '.color-view' );
+      var hsl = this.model.get('tiny').toHsl();
+      var back = tinycolor( hsl ).toHslString();
+      var txt = tinycolor.mostReadable( hsl, ['#000', '#fff'] ).toHslString();
+      input.css( {'background-color': back, 'color': txt} ).val( back );
     },
 
-    // render all
+    showSliders: function() {
+      // remove sliders if exists
+      var sliders = this.$( '.cp-container' );
+      if ( sliders.length ) {
+        sliders.remove();
+      }
+      // check which of HSL is pressed
+      var cporder = {};
+      if (this.model.get('showH')) $.extend( cporder, {hslH: 1} );
+      if (this.model.get('showS')) $.extend( cporder, {hslS: 2} );
+      if (this.model.get('showL')) $.extend( cporder, {hslL: 3} );
+      // show sliders
+      if ( cporder !== {} ) {
+        var cview = this.$( '.color-view' );
+        var bc = cview.css( 'background-color' );
+        var params = $.extend( {color: bc, order: cporder }, cpDefault );
+        cview.ColorPickerSliders( params );
+      }
+    },
+
+    // render
     render: function(){
-      this.$el.empty();
-      this.renderLabel();
+      var html = this.template( this.model.toJSON() );
+      this.$el.html( html );
+      this.updateColor();
+      this.showSliders();
       return this;
     },
   });
@@ -1328,8 +1380,7 @@ var PopupMenu = function(options) {
     renderCollection: function(){
       this.collection.forEach( function( color ) {
         var colorView = new ColorViewBB({ model: color });
-        var html = colorView.render().el;
-        this.$el.append( html );
+        this.$el.append( colorView.render().el );
       }, this );
     },
 
@@ -1937,7 +1988,7 @@ var PopupMenu = function(options) {
     base.add(c1);
     var c2 = new ColorBB({ label: 'Dva', tiny: tinycolor('#93c') });
     base.add(c2);
-    var c3 = new ColorBB({ label: 'Tri', tiny: tinycolor('#963') });
+    var c3 = new ColorBB({ label: 'Tri', tiny: tinycolor('#9cf') });
     base.add(c3);
     // konec le za test
     var baseView = new BaseColorViewBB({ collection: base });

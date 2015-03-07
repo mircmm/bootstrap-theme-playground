@@ -76,6 +76,9 @@
   color: #000000;
   background-color: #ccccdd;
 }
+#main-title-container .title-line .help[clicked=true]:hover {
+  background-color: #8f8fb4;
+}
 /* ----------------------------------------------------------------------------
  * main menu
  * ---------------------------------------------------------------------------- */
@@ -120,6 +123,9 @@
 #main-menu-container .menu-line .menu-button[clicked=true] {
   color: #000000;
   background-color: #ccccdd;
+}
+#main-menu-container .menu-line .menu-button[clicked=true]:hover {
+  background-color: #8f8fb4;
 }
 /* ----------------------------------------------------------------------------
  * file menu
@@ -183,6 +189,129 @@
   color: #000000;
   background-color: #ccccdd;
 }
+#file-menu-container .buttons-line .button[clicked=true]:hover {
+  background-color: #8f8fb4;
+}
+/* ----------------------------------------------------------------------------
+ * one color line, common for base and brand
+ * ---------------------------------------------------------------------------- */
+.color-line {
+  display: flex;
+  margin: 3px 3px 3px 6px;
+}
+.color-line .label {
+  display: block;
+  height: 30px;
+  width: 117px;
+  font-style: "Helvetica", sans-serif;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: normal;
+  text-align: right;
+  margin: 0 3px 0 0;
+  border: 0;
+  padding: 3px 6px;
+}
+.color-line .buttonH,
+.color-line .buttonS,
+.color-line .buttonL {
+  display: block;
+  height: 30px;
+  width: 16.98px;
+  font-style: "Helvetica", sans-serif;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin: 0 3px 0 0;
+  border: 0;
+  padding: 3px;
+  color: #ffffff;
+  background-color: #555566;
+  opacity: 1;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.color-line .buttonH:hover,
+.color-line .buttonS:hover,
+.color-line .buttonL:hover {
+  background-color: #86869b;
+}
+.color-line .buttonH[clicked=true],
+.color-line .buttonS[clicked=true],
+.color-line .buttonL[clicked=true] {
+  color: #000000;
+  background-color: #ccccdd;
+}
+.color-line .buttonH[clicked=true]:hover,
+.color-line .buttonS[clicked=true]:hover,
+.color-line .buttonL[clicked=true]:hover {
+  background-color: #8f8fb4;
+}
+.color-line .color-view {
+  display: block;
+  height: 30px;
+  width: 177px;
+  font-style: "Helvetica", sans-serif;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: normal;
+  text-align: right;
+  margin: 0 3px 0 0;
+  border: 0;
+  padding: 3px 6px;
+  text-align: center;
+}
+.color-line .cp-container {
+  width: 312px;
+  padding: 0 3px;
+  margin: 0px 18px;
+}
+.color-line .cp-container .cp-slider {
+  height: 30px;
+  margin: 0;
+}
+.color-line .cp-container .cp-sliderbutton {
+  display: block;
+  width: 21px;
+  font-style: "Helvetica", sans-serif;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin: 0 3px 0 0;
+  border: 0;
+  color: #ffffff;
+  background-color: #555566;
+  opacity: 1;
+  overflow: hidden;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  height: 30px;
+  line-height: 15px;
+  margin: 0;
+  border: 1px solid;
+  padding: 3px;
+}
+.color-line .cp-container .cp-sliderbutton:hover {
+  background-color: #86869b;
+}
+.color-line .cp-container .cp-sliderbutton[clicked=true] {
+  color: #000000;
+  background-color: #ccccdd;
+}
+.color-line .cp-container .cp-sliderbutton[clicked=true]:hover {
+  background-color: #8f8fb4;
+}
+.color-line .cp-container .cp-sliderbutton-minus {
+  left: -21px;
+}
+.color-line .cp-container .cp-sliderbutton-plus {
+  left: 21px;
+}
 /* ----------------------------------------------------------------------------
  * choose base color
  * ---------------------------------------------------------------------------- */
@@ -245,6 +374,9 @@
   color: #000000;
   background-color: #ccccdd;
 }
+#base-menu-container .buttons-line .button[clicked=true]:hover {
+  background-color: #8f8fb4;
+}
 /* ----------------------------------------------------------------------------
  * choose brand color
  * ---------------------------------------------------------------------------- */
@@ -306,6 +438,9 @@
 #brand-menu-container .buttons-line .button[clicked=true] {
   color: #000000;
   background-color: #ccccdd;
+}
+#brand-menu-container .buttons-line .button[clicked=true]:hover {
+  background-color: #8f8fb4;
 }
 /* ----------------------------------------------------------------------------
  * choose typography
@@ -384,6 +519,10 @@
 #typo-menu-container .choose-font-line .button-code[clicked=true] {
   color: #000000;
   background-color: #ccccdd;
+}
+#typo-menu-container .choose-font-line .button-base[clicked=true]:hover,
+#typo-menu-container .choose-font-line .button-code[clicked=true]:hover {
+  background-color: #8f8fb4;
 }
 #typo-menu-container .parameters-line {
   display: flex;
@@ -477,6 +616,11 @@
   color: #000000;
   background-color: #ccccdd;
 }
+#typo-menu-container .parameters-line .button-fs[clicked=true]:hover,
+#typo-menu-container .parameters-line .button-pd[clicked=true]:hover,
+#typo-menu-container .parameters-line .button-br[clicked=true]:hover {
+  background-color: #8f8fb4;
+}
 #typo-menu-container .examples-line {
   display: flex;
   margin: 3px 3px 3px 6px;
@@ -533,6 +677,9 @@
 #typo-menu-container .buttons-line .button[clicked=true] {
   color: #000000;
   background-color: #ccccdd;
+}
+#typo-menu-container .buttons-line .button[clicked=true]:hover {
+  background-color: #8f8fb4;
 }
 /* ----------------------------------------------------------------------------
  * choose font
@@ -622,6 +769,9 @@
   color: #000000;
   background-color: #ccccdd;
 }
+#choose-font-container .family-line .family[clicked=true]:hover {
+  background-color: #8f8fb4;
+}
 #choose-font-container .family-line .example {
   border: none;
   outline: none;
@@ -673,6 +823,9 @@
   color: #000000;
   background-color: #ccccdd;
 }
+#choose-font-container .paginator-line .button[clicked=true]:hover {
+  background-color: #8f8fb4;
+}
 #choose-font-container .paginator-line .label-pp {
   display: block;
   height: 30px;
@@ -712,6 +865,9 @@
 #choose-font-container .paginator-line .button-pp[clicked=true] {
   color: #000000;
   background-color: #ccccdd;
+}
+#choose-font-container .paginator-line .button-pp[clicked=true]:hover {
+  background-color: #8f8fb4;
 }
 #choose-font-container .example-line {
   display: flex;
@@ -776,6 +932,10 @@
   color: #000000;
   background-color: #ccccdd;
 }
+#choose-font-container .example-line .button-bold[clicked=true]:hover,
+#choose-font-container .example-line .button-italic[clicked=true]:hover {
+  background-color: #8f8fb4;
+}
 #choose-font-container .example-line .label-fs {
   display: block;
   height: 30px;
@@ -816,6 +976,9 @@
   color: #000000;
   background-color: #ccccdd;
 }
+#choose-font-container .example-line .button-fs[clicked=true]:hover {
+  background-color: #8f8fb4;
+}
 #choose-font-container .example-line #example-edit {
   border: none;
   outline: none;
@@ -852,4 +1015,7 @@
 #choose-font-container .buttons-line .button[clicked=true] {
   color: #000000;
   background-color: #ccccdd;
+}
+#choose-font-container .buttons-line .button[clicked=true]:hover {
+  background-color: #8f8fb4;
 }
