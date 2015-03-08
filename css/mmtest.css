@@ -202,7 +202,7 @@
 .color-line .label {
   display: block;
   height: 30px;
-  width: 117px;
+  width: 177px;
   font-style: "Helvetica", sans-serif;
   font-size: 15px;
   line-height: 24px;
@@ -253,7 +253,7 @@
 .color-line .color-view {
   display: block;
   height: 30px;
-  width: 177px;
+  width: 237px;
   font-style: "Helvetica", sans-serif;
   font-size: 15px;
   line-height: 24px;
@@ -265,7 +265,7 @@
   text-align: center;
 }
 .color-line .cp-container {
-  width: 312px;
+  width: 192px;
   padding: 0 3px;
   margin: 0px 18px;
 }

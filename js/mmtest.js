@@ -4,7 +4,7 @@ var PopupMenu = function(options) {
 
   var
     title = 'Bootstrap Theme Playground',
-    version = '0.1.03.07',
+    version = '0.1.03.08',
     // default color (use whenever there is no user choosen value))
     btpDefaultH = 180,
     btpDefaultS = 0.6,
@@ -1255,13 +1255,16 @@ var PopupMenu = function(options) {
 /* ----------------------------------------------------------------------------
  * choose one color, used for base and brand color
  * ---------------------------------------------------------------------------- */
+  // default color, used in ColorBB constructor and in collection colorsPoint
+  var defaultColor = { h: 180, s: 0.6, l: 0.5 };
+
   var ColorBB = Backbone.Model.extend({
     defaults: {
       label: 'Label',
       showH: true,
       showS: true,
       showL: true,
-      tiny: tinycolor('#ccc'),
+      color: defaultColor,
     },
   });
 
@@ -1275,23 +1278,29 @@ var PopupMenu = function(options) {
       'click .buttonL': 'selectButtonL',
     },
 
-    // TODO: on color-view change  update model tiny
-
     selectButtonH: function(ev){
+      this.updateColor();
       this.model.set( 'showH', !this.model.get('showH') );
       this.render();
     },
 
     selectButtonS: function(ev){
+      this.updateColor();
       this.model.set( 'showS', !this.model.get('showS') );
       this.render();
     },
 
     selectButtonL: function(ev){
+      this.updateColor();
       this.model.set( 'showL', !this.model.get('showL') );
       this.render();
     },
 
+    updateColor: function(){
+      var value = this.$('.color-view').val();
+      var hsl = tinycolor(value).toHsl();
+      this.model.set( 'color', hsl );
+    },
 
     // ---------- render functions --------------------------------------------
     // template
@@ -1303,15 +1312,30 @@ var PopupMenu = function(options) {
       '<input class="color-view" type="text" readonly data-color-format="hsl">'
     ),
 
-    updateColor: function() {
+    renderColor: function() {
       var input = this.$( '.color-view' );
-      var hsl = this.model.get('tiny').toHsl();
-      var back = tinycolor( hsl ).toHslString();
-      var txt = tinycolor.mostReadable( hsl, ['#000', '#fff'] ).toHslString();
+      var color = tinycolor( this.model.get('color') );
+      var back = color.toHslString();
+      var txt = tinycolor.mostReadable( color, ['#000', '#fff'] ).toHslString();
       input.css( {'background-color': back, 'color': txt} ).val( back );
     },
 
-    showSliders: function() {
+    slidersDefault: {
+      previewontriggerelement: true,
+      rendervalues: true,
+      slidersplusminus: true,
+      flat: true,
+      sliders: true,
+      swatches: false,
+      hsvpanel: false,
+      labels: {
+        hslhue: 'Hue',
+        hslsaturation: 'Saturation',
+        hsllightness: 'Lightness'
+      }
+    },
+
+    renderSliders: function() {
       // remove sliders if exists
       var sliders = this.$( '.cp-container' );
       if ( sliders.length ) {
@@ -1326,7 +1350,7 @@ var PopupMenu = function(options) {
       if ( cporder !== {} ) {
         var cview = this.$( '.color-view' );
         var bc = cview.css( 'background-color' );
-        var params = $.extend( {color: bc, order: cporder }, cpDefault );
+        var params = $.extend( {color: bc, order: cporder }, this.slidersDefault );
         cview.ColorPickerSliders( params );
       }
     },
@@ -1335,8 +1359,8 @@ var PopupMenu = function(options) {
     render: function(){
       var html = this.template( this.model.toJSON() );
       this.$el.html( html );
-      this.updateColor();
-      this.showSliders();
+      this.renderColor();
+      this.renderSliders();
       return this;
     },
   });
@@ -1349,7 +1373,95 @@ var PopupMenu = function(options) {
     // standard backbone model
     model: ColorBB,
 
-  });
+    initialize: function(){
+      this.initColors();
+      this.calcColors();
+    },
+
+    // ---------- init functions ----------------------------------------------
+    initForColorModels: [
+      { p: 100, c: {},             t: '#fff' },
+      { p:  96, c: {l:0.96},       t: '#f5f5f5' },
+      { p:  92, c: {},             t: '@gray-lighter, #eee' },
+      { p:  88, c: {},             t: '#ddd' },
+      { p:  80, c: {},             t: '#ccc' },
+      { p:  60, c: {},             t: '#999' },
+      { p:  50, c: {h:180,s:0.6},  t: '@gray-light, #777' },
+      { p:  32, c: {},             t: '@gray, #555' },
+      { p:  26, c: {},             t: '#444' },
+      { p:  20, c: {},             t: '@gray-dark, #333' },
+      { p:  12, c: {l:0.12},       t: '@gray-darker, #222' },
+      { p:   0, c: {},             t: '#000' }
+    ],
+
+    initColors: function(){
+      this.reset();
+      var a = this.initForColorModels;
+      for ( var i = 0; i < a.length; i++ ){
+        var color = $.extend( {}, defaultColor, a[i].c );
+        var c = new ColorBB({
+          label: a[i].t + ', ' + a[i].p + ':',
+          proc: a[i].p,
+          showH: a[i].c.h ? true : false,
+          showS: a[i].c.s ? true : false,
+          showL: a[i].c.l ? true : false,
+          color: color,
+        });
+        this.add(c);
+      } // for
+      var a = 0;
+    },
+
+    // ---------- calc color functions ----------------------------------------
+    calcColors: function(){
+      // helper function for calculate
+      // points: array of x, y pairs
+      // default_y: y used if array is empty
+      // x: input parameter for y = f(x)
+      function colorsPoint(points, default_y, x) {
+        var y;
+        if( points.length == 0 ) {
+          // no user choice, use default
+          y = default_y;
+        } else if ( points.length == 1 ) {
+          // single user choice, use it everywhere
+          y = points[0].y;
+        } else {
+          // multiple user choices
+          // first find the 2 points around x
+          var i = 0;
+          do {
+            var p0 = points[i];
+            var p1 = points[i+1];
+            i++;
+          } while ( x < p1.x && i < points.length-1 );
+          // y = linear aproximation
+          var a = (p1.y - p0.y) / (p1.x - p0.x);
+          var b = p0.y - a * p0.x;
+          y = a * x + b;
+        }
+        return y;
+      } // colorsPoint
+      // sliders (shown by user) === points
+      // find and save points to calculate curves
+      var ptsH = [], ptsS = [], ptsL = [];
+      this.forEach( function( c ) {
+        var x = c.get('proc');
+        var y = c.get('color');
+        if ( c.get('showH') ) ptsH.push({ x: x, y: y.h });
+        if ( c.get('showS') ) ptsS.push({ x: x, y: y.s });
+        if ( c.get('showL') ) ptsL.push({ x: x, y: y.l });
+      });
+      // now calculate colors using found points    defaultColor.h
+      this.forEach( function( c ) {
+        var p = c.get('proc');
+        var h = ( colorsPoint( ptsH, defaultColor.h, p ) + 360 ) % 360;
+        var s = colorsPoint( ptsS, defaultColor.s, p );
+        var l = colorsPoint( ptsL, defaultColor.l, p );
+        c.set( 'color', { h: h, s: s, l: l } );
+      });
+    },
+  }); // BaseColorBB
 
   var BaseColorViewBB = Backbone.View.extend({
     title: 'Base Colors',
@@ -1357,7 +1469,20 @@ var PopupMenu = function(options) {
 
     // ---------- event handlers ----------------------------------------------
     events: {
+      'click .buttons-line .defaults': 'selectDefaults',
+      'click .buttons-line .update': 'selectUpdate',
       'click .buttons-line .close': 'selectClose',
+    },
+
+    selectDefaults: function(ev){
+      this.collection.initColors();
+      this.collection.calcColors();
+      this.render();
+    },
+
+    selectUpdate: function(ev){
+      this.collection.calcColors();
+      this.render();
     },
 
     selectClose: function(ev){
@@ -1404,7 +1529,7 @@ var PopupMenu = function(options) {
       this.renderCollection();
       this.renderButtons();
     },
-  });
+  }); // BaseColorViewBB
 
 
 /* ----------------------------------------------------------------------------
@@ -1442,6 +1567,7 @@ var PopupMenu = function(options) {
       this.$el.append( html );
     },
 
+    // TODO
 
     // render buttons
     templateButtons: _.template(
@@ -1460,7 +1586,7 @@ var PopupMenu = function(options) {
     render: function(){
       this.$el.empty();
       this.renderTitle();
-
+      // TODO
       this.renderButtons();
     },
   });
@@ -1983,14 +2109,6 @@ var PopupMenu = function(options) {
     fileView.$el.hide().appendTo( btpPopupContainer );
 
     var base = new BaseColorBB();
-    // le za test
-    var c1 = new ColorBB({ label: 'Ena', tiny: tinycolor('#36c') });
-    base.add(c1);
-    var c2 = new ColorBB({ label: 'Dva', tiny: tinycolor('#93c') });
-    base.add(c2);
-    var c3 = new ColorBB({ label: 'Tri', tiny: tinycolor('#9cf') });
-    base.add(c3);
-    // konec le za test
     var baseView = new BaseColorViewBB({ collection: base });
     baseView.globalModel = global;
     baseView.render();
