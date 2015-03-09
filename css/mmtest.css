@@ -212,9 +212,7 @@
   border: 0;
   padding: 3px 6px;
 }
-.color-line .buttonH,
-.color-line .buttonS,
-.color-line .buttonL {
+.color-line .button {
   display: block;
   height: 30px;
   width: 16.98px;
@@ -234,20 +232,14 @@
   white-space: nowrap;
   cursor: pointer;
 }
-.color-line .buttonH:hover,
-.color-line .buttonS:hover,
-.color-line .buttonL:hover {
+.color-line .button:hover {
   background-color: #86869b;
 }
-.color-line .buttonH[clicked=true],
-.color-line .buttonS[clicked=true],
-.color-line .buttonL[clicked=true] {
+.color-line .button[clicked=true] {
   color: #000000;
   background-color: #ccccdd;
 }
-.color-line .buttonH[clicked=true]:hover,
-.color-line .buttonS[clicked=true]:hover,
-.color-line .buttonL[clicked=true]:hover {
+.color-line .button[clicked=true]:hover {
   background-color: #8f8fb4;
 }
 .color-line .color-view {

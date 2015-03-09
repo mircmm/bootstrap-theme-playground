@@ -4,7 +4,7 @@ var PopupMenu = function(options) {
 
   var
     title = 'Bootstrap Theme Playground',
-    version = '0.1.03.08',
+    version = '0.1.03.09',
     // default color (use whenever there is no user choosen value))
     btpDefaultH = 180,
     btpDefaultS = 0.6,
@@ -1266,6 +1266,15 @@ var PopupMenu = function(options) {
       showL: true,
       color: defaultColor,
     },
+
+    checkAndSetColor: function(par){
+      par.h = (par.h + 360) % 360;
+      par.s = par.s < 0.0 ? 0.0 : par.s;
+      par.s = par.s > 1.0 ? 1.0 : par.s;
+      par.l = par.l < 0.0 ? 0.0 : par.l;
+      par.l = par.l > 1.0 ? 1.0 : par.l;
+      this.set( 'color', par );
+    },
   });
 
   var ColorViewBB = Backbone.View.extend({
@@ -1273,26 +1282,13 @@ var PopupMenu = function(options) {
 
     // ---------- event handlers ----------------------------------------------
     events: {
-      'click .buttonH': 'selectButtonH',
-      'click .buttonS': 'selectButtonS',
-      'click .buttonL': 'selectButtonL',
+      'click .button': 'selectButton',
     },
 
-    selectButtonH: function(ev){
+    selectButton: function(ev){
       this.updateColor();
-      this.model.set( 'showH', !this.model.get('showH') );
-      this.render();
-    },
-
-    selectButtonS: function(ev){
-      this.updateColor();
-      this.model.set( 'showS', !this.model.get('showS') );
-      this.render();
-    },
-
-    selectButtonL: function(ev){
-      this.updateColor();
-      this.model.set( 'showL', !this.model.get('showL') );
+      var hsl = $(ev.target).data('hsl');
+      this.model.set( hsl, !this.model.get(hsl) );
       this.render();
     },
 
@@ -1303,12 +1299,11 @@ var PopupMenu = function(options) {
     },
 
     // ---------- render functions --------------------------------------------
-    // template
     template: _.template(
       '<span class="label"> <%= label %> </span>' +
-      '<span class="buttonH" clicked= <%= showH %> > H </span>' +
-      '<span class="buttonS" clicked= <%= showS %> > S </span>' +
-      '<span class="buttonL" clicked= <%= showL %> > L </span>' +
+      '<span class="button" data-hsl="showH" clicked= <%= showH %> > H </span>' +
+      '<span class="button" data-hsl="showS" clicked= <%= showS %> > S </span>' +
+      '<span class="button" data-hsl="showL" clicked= <%= showL %> > L </span>' +
       '<input class="color-view" type="text" readonly data-color-format="hsl">'
     ),
 
@@ -1338,9 +1333,7 @@ var PopupMenu = function(options) {
     renderSliders: function() {
       // remove sliders if exists
       var sliders = this.$( '.cp-container' );
-      if ( sliders.length ) {
-        sliders.remove();
-      }
+      if ( sliders.length ) sliders.remove();
       // check which of HSL is pressed
       var cporder = {};
       if (this.model.get('showH')) $.extend( cporder, {hslH: 1} );
@@ -1374,8 +1367,8 @@ var PopupMenu = function(options) {
     model: ColorBB,
 
     initialize: function(){
-      this.initColors();
-      this.calcColors();
+      this.initAllColors();
+      this.calcAllColors();
     },
 
     // ---------- init functions ----------------------------------------------
@@ -1394,7 +1387,7 @@ var PopupMenu = function(options) {
       { p:   0, c: {},             t: '#000' }
     ],
 
-    initColors: function(){
+    initAllColors: function(){
       this.reset();
       var a = this.initForColorModels;
       for ( var i = 0; i < a.length; i++ ){
@@ -1409,11 +1402,16 @@ var PopupMenu = function(options) {
         });
         this.add(c);
       } // for
-      var a = 0;
+    },
+
+    updateAllColors: function(){
+      this.forEach( function( c ) {
+        c.get('view').updateColor();
+      });
     },
 
     // ---------- calc color functions ----------------------------------------
-    calcColors: function(){
+    calcAllColors: function(){
       // helper function for calculate
       // points: array of x, y pairs
       // default_y: y used if array is empty
@@ -1455,10 +1453,10 @@ var PopupMenu = function(options) {
       // now calculate colors using found points    defaultColor.h
       this.forEach( function( c ) {
         var p = c.get('proc');
-        var h = ( colorsPoint( ptsH, defaultColor.h, p ) + 360 ) % 360;
+        var h = colorsPoint( ptsH, defaultColor.h, p );
         var s = colorsPoint( ptsS, defaultColor.s, p );
         var l = colorsPoint( ptsL, defaultColor.l, p );
-        c.set( 'color', { h: h, s: s, l: l } );
+        c.checkAndSetColor({ h: h, s: s, l: l });
       });
     },
   }); // BaseColorBB
@@ -1475,13 +1473,14 @@ var PopupMenu = function(options) {
     },
 
     selectDefaults: function(ev){
-      this.collection.initColors();
-      this.collection.calcColors();
+      this.collection.initAllColors();
+      this.collection.calcAllColors();
       this.render();
     },
 
     selectUpdate: function(ev){
-      this.collection.calcColors();
+      this.collection.updateAllColors();
+      this.collection.calcAllColors();
       this.render();
     },
 
@@ -1505,6 +1504,7 @@ var PopupMenu = function(options) {
     renderCollection: function(){
       this.collection.forEach( function( color ) {
         var colorView = new ColorViewBB({ model: color });
+        color.set({ view: colorView });
         this.$el.append( colorView.render().el );
       }, this );
     },
@@ -2113,14 +2113,12 @@ var PopupMenu = function(options) {
     baseView.globalModel = global;
     baseView.render();
     baseView.$el.hide().appendTo( btpPopupContainer );
-    // TODO
 
     var brand = new BrandColorBB();
     var brandView = new BrandColorViewBB({ collection: brand });
     brandView.globalModel = global;
     brandView.render();
     brandView.$el.hide().appendTo( btpPopupContainer );
-    // TODO
 
     var typo = new TypographyBB();
     var typoView = new TypographyViewBB({ model: typo });
