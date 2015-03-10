@@ -1490,7 +1490,6 @@ var PopupMenu = function(options) {
     },
 
     // ---------- render functions --------------------------------------------
-    // render title
     templateTitle: _.template(
       '<div class="title-line">' +
         '<span class="title"> <%= text %> </span>' +
@@ -1539,6 +1538,54 @@ var PopupMenu = function(options) {
     // standard backbone model
     model: ColorBB,
 
+    initialize: function(){
+      this.initAllColors();
+    },
+
+    // ---------- init functions ----------------------------------------------
+    initForColorModels: [
+      { rgb: '#337ab7',  c: {h:1,s:1,l:1},  t: 'primary' },
+      { rgb: '#5cb85c',  c: {h:1},          t: 'success' },
+      { rgb: '#5bc0de',  c: {h:1},          t: 'info' },
+      { rgb: '#f0ad4e',  c: {h:1},          t: 'warning' },
+      { rgb: '#d9534f',  c: {h:1},          t: 'danger' }
+    ],
+
+    initAllColors: function(){
+      this.reset();
+      var a = this.initForColorModels;
+      this.initColor = tinycolor(a[0].rgb).toHsl();
+      for ( var i = 0; i < a.length; i++ ){
+        var color = tinycolor(a[i].rgb).toHsl();
+        var c = new ColorBB({
+          label: a[i].t,
+          showH: a[i].c.h ? true : false,
+          showS: a[i].c.s ? true : false,
+          showL: a[i].c.l ? true : false,
+          color: color,
+        });
+        this.add(c);
+      } // for
+    },
+
+    updateAllColors: function(){
+      this.forEach( function( c ) {
+        c.get('view').updateColor();
+      });
+    },
+
+    calcAllColors: function(){
+      var prim = this.first().get('color');
+      var dS = prim.s - this.initColor.s;
+      var dL = prim.l - this.initColor.l;
+      // calc
+      this.forEach( function( c ) {
+        var y = c.get('color');
+        y.s += dS;
+        y.l += dL;
+        c.checkAndSetColor({ h: y.h, s: y.s, l: y.l });
+      });
+    },
   });
 
   var BrandColorViewBB = Backbone.View.extend({
@@ -1547,7 +1594,20 @@ var PopupMenu = function(options) {
 
     // ---------- event handlers ----------------------------------------------
     events: {
+      'click .buttons-line .defaults': 'selectDefaults',
+      'click .buttons-line .update': 'selectUpdate',
       'click .buttons-line .close': 'selectClose',
+    },
+
+    selectDefaults: function(ev){
+      this.collection.initAllColors();
+      this.render();
+    },
+
+    selectUpdate: function(ev){
+      this.collection.updateAllColors();
+      this.collection.calcAllColors();
+      this.render();
     },
 
     selectClose: function(ev){
@@ -1556,7 +1616,6 @@ var PopupMenu = function(options) {
     },
 
     // ---------- render functions --------------------------------------------
-    // render title
     templateTitle: _.template(
       '<div class="title-line">' +
         '<span class="title"> <%= text %> </span>' +
@@ -1567,7 +1626,13 @@ var PopupMenu = function(options) {
       this.$el.append( html );
     },
 
-    // TODO
+    renderCollection: function(){
+      this.collection.forEach( function( color ) {
+        var colorView = new ColorViewBB({ model: color });
+        color.set({ view: colorView });
+        this.$el.append( colorView.render().el );
+      }, this );
+    },
 
     // render buttons
     templateButtons: _.template(
@@ -1586,7 +1651,7 @@ var PopupMenu = function(options) {
     render: function(){
       this.$el.empty();
       this.renderTitle();
-      // TODO
+      this.renderCollection();
       this.renderButtons();
     },
   });
